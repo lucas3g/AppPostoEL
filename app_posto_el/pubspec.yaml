@@ -33,6 +33,7 @@ dependencies:
   get: ^4.3.8
   flutter_masked_text2: ^0.9.1
   syncfusion_flutter_charts: ^19.3.43
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
