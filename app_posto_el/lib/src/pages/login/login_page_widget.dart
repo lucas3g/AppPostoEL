@@ -3,15 +3,15 @@ import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class LoginPageWidiget extends StatefulWidget {
-  const LoginPageWidiget({Key key}) : super(key: key);
+  const LoginPageWidiget({Key? key}) : super(key: key);
 
   @override
   State<LoginPageWidiget> createState() => _LoginPageWidigetState();
 }
 
 class _LoginPageWidigetState extends State<LoginPageWidiget> {
-  FocusNode _node;
-  bool _focused = false;
+  late FocusNode _node;
+  late bool _focused = false;
 
   @override
   void initState() {

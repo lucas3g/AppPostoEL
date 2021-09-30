@@ -1,13 +1,17 @@
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class DropDownWidget extends StatelessWidget {
-  const DropDownWidget({Key key}) : super(key: key);
+class DropDownWidget extends StatefulWidget {
+  const DropDownWidget({Key? key}) : super(key: key);
 
   @override
+  State<DropDownWidget> createState() => _DropDownWidgetState();
+}
+
+class _DropDownWidgetState extends State<DropDownWidget> {
+  late String dropdownValue = 'Posto Papagaio - Matriz';
+  @override
   Widget build(BuildContext context) {
-    var dropdownValue = 'Posto Papagaio - Matriz'.obs;
     return Positioned(
       bottom: 0,
       left: 0,
@@ -28,32 +32,31 @@ class DropDownWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Obx(
-            () => DropdownButton(
-              value: dropdownValue.value,
-              isExpanded: true,
-              icon: const Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              iconEnabledColor: AppTheme.colors.secondaryColor,
-              style: AppTheme.textStyles.dropdownText,
-              underline: Container(
-                color: Colors.white,
-              ),
-              onChanged: (String newValue) {
-                dropdownValue.value = newValue;
-              },
-              items: <String>[
-                'Posto Papagaio - Matriz',
-                'Posto Papagaio - Centro',
-                'Posto Papagaio - Ipiranga',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+          child: DropdownButton(
+            value: dropdownValue,
+            isExpanded: true,
+            icon: const Icon(Icons.arrow_downward),
+            iconSize: 24,
+            elevation: 16,
+            iconEnabledColor: AppTheme.colors.secondaryColor,
+            style: AppTheme.textStyles.dropdownText,
+            underline: Container(
+              color: Colors.white,
             ),
+            onChanged: (newValue) {
+              dropdownValue = newValue as String;
+              setState(() {});
+            },
+            items: <String>[
+              'Posto Papagaio - Matriz',
+              'Posto Papagaio - Centro',
+              'Posto Papagaio - Ipiranga',
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
         ),
       ),

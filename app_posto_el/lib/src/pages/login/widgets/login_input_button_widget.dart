@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class LoginInputButtonWidget extends StatefulWidget {
-  LoginInputButtonWidget({Key key}) : super(key: key);
+  LoginInputButtonWidget({Key? key}) : super(key: key);
 
   @override
   State<LoginInputButtonWidget> createState() => _LoginInputButtonWidgetState();
