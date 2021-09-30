@@ -1,3 +1,4 @@
+import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
@@ -27,7 +28,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
           child: TextField(
             controller: controller,
             keyboardType: TextInputType.number,
-            cursorColor: Color(0xFF96242d),
+            cursorColor: AppTheme.colors.primaryColor,
             textAlignVertical: TextAlignVertical.top,
             decoration: InputDecoration(
               hintText: 'CNPJ',
@@ -47,9 +48,11 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
           ),
           child: TextField(
             obscureText: true,
-            cursorColor: Color(0xFF96242d),
-            decoration:
-                InputDecoration(hintText: 'Senha', border: InputBorder.none),
+            cursorColor: AppTheme.colors.primaryColor,
+            decoration: InputDecoration(
+                hintText: 'Senha',
+                border: InputBorder.none,
+                suffixIcon: Icon(Icons.remove_red_eye)),
           ),
         ),
         SizedBox(

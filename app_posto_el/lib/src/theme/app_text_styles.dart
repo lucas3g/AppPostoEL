@@ -7,6 +7,7 @@ abstract class AppTextStyles {
   TextStyle get title;
   TextStyle get button;
   TextStyle get labelInput;
+  TextStyle get dropdownText;
 }
 
 class AppTextStylesDefault implements AppTextStyles {
@@ -22,5 +23,11 @@ class AppTextStylesDefault implements AppTextStyles {
   TextStyle get labelInput => GoogleFonts.roboto(
       fontSize: 14,
       color: AppTheme.colors.labelInput,
+      fontWeight: FontWeight.w700);
+
+  @override
+  TextStyle get dropdownText => GoogleFonts.roboto(
+      fontSize: 14,
+      color: AppTheme.colors.dropDownTextColor,
       fontWeight: FontWeight.w700);
 }

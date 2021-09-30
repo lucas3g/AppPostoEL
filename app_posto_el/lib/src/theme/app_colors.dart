@@ -7,6 +7,9 @@ abstract class AppColors {
   Color get button;
   Color get border;
   Color get labelInput;
+  Color get primaryColor;
+  Color get secondaryColor;
+  Color get dropDownTextColor;
 }
 
 class AppColorDefault implements AppColors {
@@ -27,4 +30,13 @@ class AppColorDefault implements AppColors {
 
   @override
   Color get labelInput => Color(0xFFFFFFFF);
+
+  @override
+  Color get primaryColor => Color(0xFF96242d);
+
+  @override
+  Color get secondaryColor => Color(0xffcf1f36);
+
+  @override
+  Color get dropDownTextColor => Color(0xFF000000);
 }
