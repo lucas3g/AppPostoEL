@@ -1,6 +1,6 @@
+import 'package:app_posto_el/src/pages/dashboard/vendas/vendas_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/dashboard_bottom_nav_bar.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/drop_down_widget.dart';
-import 'package:app_posto_el/src/pages/dashboard/vendas/vendas_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 

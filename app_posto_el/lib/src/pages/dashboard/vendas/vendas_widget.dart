@@ -74,39 +74,6 @@ class VendasWidget extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Row(
-                      children: [
-                        Expanded(child: Text('Data')),
-                        Expanded(child: Text('Litros')),
-                        Expanded(child: Text('Reais R\$')),
-                      ],
-                    ),
-                  ),
-                  ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Row(
-                          children: [
-                            Expanded(child: Text('27/09')),
-                            Expanded(child: Text('372,65 LT')),
-                            Expanded(child: Text('R\$ 1.372,34')),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
