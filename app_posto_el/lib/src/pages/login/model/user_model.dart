@@ -1,19 +1,31 @@
 import 'dart:convert';
 
 class UserModel {
-  final String? cnpj;
-  final String? senha;
+  final String cnpj;
+  final String login;
+  final String senha;
   UserModel({
-    this.cnpj,
-    this.senha,
+    required this.cnpj,
+    required this.login,
+    required this.senha,
   });
+
+  factory UserModel.login(UserModel account) {
+    return UserModel(
+      cnpj: account.cnpj,
+      login: account.login,
+      senha: account.senha,
+    );
+  }
 
   UserModel copyWith({
     String? cnpj,
+    String? login,
     String? senha,
   }) {
     return UserModel(
       cnpj: cnpj ?? this.cnpj,
+      login: login ?? this.login,
       senha: senha ?? this.senha,
     );
   }
@@ -21,6 +33,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'cnpj': cnpj,
+      'login': login,
       'senha': senha,
     };
   }
@@ -28,6 +41,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       cnpj: map['cnpj'],
+      login: map['login'],
       senha: map['senha'],
     );
   }
@@ -38,15 +52,18 @@ class UserModel {
       UserModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'UserModel(cnpj: $cnpj, senha: $senha)';
+  String toString() => 'UserModel(cnpj: $cnpj, login: $login, senha: $senha)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is UserModel && other.cnpj == cnpj && other.senha == senha;
+    return other is UserModel &&
+        other.cnpj == cnpj &&
+        other.login == login &&
+        other.senha == senha;
   }
 
   @override
-  int get hashCode => cnpj.hashCode ^ senha.hashCode;
+  int get hashCode => cnpj.hashCode ^ login.hashCode ^ senha.hashCode;
 }

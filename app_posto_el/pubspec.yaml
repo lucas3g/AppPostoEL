@@ -34,6 +34,9 @@ dependencies:
   flutter_masked_text2: ^0.9.1
   syncfusion_flutter_charts: ^19.3.43
   dio: ^4.0.0
+  mobx: ^2.0.4
+  flutter_mobx: ^2.0.2
+  mobx_codegen: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +44,7 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+  build_runner: ^2.1.2
 
 # The following section is specific to Flutter.
 flutter:
