@@ -24,6 +24,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$statusAtom = Atom(name: '_LoginControllerBase.status');
+
+  @override
+  LoginStatus get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(LoginStatus value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginControllerBase.login');
 
   @override
@@ -48,7 +63,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
   @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+status: ${status}
     ''';
   }
 }

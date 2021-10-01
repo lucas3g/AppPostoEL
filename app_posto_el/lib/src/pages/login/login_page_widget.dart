@@ -33,28 +33,7 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
         ),
       ),
       backgroundColor: AppTheme.colors.backgroundPrimary,
-      body: LoginInputButtonWidget(),
+      body: Container(child: LoginInputButtonWidget()),
     );
   }
 }
-
-
-// PreferredSize(
-//         child: Center(
-//           child: RichText(
-//             text: TextSpan(
-//               children: [
-//                 TextSpan(text: 'E', style: AppTheme.textStyles.title),
-//                 TextSpan(text: 'L', style: AppTheme.textStyles.title),
-//                 TextSpan(
-//                   text: ' Sistemas',
-//                   style: AppTheme.textStyles.title.copyWith(
-//                     color: Color(0xFF525252),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         preferredSize: Size.fromHeight(100),
-//       ),

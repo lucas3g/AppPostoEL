@@ -2,6 +2,10 @@ import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 
+import 'login_status.dart';
+
+export 'login_status.dart';
+
 part 'login_controller.g.dart';
 
 class LoginController = _LoginControllerBase with _$LoginController;
@@ -16,18 +20,38 @@ abstract class _LoginControllerBase with Store {
     print(user);
   }
 
-  final dio = Dio();
+  @observable
+  LoginStatus status = LoginStatus.empty;
 
   @action
   Future<void> login() async {
     try {
-      final response = await dio.get('192.168.0.107:9000/login/01459027000100',
-          //'192.168.0.107:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
-          options:
-              Options(headers: {'Login': user.login, 'Senha': user.senha}));
-      print(response);
+      if (user.cnpj.isNotEmpty &&
+          user.login.isNotEmpty &&
+          user.senha.isNotEmpty) {
+        status = LoginStatus.loading;
+        await Future.delayed(Duration(seconds: 2));
+        var dio = Dio();
+        final response = await dio.get(
+          'http://192.168.0.107:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
+          options: Options(headers: {'Login': user.login, 'Senha': user.senha}),
+        );
+        late String autorizado = response.data['appPosto'];
+
+        if (autorizado == 'S') {
+          status = LoginStatus.success;
+        } else {
+          status = LoginStatus.error;
+        }
+      } else {
+        status = LoginStatus.error;
+        await Future.delayed(Duration(seconds: 1));
+        status = LoginStatus.empty;
+      }
+      //print('EU SOU RESPONSE ${autorizado}');
     } on DioError catch (e) {
-      print(e.response?.headers);
+      status = LoginStatus.error;
+      print('EU SOU O ERRO ${e}');
     }
   }
 }

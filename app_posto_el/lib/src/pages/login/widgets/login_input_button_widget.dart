@@ -1,8 +1,10 @@
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 class LoginInputButtonWidget extends StatefulWidget {
   LoginInputButtonWidget({Key? key}) : super(key: key);
@@ -17,6 +19,21 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
   var controller = MaskedTextController(mask: '00.000.000/0000-00');
 
   @override
+  void initState() {
+    autorun((_) {
+      if (controllerLogin.status == LoginStatus.success) {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      } else if (controllerLogin.status == LoginStatus.error) {
+        BotToast.showText(
+          text: 'Não Foi Possivel Fazer Login.\n Verifique seus Dados.',
+          contentColor: Color(0xffcf1f36),
+        );
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
@@ -26,7 +43,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Entre com sua Conta',
+              Text('Entre com sua conta',
                   style: AppTheme.textStyles.title
                       .copyWith(fontSize: 14, color: Colors.black)),
               SizedBox(
@@ -40,8 +57,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   color: Color(0xFF666666).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: TextField(
-                  key: UniqueKey(),
+                child: TextFormField(
                   onChanged: (value) {
                     controllerLogin.onChanged(cnpj: value);
                   },
@@ -66,8 +82,9 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   color: Color(0xFF666666).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: TextField(
-                  key: UniqueKey(),
+                child: TextFormField(
+                  textCapitalization: TextCapitalization.characters,
+                  initialValue: controllerLogin.user.login,
                   onChanged: (value) {
                     controllerLogin.onChanged(login: value);
                   },
@@ -90,8 +107,8 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.characters,
                   initialValue: controllerLogin.user.senha,
-                  key: UniqueKey(),
                   onChanged: (value) {
                     controllerLogin.onChanged(senha: value);
                   },
@@ -120,17 +137,26 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
               ),
               Row(
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xffcf1f36)), //Color(0xFF1E319D)
-                      onPressed: () {
-                        //controllerLogin.login();
-                        Navigator.pushNamed(context, '/dashboard');
-                      },
-                      child: Text('Entrar'),
-                    ),
-                  ),
+                  controllerLogin.status == LoginStatus.empty
+                      ? Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size.fromHeight(45),
+                                primary: Color(0xffcf1f36)), //Color(0xFF1E319D)
+                            onPressed: () {
+                              controllerLogin.login();
+                              //Navigator.pushNamed(context, '/dashboard');
+                            },
+                            child: Text('Entrar'),
+                          ),
+                        )
+                      : Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xffcf1f36),
+                            ),
+                          ),
+                        )
                 ],
               ),
               SizedBox(
