@@ -1,3 +1,4 @@
+import 'package:app_posto_el/src/pages/dashboard/combustiveis/combustiveis_page_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/vendas_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/dashboard_bottom_nav_bar.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/drop_down_widget.dart';
@@ -15,11 +16,7 @@ class _DashBoardPageWidgetState extends State<DashBoardPageWidget> {
 
   var pages = [
     VendasWidget(),
-    Container(
-      child: Center(
-        child: Text('Combustíveis'),
-      ),
-    ),
+    CombustiveisPageWidget(),
   ];
 
   PreferredSizeWidget _appBar() {
