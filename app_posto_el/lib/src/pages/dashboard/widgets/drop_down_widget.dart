@@ -1,5 +1,8 @@
+import 'package:app_posto_el/src/pages/dashboard/controllers/controller_locais.dart';
+import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({Key? key}) : super(key: key);
@@ -9,7 +12,18 @@ class DropDownWidget extends StatefulWidget {
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
-  late String dropdownValue = 'Posto Papagaio - Matriz';
+  final controller = ControllerLocais();
+
+  @override
+  void initState() {
+    autorun((_) {
+      controller.getLocais();
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  late String dropdownValue = controller.locais.descricao ?? 'Empresa Teste';
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -47,11 +61,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               dropdownValue = newValue as String;
               setState(() {});
             },
-            items: <String>[
-              'Posto Papagaio - Matriz',
-              'Posto Papagaio - Centro',
-              'Posto Papagaio - Ipiranga',
-            ].map<DropdownMenuItem<String>>((String value) {
+            items: <String>[controller.locais.descricao ?? 'Empresa Teste']
+                .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),

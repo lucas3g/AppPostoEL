@@ -46,10 +46,10 @@ abstract class _LoginControllerBase with Store {
       final String senha = 'EL';
 
       final response = await dio.get(
-        'http://192.168.0.107:9000/login/01459027000100',
+        'http://192.168.254.90:9000/login/01459027000100',
         options: Options(headers: {'Login': login, 'Senha': senha}),
       );
-      late String autorizado = response.data['appPosto'];
+      late String autorizado = response.data['APP_POSTO'];
 
       if (autorizado == 'S') {
         GetIt.I.get<AppSettigns>().setLogado(conectado: 'S');
