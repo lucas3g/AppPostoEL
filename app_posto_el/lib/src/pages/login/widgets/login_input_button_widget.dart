@@ -1,4 +1,5 @@
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
+import 'package:app_posto_el/src/pages/login/controller/login_settings.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class LoginInputButtonWidget extends StatefulWidget {
 
 class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
   final controllerLogin = LoginController();
+  final LoginSettings settings = LoginSettings();
+  late Map<String, String> logado;
   var visiblePassword = false;
   var controller = MaskedTextController(mask: '00.000.000/0000-00');
 

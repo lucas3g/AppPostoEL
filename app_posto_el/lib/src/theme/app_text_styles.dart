@@ -8,6 +8,8 @@ abstract class AppTextStyles {
   TextStyle get button;
   TextStyle get labelInput;
   TextStyle get dropdownText;
+  TextStyle get titleCharts;
+  TextStyle get titleLogin;
 }
 
 class AppTextStylesDefault implements AppTextStyles {
@@ -17,7 +19,7 @@ class AppTextStylesDefault implements AppTextStyles {
 
   @override
   TextStyle get title => GoogleFonts.montserrat(
-      fontSize: 40, color: AppTheme.colors.title, fontWeight: FontWeight.w700);
+      fontSize: 20, color: AppTheme.colors.title, fontWeight: FontWeight.w700);
 
   @override
   TextStyle get labelInput => GoogleFonts.roboto(
@@ -29,5 +31,17 @@ class AppTextStylesDefault implements AppTextStyles {
   TextStyle get dropdownText => GoogleFonts.roboto(
       fontSize: 14,
       color: AppTheme.colors.dropDownTextColor,
+      fontWeight: FontWeight.w700);
+
+  @override
+  TextStyle get titleCharts => GoogleFonts.roboto(
+      fontSize: 12,
+      color: AppTheme.colors.dropDownTextColor,
+      fontWeight: FontWeight.w700);
+
+  @override
+  TextStyle get titleLogin => GoogleFonts.montserrat(
+      fontSize: 40,
+      color: AppTheme.colors.titleLogin,
       fontWeight: FontWeight.w700);
 }

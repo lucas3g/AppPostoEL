@@ -56,24 +56,56 @@ class VendasWidget extends StatelessWidget {
                     width: 2,
                     // Bind data source
                     dataSource: <SalesData>[
-                      SalesData('Jan', 90),
-                      SalesData('Feb', 28),
-                      SalesData('Mar', 34),
-                      SalesData('Apr', 32),
-                      SalesData('May', 40)
+                      SalesData('Jan', 100000),
+                      SalesData('Feb', 250000),
+                      SalesData('Mar', 200000),
+                      SalesData('Apr', 150000),
+                      SalesData('May', 300000)
                     ],
                     xValueMapper: (SalesData sales, _) => sales.year,
                     yValueMapper: (SalesData sales, _) => sales.sales,
                     dataLabelSettings: DataLabelSettings(isVisible: true))
               ],
               title: ChartTitle(
-                  text: 'Vendas Últimos 7 dias',
+                  text: 'Vendas dos Últimos 7 dias',
                   textStyle: AppTheme.textStyles.dropdownText),
             ),
           ),
-          SizedBox(
-            height: 15,
+          ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              ListTile(
+                title: Row(
+                  children: const <Widget>[
+                    Expanded(
+                      child: Text('Data'),
+                    ),
+                    Expanded(
+                      child: Text('Litros'),
+                    ),
+                    Expanded(
+                      child: Text('Valor R\$'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
+          ListView.builder(
+              physics: const NeverScrollableScrollPhysics(), //<--here
+              shrinkWrap: true,
+              itemCount: 15,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                    children: [
+                      Expanded(child: Text('27/09')),
+                      Expanded(child: Text('372,65 LT')),
+                      Expanded(child: Text('R\$ 1.372.34')),
+                    ],
+                  ),
+                );
+              })
         ],
       ),
     );

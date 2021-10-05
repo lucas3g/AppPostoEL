@@ -38,6 +38,9 @@ dependencies:
   flutter_mobx: ^2.0.2
   mobx_codegen: ^2.0.3
   bot_toast: ^4.0.1
+  shared_preferences: ^2.0.8
+  provider: ^6.0.1
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

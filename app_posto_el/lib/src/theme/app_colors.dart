@@ -10,6 +10,7 @@ abstract class AppColors {
   Color get primaryColor;
   Color get secondaryColor;
   Color get dropDownTextColor;
+  Color get titleLogin;
 }
 
 class AppColorDefault implements AppColors {
@@ -17,7 +18,7 @@ class AppColorDefault implements AppColors {
   Color get backgroundSecondary => Color(0xFF40B38C);
 
   @override
-  Color get title => Color(0xFFeb4034);
+  Color get title => Colors.white;
 
   @override
   Color get button => Color(0xFF666666);
@@ -39,4 +40,7 @@ class AppColorDefault implements AppColors {
 
   @override
   Color get dropDownTextColor => Color(0xFF000000);
+
+  @override
+  Color get titleLogin => Color(0xffcf1f36);
 }

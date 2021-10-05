@@ -14,26 +14,30 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70,
+        toolbarHeight: 60,
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppTheme.colors.backgroundPrimary,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
+        title: Column(
           children: [
-            Text('E', style: AppTheme.textStyles.title),
-            Text('L', style: AppTheme.textStyles.title),
-            Text(
-              ' Sistemas',
-              style: AppTheme.textStyles.title.copyWith(
-                color: Color(0xFF525252),
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('E', style: AppTheme.textStyles.titleLogin),
+                Text('L', style: AppTheme.textStyles.titleLogin),
+                Text(
+                  ' Sistemas',
+                  style: AppTheme.textStyles.titleLogin.copyWith(
+                    color: Color(0xFF525252),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
       backgroundColor: AppTheme.colors.backgroundPrimary,
-      body: Container(child: LoginInputButtonWidget()),
+      body: LoginInputButtonWidget(),
     );
   }
 }
