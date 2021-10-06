@@ -1,1 +1,1 @@
-enum LocaisStatus { empty, loading, success, error }
+enum LocaisStatus { empty, loading, success, error, semInternet }

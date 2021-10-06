@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 class AppBarWidget extends PreferredSize {
   final int currentIndex;
-  AppBarWidget({Key? key, required this.currentIndex})
+  final Size size;
+  AppBarWidget({Key? key, required this.currentIndex, required this.size})
       : super(
           key: key,
           child: Stack(
             children: [
               Container(
-                height: 100 * 0.99,
+                height: size.height * 0.13,
                 decoration: BoxDecoration(
                   color: AppTheme.colors.secondaryColor,
                   borderRadius: BorderRadius.only(
@@ -22,20 +23,12 @@ class AppBarWidget extends PreferredSize {
               Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Column(
-                        children: [
-                          currentIndex == 0
-                              ? Text(
-                                  'Vendas',
-                                  style: AppTheme.textStyles.title,
-                                )
-                              : Text(
-                                  'Tanques de Combustível',
-                                  style: AppTheme.textStyles.title,
-                                ),
-                        ],
-                      )),
+                    padding: EdgeInsets.only(top: 35),
+                    child: Text(
+                      currentIndex == 0 ? 'Vendas' : 'Tanques de Combustível',
+                      style: AppTheme.textStyles.title,
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
@@ -44,6 +37,6 @@ class AppBarWidget extends PreferredSize {
               ),
             ],
           ),
-          preferredSize: Size.fromHeight(140),
+          preferredSize: Size.fromHeight(size.height / 7),
         );
 }

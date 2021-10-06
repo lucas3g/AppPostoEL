@@ -18,8 +18,9 @@ class _DashBoardPageWidgetState extends State<DashBoardPageWidget> {
     return Scaffold(
       appBar: AppBarWidget(
         currentIndex: _currentIndex,
+        size: size,
       ), //_appBar(),
-      body: BodyWidget(currentIndex: _currentIndex, size: size.height * 0.05),
+      body: BodyWidget(currentIndex: _currentIndex),
       bottomNavigationBar: DashBoardBottomNavBar(
         onChanged: (index) {
           _currentIndex = index;

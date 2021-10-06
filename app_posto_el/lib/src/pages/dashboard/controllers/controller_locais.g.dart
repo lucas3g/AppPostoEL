@@ -12,13 +12,13 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
   final _$locaisAtom = Atom(name: '_ControllerLocaisBase.locais');
 
   @override
-  ModelLocais get locais {
+  ObservableList<ModelLocais> get locais {
     _$locaisAtom.reportRead();
     return super.locais;
   }
 
   @override
-  set locais(ModelLocais value) {
+  set locais(ObservableList<ModelLocais> value) {
     _$locaisAtom.reportWrite(value, super.locais, () {
       super.locais = value;
     });
@@ -27,13 +27,13 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
   final _$dropdownValueAtom = Atom(name: '_ControllerLocaisBase.dropdownValue');
 
   @override
-  String get dropdownValue {
+  int get dropdownValue {
     _$dropdownValueAtom.reportRead();
     return super.dropdownValue;
   }
 
   @override
-  set dropdownValue(String value) {
+  set dropdownValue(int value) {
     _$dropdownValueAtom.reportWrite(value, super.dropdownValue, () {
       super.dropdownValue = value;
     });
@@ -59,20 +59,6 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
   @override
   Future<void> getLocais() {
     return _$getLocaisAsyncAction.run(() => super.getLocais());
-  }
-
-  final _$_ControllerLocaisBaseActionController =
-      ActionController(name: '_ControllerLocaisBase');
-
-  @override
-  void onChanged({int? id, String? descricao}) {
-    final _$actionInfo = _$_ControllerLocaisBaseActionController.startAction(
-        name: '_ControllerLocaisBase.onChanged');
-    try {
-      return super.onChanged(id: id, descricao: descricao);
-    } finally {
-      _$_ControllerLocaisBaseActionController.endAction(_$actionInfo);
-    }
   }
 
   @override

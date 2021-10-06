@@ -32,4 +32,10 @@ class AppSettigns extends ChangeNotifier {
 
     await _readLogado();
   }
+
+  removeLogado() async {
+    await _prefs.remove('conectado');
+
+    await _readLogado();
+  }
 }

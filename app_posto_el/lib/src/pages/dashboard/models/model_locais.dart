@@ -20,15 +20,15 @@ class ModelLocais {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'descricao': descricao,
+      'ID': id,
+      'DESCRICAO': descricao,
     };
   }
 
   factory ModelLocais.fromMap(Map<String, dynamic> map) {
     return ModelLocais(
-      id: map['id'],
-      descricao: map['descricao'],
+      id: map['ID'] ?? 1,
+      descricao: map['DESCRICAO'] ?? 'Empresa Teste',
     );
   }
 
