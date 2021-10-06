@@ -10,7 +10,7 @@ class AppBarWidget extends PreferredSize {
           child: Stack(
             children: [
               Container(
-                height: 100,
+                height: 100 * 0.99,
                 decoration: BoxDecoration(
                   color: AppTheme.colors.secondaryColor,
                   borderRadius: BorderRadius.only(
@@ -22,12 +22,9 @@ class AppBarWidget extends PreferredSize {
               Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.only(top: 30),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: 20,
-                          ),
                           currentIndex == 0
                               ? Text(
                                   'Vendas',
@@ -47,38 +44,6 @@ class AppBarWidget extends PreferredSize {
               ),
             ],
           ),
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(140),
         );
 }
-
-
-// Container(
-//                 margin: EdgeInsets.only(bottom: 10 * 2.5),
-//                 child: Stack(
-//                   children: [
-//                     Container(
-//                       height: size,
-//                       decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.only(
-//                             bottomLeft: Radius.circular(25),
-//                             bottomRight: Radius.circular(25),
-//                           ),
-//                           color: AppTheme.colors.secondaryColor),
-//                     ),
-//                     SizedBox(
-//                       height: 65,
-//                     ),
-//                     //DropDownWidget(),
-//                   ],
-//                 ),
-//               ),
-
-
-// AppBar(
-//             elevation: 0,
-//             bottomOpacity: 0.0,
-//             centerTitle: true,
-//             leading: Container(),
-//             backgroundColor: AppTheme.colors.secondaryColor,
-//             title: currentIndex == 0 ? Text('Vendas') : Text('Combustíves'),
-//           ),

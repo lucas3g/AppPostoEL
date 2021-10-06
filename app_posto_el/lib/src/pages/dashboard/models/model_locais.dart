@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 class ModelLocais {
-  final int? id;
-  final String? descricao;
+  final int id;
+  final String descricao;
   ModelLocais({
-    this.id,
-    this.descricao,
+    required this.id,
+    required this.descricao,
   });
 
   ModelLocais copyWith({

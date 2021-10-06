@@ -24,6 +24,36 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
     });
   }
 
+  final _$dropdownValueAtom = Atom(name: '_ControllerLocaisBase.dropdownValue');
+
+  @override
+  String get dropdownValue {
+    _$dropdownValueAtom.reportRead();
+    return super.dropdownValue;
+  }
+
+  @override
+  set dropdownValue(String value) {
+    _$dropdownValueAtom.reportWrite(value, super.dropdownValue, () {
+      super.dropdownValue = value;
+    });
+  }
+
+  final _$statusAtom = Atom(name: '_ControllerLocaisBase.status');
+
+  @override
+  LocaisStatus get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(LocaisStatus value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
   final _$getLocaisAsyncAction = AsyncAction('_ControllerLocaisBase.getLocais');
 
   @override
@@ -48,7 +78,9 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
   @override
   String toString() {
     return '''
-locais: ${locais}
+locais: ${locais},
+dropdownValue: ${dropdownValue},
+status: ${status}
     ''';
   }
 }
