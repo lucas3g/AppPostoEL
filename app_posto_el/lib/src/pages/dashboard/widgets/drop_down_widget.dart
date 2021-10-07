@@ -4,6 +4,7 @@ import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({Key? key}) : super(key: key);
@@ -13,7 +14,8 @@ class DropDownWidget extends StatefulWidget {
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
-  final ControllerLocais controller = ControllerLocais();
+  final controller = GetIt.I.get<ControllerLocais>();
+
   void carregarLocais() async {
     await controller.getLocais();
     if (controller.locais.isNotEmpty)
@@ -45,30 +47,33 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Observer(
-            builder: (_) => controller.status == LocaisStatus.success
-                ? DropdownButton(
-                    borderRadius: BorderRadius.circular(20),
-                    value: controller.dropdownValue,
-                    isExpanded: true,
-                    icon: Icon(
-                      Icons.arrow_circle_down_sharp,
-                    ),
-                    iconSize: 30,
-                    elevation: 16,
-                    iconEnabledColor: AppTheme.colors.secondaryColor,
-                    style: AppTheme.textStyles.dropdownText,
-                    underline: Container(),
-                    onChanged: (newValue) {
-                      controller.dropdownValue = newValue as int;
-                    },
-                    items: controller.locais.map((local) {
-                      return DropdownMenuItem(
-                        value: local.id,
-                        child: Text(local.descricao),
-                      );
-                    }).toList(),
-                  )
-                : LoadingWidget(size: Size(350, 30))),
+          builder: (_) => controller.status == LocaisStatus.success
+              ? DropdownButton(
+                  borderRadius: BorderRadius.circular(20),
+                  value: controller.dropdownValue,
+                  isExpanded: true,
+                  icon: Icon(
+                    Icons.arrow_circle_down_sharp,
+                  ),
+                  iconSize: 30,
+                  elevation: 8,
+                  iconEnabledColor: AppTheme.colors.secondaryColor,
+                  style: AppTheme.textStyles.dropdownText,
+                  underline: Container(),
+                  onChanged: (newValue) {
+                    controller.dropdownValue = newValue as int;
+                  },
+                  items: controller.locais.map((local) {
+                    return DropdownMenuItem(
+                      value: local.id,
+                      child: Text(local.descricao),
+                    );
+                  }).toList(),
+                )
+              : LoadingWidget(
+                  size: Size(double.infinity, 30),
+                ),
+        ),
       ),
     );
   }

@@ -26,8 +26,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 10.000 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -48,6 +48,7 @@ class CombustiveisPageWidget extends StatelessWidget {
                             widget: Container(
                               child: const Text(
                                 '3.855 LT\n(38.55%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xFF947400), fontSize: 14),
                               ),
@@ -69,8 +70,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 7.500 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -90,7 +91,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                           CircularChartAnnotation(
                             widget: Container(
                               child: const Text(
-                                '1.974 LT\n(26.32%)',
+                                '7.500 LT\n(100%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xFF18BCF4), fontSize: 14),
                               ),
@@ -117,8 +119,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 10.000 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -139,6 +141,7 @@ class CombustiveisPageWidget extends StatelessWidget {
                             widget: Container(
                               child: const Text(
                                 '7.790 LT\n(77.90%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xffC729F7), fontSize: 14),
                               ),
@@ -160,8 +163,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 20.000 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -182,6 +185,7 @@ class CombustiveisPageWidget extends StatelessWidget {
                             widget: Container(
                               child: const Text(
                                 '7.861 LT\n(39.31%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xFFF91A49), fontSize: 14),
                               ),
@@ -208,8 +212,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 10.000 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -230,6 +234,7 @@ class CombustiveisPageWidget extends StatelessWidget {
                             widget: Container(
                               child: const Text(
                                 '7.790 LT\n(77.90%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xffC729F7), fontSize: 14),
                               ),
@@ -251,8 +256,8 @@ class CombustiveisPageWidget extends StatelessWidget {
                     Text('Cap. 20.000 LT',
                         style: AppTheme.textStyles.titleCharts),
                     Container(
-                      width: 170,
-                      height: 170,
+                      width: 160,
+                      height: 160,
                       child: SfCircularChart(
                         /// It used to set the annotation on circular chart.
                         annotations: <CircularChartAnnotation>[
@@ -273,6 +278,7 @@ class CombustiveisPageWidget extends StatelessWidget {
                             widget: Container(
                               child: const Text(
                                 '7.861 LT\n(39.31%)',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xFFF91A49), fontSize: 14),
                               ),
@@ -313,8 +319,8 @@ class CombustiveisPageWidget extends StatelessWidget {
   List<DoughnutSeries<ChartSampleData, String>>
       _getElevationDoughnutSeriesAzul() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'A', y: 26.32, color: Color(0xFF15BEF4)),
-      ChartSampleData(x: 'B', y: 73.68, color: Color.fromRGBO(230, 230, 230, 1))
+      ChartSampleData(x: 'A', y: 100, color: Color(0xFF15BEF4)),
+      ChartSampleData(x: 'B', y: 0, color: Color.fromRGBO(230, 230, 230, 1))
     ];
 
     return <DoughnutSeries<ChartSampleData, String>>[

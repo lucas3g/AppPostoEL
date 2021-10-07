@@ -19,6 +19,7 @@ class _DashBoardPageWidgetState extends State<DashBoardPageWidget> {
       appBar: AppBarWidget(
         currentIndex: _currentIndex,
         size: size,
+        context: context,
       ), //_appBar(),
       body: BodyWidget(currentIndex: _currentIndex),
       bottomNavigationBar: DashBoardBottomNavBar(

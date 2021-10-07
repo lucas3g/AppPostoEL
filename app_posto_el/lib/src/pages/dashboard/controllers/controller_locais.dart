@@ -1,7 +1,9 @@
+import 'package:app_posto_el/src/configs/app_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
 
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 part 'controller_locais.g.dart';
@@ -24,8 +26,10 @@ abstract class _ControllerLocaisBase with Store {
       status = LocaisStatus.loading;
 
       var dio = Dio();
+      final cnpj = GetIt.I.get<AppSettigns>().cnpj['cnpj'];
+
       final response =
-          await dio.get('http://192.168.0.107:9000/empresa/01459027000100');
+          await dio.get('http://192.168.254.90:9000/empresa/$cnpj');
 
       final lista = response.data
           .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))

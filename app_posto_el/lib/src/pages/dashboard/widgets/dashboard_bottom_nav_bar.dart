@@ -37,9 +37,14 @@ class _DashBoardBottomNavBarState extends State<DashBoardBottomNavBar> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.7),
         items: [
-          BottomNavigationBarItem(label: 'Vendas', icon: Icon(Icons.store)),
           BottomNavigationBarItem(
-              label: 'Tanques', icon: Icon(Icons.ev_station)),
+            label: 'Vendas',
+            icon: Icon(Icons.attach_money_rounded),
+          ),
+          BottomNavigationBarItem(
+            label: 'Tanques',
+            icon: Icon(Icons.local_gas_station),
+          ),
         ],
       ),
     );
