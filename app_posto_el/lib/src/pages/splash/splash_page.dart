@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:app_posto_el/src/configs/app_settings.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -11,6 +14,17 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  void verificaInternet() async {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      inicializar();
+    } else {
+      GetIt.I.get<AppSettigns>().removeLogado();
+      BotToast.showText(text: 'Celular não está conectado a internet!');
+      Navigator.popAndPushNamed(context, '/login');
+    }
+  }
+
   void inicializar() async {
     await Future.delayed(Duration(seconds: 2));
     if (GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
@@ -22,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    inicializar();
+    verificaInternet();
     super.initState();
   }
 

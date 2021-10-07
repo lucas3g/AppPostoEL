@@ -7,10 +7,11 @@ class CombustiveisPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildElevationDoughnutChart();
+    Size size = MediaQuery.of(context).size;
+    return _buildElevationDoughnutChart(size: size);
   }
 
-  Center _buildElevationDoughnutChart() {
+  Center _buildElevationDoughnutChart({Size size = Size.zero}) {
     return Center(
       child: Container(
         child: Column(
@@ -104,7 +105,7 @@ class CombustiveisPageWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: size.height * 0.01,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -195,7 +196,7 @@ class CombustiveisPageWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: size.height * 0.01,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
