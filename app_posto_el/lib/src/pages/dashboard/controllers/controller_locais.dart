@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
 
@@ -24,27 +22,21 @@ abstract class _ControllerLocaisBase with Store {
   Future<void> getLocais() async {
     try {
       status = LocaisStatus.loading;
-      try {
-        final result = await InternetAddress.lookup('google.com');
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          var dio = Dio();
-          final response = await dio
-              .get('http://192.168.254.90:9000/empresa/01459027000100');
 
-          final lista = response.data
-              .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))
-              .toList();
+      var dio = Dio();
+      final response =
+          await dio.get('http://192.168.0.107:9000/empresa/01459027000100');
 
-          locais = ObservableList.of(lista);
+      final lista = response.data
+          .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))
+          .toList();
 
-          if (locais.isNotEmpty) {
-            status = LocaisStatus.success;
-          } else {
-            status = LocaisStatus.error;
-          }
-        }
-      } on SocketException catch (_) {
-        status = LocaisStatus.semInternet;
+      locais = ObservableList.of(lista);
+
+      if (locais.isNotEmpty) {
+        status = LocaisStatus.success;
+      } else {
+        status = LocaisStatus.error;
       }
     } catch (e) {
       status = LocaisStatus.error;
