@@ -140,7 +140,8 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
               ),
               Row(
                 children: [
-                  controllerLogin.status == LoginStatus.empty
+                  controllerLogin.status == LoginStatus.empty ||
+                          controllerLogin.status == LoginStatus.error
                       ? Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(

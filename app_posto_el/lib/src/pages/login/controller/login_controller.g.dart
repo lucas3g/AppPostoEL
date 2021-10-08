@@ -39,21 +39,6 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
-  final _$prefsAtom = Atom(name: '_LoginControllerBase.prefs');
-
-  @override
-  Future<SharedPreferences> get prefs {
-    _$prefsAtom.reportRead();
-    return super.prefs;
-  }
-
-  @override
-  set prefs(Future<SharedPreferences> value) {
-    _$prefsAtom.reportWrite(value, super.prefs, () {
-      super.prefs = value;
-    });
-  }
-
   final _$loginAsyncAction = AsyncAction('_LoginControllerBase.login');
 
   @override
@@ -79,8 +64,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
   String toString() {
     return '''
 user: ${user},
-status: ${status},
-prefs: ${prefs}
+status: ${status}
     ''';
   }
 }

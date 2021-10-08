@@ -1,41 +1,40 @@
 import 'dart:convert';
 
 class VendasModel {
-  final double vendasHoje;
-  final double vendasMes;
-  final double projecaoVendas;
-
+  final int ID;
+  final double VLR_TOTAL;
+  final DateTime? DATA;
   VendasModel({
-    this.vendasHoje = 0.00,
-    this.vendasMes = 0.00,
-    this.projecaoVendas = 0.00,
+    this.ID = 0,
+    this.VLR_TOTAL = 0.00,
+    this.DATA,
   });
 
   VendasModel copyWith({
-    double? vendasHoje,
-    double? vendasMes,
-    double? projecaoVendas,
+    int? ID,
+    double? VLR_TOTAL,
+    DateTime? data,
   }) {
     return VendasModel(
-      vendasHoje: vendasHoje ?? this.vendasHoje,
-      vendasMes: vendasMes ?? this.vendasMes,
-      projecaoVendas: projecaoVendas ?? this.projecaoVendas,
+      ID: ID ?? this.ID,
+      VLR_TOTAL: VLR_TOTAL ?? this.VLR_TOTAL,
+      DATA: data ?? this.DATA,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'vendasHoje': vendasHoje,
-      'vendasMes': vendasMes,
-      'projecaoVendas': projecaoVendas,
+      'ID': ID,
+      'VLR_TOTAL': VLR_TOTAL,
+      'DATA': DATA,
     };
   }
 
   factory VendasModel.fromMap(Map<String, dynamic> map) {
     return VendasModel(
-      vendasHoje: map['vendasHoje'] ?? 0.00,
-      vendasMes: map['vendasMes'] ?? 0.00,
-      projecaoVendas: map['projecaoVendas'] ?? 0.00,
+      ID: map['ID'] ?? 0,
+      VLR_TOTAL: map['VLR_TOTAL'] ?? 0.00,
+      DATA: DateTime.parse(map['DATA'] ?? DateTime.now().toString()),
     );
   }
 
@@ -46,19 +45,18 @@ class VendasModel {
 
   @override
   String toString() =>
-      'VendasModel(vendasHoje: $vendasHoje, vendasMes: $vendasMes, projecaoVendas: $projecaoVendas)';
+      'VendasModel(ID: $ID, VLR_TOTAL: $VLR_TOTAL, data: $DATA)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is VendasModel &&
-        other.vendasHoje == vendasHoje &&
-        other.vendasMes == vendasMes &&
-        other.projecaoVendas == projecaoVendas;
+        other.ID == ID &&
+        other.VLR_TOTAL == VLR_TOTAL &&
+        other.DATA == DATA;
   }
 
   @override
-  int get hashCode =>
-      vendasHoje.hashCode ^ vendasMes.hashCode ^ projecaoVendas.hashCode;
+  int get hashCode => ID.hashCode ^ VLR_TOTAL.hashCode ^ DATA.hashCode;
 }

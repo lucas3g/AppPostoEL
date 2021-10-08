@@ -5,9 +5,9 @@ class UserModel {
   final String login;
   final String senha;
   UserModel({
-    required this.cnpj,
-    required this.login,
-    required this.senha,
+    this.cnpj = '',
+    this.login = '',
+    this.senha = '',
   });
 
   factory UserModel.login(UserModel account) {
@@ -40,9 +40,9 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      cnpj: map['cnpj'],
-      login: map['login'],
-      senha: map['senha'],
+      cnpj: map['cnpj'] ?? '',
+      login: map['login'] ?? '',
+      senha: map['senha'] ?? '',
     );
   }
 

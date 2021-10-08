@@ -1,14 +1,16 @@
 import 'package:app_posto_el/src/configs/app_settings.dart';
+import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
+import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 part 'controller_locais.g.dart';
 
 class ControllerLocais = _ControllerLocaisBase with _$ControllerLocais;
+final controllerLogin = LoginController();
 
 abstract class _ControllerLocaisBase with Store {
   @observable
@@ -26,7 +28,7 @@ abstract class _ControllerLocaisBase with Store {
       status = LocaisStatus.loading;
 
       var dio = Dio();
-      final cnpj = GetIt.I.get<AppSettigns>().cnpj['cnpj'];
+      final String cnpj = GlobalSettings().appSettings.cnpj['cnpj']!;
 
       final response =
           await dio.get('http://192.168.254.90:9000/empresa/$cnpj');

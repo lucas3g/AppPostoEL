@@ -1,10 +1,11 @@
-import 'package:app_posto_el/src/pages/dashboard/controllers/controller_locais.dart';
-import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
+import 'package:app_posto_el/src/configs/global_settings.dart';
+import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class VendasWidget extends StatefulWidget {
@@ -15,7 +16,54 @@ class VendasWidget extends StatefulWidget {
 }
 
 class _VendasWidgetState extends State<VendasWidget> {
-  final controller = GetIt.I.get<ControllerLocais>();
+  final controller = GlobalSettings().controllerLocais;
+  final controllerVendas = GlobalSettings().controllerVendas;
+  final List<VendasSemanais> vendasSemanais = [];
+  void getVendas() async {
+    await controllerVendas.getVendas();
+  }
+
+  String somaVendas() {
+    var inicio = DateTime.now().subtract(Duration(days: 7));
+
+    final double result = controllerVendas.vendas
+        .where((venda) =>
+            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
+            venda.ID == controller.dropdownValue)
+        .map((venda) => venda.VLR_TOTAL)
+        .reduce((value, element) => value + element);
+    return result.reais();
+  }
+
+  String projecaoVenda() {
+    final double total = controllerVendas.vendas
+        .where((venda) => venda.ID == controller.dropdownValue)
+        .map((venda) => venda.VLR_TOTAL)
+        .reduce((value, element) => value + element);
+    final dias = DateTime.now();
+
+    final double mediaDiaria =
+        total / dias.difference(DateTime(dias.year, dias.month, 0)).inDays;
+
+    final result = mediaDiaria * (DateTime(dias.year, dias.month + 1, 0).day);
+
+    return result.reais();
+  }
+
+  montaGrafico() {
+    var listaNova = controllerVendas.vendas
+        .where((venda) => venda.ID == controller.dropdownValue)
+        .map((venda) => VendasSemanais(venda.DATA!, venda.VLR_TOTAL))
+        .toList();
+    listaNova.sort((a, b) => a.dia.isAfter(b.dia) ? 1 : -1);
+    return listaNova;
+  }
+
+  @override
+  void initState() {
+    getVendas();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +78,21 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Vendas de Hoje',
                       style: AppTheme.textStyles.dropdownText),
-                  controller.status == LocaisStatus.success
-                      ? Text('372,65 LT',
+                  controllerVendas.status == VendasStatus.success
+                      ? Text('354,57 LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(size: Size(100, 20)),
-                  controller.status == LocaisStatus.success
-                      ? Text('R\$ 1.532,27',
+                  SizedBox(
+                    height: 1,
+                  ),
+                  controllerVendas.status == VendasStatus.success
+                      ? Text(
+                          controllerVendas.vendas
+                              .firstWhere((venda) =>
+                                  venda.ID == controller.dropdownValue)
+                              .VLR_TOTAL
+                              .reais(),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.green, fontWeight: FontWeight.w900))
                       : LoadingWidget(size: Size(100, 20)),
@@ -44,15 +100,18 @@ class _VendasWidgetState extends State<VendasWidget> {
               ),
               Column(
                 children: [
-                  Text('Vendas do Mês',
+                  Text('Vendas da Semana',
                       style: AppTheme.textStyles.dropdownText),
-                  controller.status == LocaisStatus.success
+                  controllerVendas.status == VendasStatus.success
                       ? Text('10.953,49 LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(size: Size(100, 20)),
-                  controller.status == LocaisStatus.success
-                      ? Text('R\$ 50.235,25',
+                  SizedBox(
+                    height: 1,
+                  ),
+                  controllerVendas.status == VendasStatus.success
+                      ? Text(somaVendas(),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.green, fontWeight: FontWeight.w900))
                       : LoadingWidget(size: Size(100, 20)),
@@ -62,13 +121,16 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Proj. de Vendas',
                       style: AppTheme.textStyles.dropdownText),
-                  controller.status == LocaisStatus.success
+                  controllerVendas.status == VendasStatus.success
                       ? Text('12.170,45 LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.blue))
                       : LoadingWidget(size: Size(100, 20)),
-                  controller.status == LocaisStatus.success
-                      ? Text('R\$ 75.563,98',
+                  SizedBox(
+                    height: 1,
+                  ),
+                  controllerVendas.status == VendasStatus.success
+                      ? Text(projecaoVenda(),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.blue, fontWeight: FontWeight.w900))
                       : LoadingWidget(size: Size(100, 20)),
@@ -81,25 +143,19 @@ class _VendasWidgetState extends State<VendasWidget> {
           ),
           Container(
             height: size.height * 0.37,
-            child: controller.status == LocaisStatus.success
+            child: controllerVendas.status == VendasStatus.success
                 ? SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    series: <LineSeries<SalesData, String>>[
-                      LineSeries<SalesData, String>(
+                    series: <LineSeries<VendasSemanais, String>>[
+                      LineSeries<VendasSemanais, String>(
                           color: Colors.red,
                           width: 2,
                           // Bind data source
-                          dataSource: <SalesData>[
-                            SalesData('01', 2500),
-                            SalesData('02', 3000),
-                            SalesData('03', 1400),
-                            SalesData('04', 1500),
-                            SalesData('05', 200),
-                            SalesData('06', 2000),
-                            SalesData('07', 500),
-                          ],
-                          xValueMapper: (SalesData sales, _) => sales.day,
-                          yValueMapper: (SalesData sales, _) => sales.sales,
+                          dataSource: montaGrafico(),
+                          xValueMapper: (VendasSemanais vendas, _) =>
+                              vendas.dia.Dia(),
+                          yValueMapper: (VendasSemanais vendas, _) =>
+                              vendas.valor,
                           dataLabelSettings: DataLabelSettings(isVisible: true))
                     ],
                     title: ChartTitle(
@@ -140,7 +196,7 @@ class _VendasWidgetState extends State<VendasWidget> {
             ),
           ),
           Observer(
-            builder: (_) => controller.status == LocaisStatus.success
+            builder: (_) => controllerVendas.status == VendasStatus.success
                 ? Column(
                     children: List.generate(
                       5,
@@ -197,8 +253,8 @@ class _VendasWidgetState extends State<VendasWidget> {
   }
 }
 
-class SalesData {
-  SalesData(this.day, this.sales);
-  final String day;
-  final double sales;
+class VendasSemanais {
+  VendasSemanais(this.dia, this.valor);
+  final DateTime dia;
+  final double valor;
 }

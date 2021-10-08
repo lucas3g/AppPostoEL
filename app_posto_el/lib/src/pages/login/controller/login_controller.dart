@@ -1,9 +1,7 @@
-import 'package:app_posto_el/src/configs/app_settings.dart';
+import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_status.dart';
 
@@ -15,7 +13,7 @@ class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
   @observable
-  UserModel user = UserModel(cnpj: '', login: '', senha: '');
+  UserModel user = UserModel();
 
   @action
   void onChanged({String? cnpj, String? login, String? senha}) {
@@ -25,9 +23,6 @@ abstract class _LoginControllerBase with Store {
 
   @observable
   LoginStatus status = LoginStatus.empty;
-
-  @observable
-  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @action
   Future<void> login() async {
@@ -58,15 +53,15 @@ abstract class _LoginControllerBase with Store {
         late String autorizado = response.data['APP_POSTO'];
 
         if (autorizado == 'S') {
-          GetIt.I.get<AppSettigns>().setLogado(conectado: 'S');
-          GetIt.I.get<AppSettigns>().setUser(
+          GlobalSettings().appSettings.setLogado(conectado: 'S');
+          GlobalSettings().appSettings.setUser(
               cnpj: user.cnpj
                   .replaceAll('.', '')
                   .replaceAll('/', '')
                   .replaceAll('-', ''));
           status = LoginStatus.success;
         } else {
-          GetIt.I.get<AppSettigns>().setLogado(conectado: 'N');
+          GlobalSettings().appSettings.setLogado(conectado: 'N');
           status = LoginStatus.error;
         }
       } else {
@@ -76,7 +71,7 @@ abstract class _LoginControllerBase with Store {
       }
       // print('EU SOU RESPONSE ${autorizado}');
     } on DioError catch (e) {
-      GetIt.I.get<AppSettigns>().setLogado(conectado: 'N');
+      GlobalSettings().appSettings.setLogado(conectado: 'N');
       status = LoginStatus.error;
       print('EU SOU O ERRO ${e}');
     }
