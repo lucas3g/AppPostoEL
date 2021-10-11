@@ -9,6 +9,13 @@ extension MoneyDouble on double {
   }
 }
 
+extension LitroDouble on double {
+  String Litros() {
+    final format = NumberFormat.simpleCurrency(locale: 'pt_br', name: '');
+    return format.format(this);
+  }
+}
+
 extension DateTimeString on DateTime {
   String diaMes() {
     final format = DateFormat('d MMMM', 'pt_br');
@@ -26,6 +33,13 @@ extension DataString on DateTime {
 extension DiaString on DateTime {
   String Dia() {
     final format = DateFormat('dd');
+    return format.format(this);
+  }
+}
+
+extension DiaMesString on DateTime {
+  String DiaMes() {
+    final format = DateFormat('dd/MM');
     return format.format(this);
   }
 }

@@ -1,10 +1,13 @@
 import 'package:app_posto_el/src/configs/global_settings.dart';
-import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas_status.dart';
+import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/vendas_status.dart';
+import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/volumes/volumes_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import "package:intl/intl.dart";
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -18,40 +21,19 @@ class VendasWidget extends StatefulWidget {
 class _VendasWidgetState extends State<VendasWidget> {
   final controller = GlobalSettings().controllerLocais;
   final controllerVendas = GlobalSettings().controllerVendas;
-  final List<VendasSemanais> vendasSemanais = [];
+  final controllerVolumes = GlobalSettings().controllerVolumes;
+  late List<dynamic> listaNova = [];
+
   void getVendas() async {
-    await controllerVendas.getVendas();
+    if (controllerVendas.vendas.isEmpty) await controllerVendas.getVendas();
   }
 
-  String somaVendas() {
-    var inicio = DateTime.now().subtract(Duration(days: 7));
-
-    final double result = controllerVendas.vendas
-        .where((venda) =>
-            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
-            venda.ID == controller.dropdownValue)
-        .map((venda) => venda.VLR_TOTAL)
-        .reduce((value, element) => value + element);
-    return result.reais();
-  }
-
-  String projecaoVenda() {
-    final double total = controllerVendas.vendas
-        .where((venda) => venda.ID == controller.dropdownValue)
-        .map((venda) => venda.VLR_TOTAL)
-        .reduce((value, element) => value + element);
-    final dias = DateTime.now();
-
-    final double mediaDiaria =
-        total / dias.difference(DateTime(dias.year, dias.month, 0)).inDays;
-
-    final result = mediaDiaria * (DateTime(dias.year, dias.month + 1, 0).day);
-
-    return result.reais();
+  void getLitros() async {
+    if (controllerVolumes.volumes.isEmpty) await controllerVolumes.getLitros();
   }
 
   montaGrafico() {
-    var listaNova = controllerVendas.vendas
+    listaNova = controllerVendas.vendas
         .where((venda) => venda.ID == controller.dropdownValue)
         .map((venda) => VendasSemanais(venda.DATA!, venda.VLR_TOTAL))
         .toList();
@@ -62,6 +44,7 @@ class _VendasWidgetState extends State<VendasWidget> {
   @override
   void initState() {
     getVendas();
+    getLitros();
     super.initState();
   }
 
@@ -78,8 +61,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Vendas de Hoje',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVendas.status == VendasStatus.success
-                      ? Text('354,57 LT',
+                  controllerVolumes.status == VolumesStatus.success
+                      ? Text(
+                          '${controllerVolumes.volumes.firstWhere((volume) => volume.ID == controller.dropdownValue).QTD_TOTAL.Litros()} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(size: Size(100, 20)),
@@ -102,8 +86,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Vendas da Semana',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVendas.status == VendasStatus.success
-                      ? Text('10.953,49 LT',
+                  controllerVolumes.status == VolumesStatus.success
+                      ? Text(
+                          '${controllerVolumes.somaLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(size: Size(100, 20)),
@@ -111,7 +96,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                     height: 1,
                   ),
                   controllerVendas.status == VendasStatus.success
-                      ? Text(somaVendas(),
+                      ? Text(
+                          controllerVendas.somaVendas(
+                              local: controller.dropdownValue),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.green, fontWeight: FontWeight.w900))
                       : LoadingWidget(size: Size(100, 20)),
@@ -121,8 +108,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Proj. de Vendas',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVendas.status == VendasStatus.success
-                      ? Text('12.170,45 LT',
+                  controllerVolumes.status == VolumesStatus.success
+                      ? Text(
+                          '${controllerVolumes.projecaoLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.blue))
                       : LoadingWidget(size: Size(100, 20)),
@@ -130,7 +118,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                     height: 1,
                   ),
                   controllerVendas.status == VendasStatus.success
-                      ? Text(projecaoVenda(),
+                      ? Text(
+                          controllerVendas.projecaoVenda(
+                              local: controller.dropdownValue),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.blue, fontWeight: FontWeight.w900))
                       : LoadingWidget(size: Size(100, 20)),
@@ -145,18 +135,36 @@ class _VendasWidgetState extends State<VendasWidget> {
             height: size.height * 0.37,
             child: controllerVendas.status == VendasStatus.success
                 ? SfCartesianChart(
+                    tooltipBehavior: TooltipBehavior(
+                      enable: true,
+                      color: Colors.white,
+                      textStyle: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                      shadowColor: AppTheme.colors.secondaryColor,
+                    ),
+                    onTooltipRender: (TooltipArgs args) {
+                      final DateTime data =
+                          listaNova[args.pointIndex as int].dia!;
+                      final double valor =
+                          listaNova[args.pointIndex as int].valor;
+                      args.header = 'Dia - ${data.Dia()}';
+                      args.text = valor.reais();
+                    },
                     primaryXAxis: CategoryAxis(),
-                    series: <LineSeries<VendasSemanais, String>>[
-                      LineSeries<VendasSemanais, String>(
-                          color: Colors.red,
-                          width: 2,
-                          // Bind data source
-                          dataSource: montaGrafico(),
-                          xValueMapper: (VendasSemanais vendas, _) =>
-                              vendas.dia.Dia(),
-                          yValueMapper: (VendasSemanais vendas, _) =>
-                              vendas.valor,
-                          dataLabelSettings: DataLabelSettings(isVisible: true))
+                    primaryYAxis: NumericAxis(
+                        numberFormat:
+                            NumberFormat.simpleCurrency(locale: 'pt-br')),
+                    series: <CartesianSeries<VendasSemanais, String>>[
+                      AreaSeries<VendasSemanais, String>(
+                        color: AppTheme.colors.secondaryColor,
+                        dataSource: montaGrafico(),
+                        xValueMapper: (VendasSemanais vendas, _) =>
+                            vendas.dia.Dia(),
+                        yValueMapper: (VendasSemanais vendas, _) =>
+                            vendas.valor,
+                        markerSettings: MarkerSettings(
+                            isVisible: true, shape: DataMarkerType.circle),
+                      )
                     ],
                     title: ChartTitle(
                         text: 'Vendas dos Últimos 7 dias',
@@ -198,33 +206,33 @@ class _VendasWidgetState extends State<VendasWidget> {
           Observer(
             builder: (_) => controllerVendas.status == VendasStatus.success
                 ? Column(
-                    children: List.generate(
-                      5,
-                      (index) => ListTile(
-                        title: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '27/09',
-                              ),
+                    children: (controllerVendas.vendas
+                        .where((local) => local.ID == controller.dropdownValue)
+                        .map(
+                          (venda) => ListTile(
+                            title: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(venda.DATA!.DiaMes(),
+                                      style: TextStyle(fontSize: 16)),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '0,00 LT',
+                                    style: AppTheme.textStyles.dropdownText
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 0,
+                                  child: Text(venda.VLR_TOTAL.reais(),
+                                      style: AppTheme.textStyles.dropdownText
+                                          .copyWith(fontSize: 16)),
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: Text(
-                                '372,65 LT',
-                                style: AppTheme.textStyles.dropdownText
-                                    .copyWith(fontSize: 16),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 0,
-                              child: Text('R\$ 1.372.34',
-                                  style: AppTheme.textStyles.dropdownText
-                                      .copyWith(fontSize: 16)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+                        )).toList(),
                   )
                 : Column(
                     children: List.generate(

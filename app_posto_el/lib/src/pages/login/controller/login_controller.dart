@@ -37,7 +37,7 @@ abstract class _LoginControllerBase with Store {
         var dio = Dio();
 
         final response = await dio.get(
-          'http://192.168.254.90:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
+          'http://192.168.254.69:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
           options: Options(headers: {
             'Login': user.login.toUpperCase(),
             'Senha': user.senha.toUpperCase()
@@ -53,15 +53,15 @@ abstract class _LoginControllerBase with Store {
         late String autorizado = response.data['APP_POSTO'];
 
         if (autorizado == 'S') {
-          GlobalSettings().appSettings.setLogado(conectado: 'S');
-          GlobalSettings().appSettings.setUser(
+          await GlobalSettings().appSettings.setLogado(conectado: 'S');
+          await GlobalSettings().appSettings.setUser(
               cnpj: user.cnpj
                   .replaceAll('.', '')
                   .replaceAll('/', '')
                   .replaceAll('-', ''));
           status = LoginStatus.success;
         } else {
-          GlobalSettings().appSettings.setLogado(conectado: 'N');
+          await GlobalSettings().appSettings.setLogado(conectado: 'N');
           status = LoginStatus.error;
         }
       } else {
@@ -71,7 +71,7 @@ abstract class _LoginControllerBase with Store {
       }
       // print('EU SOU RESPONSE ${autorizado}');
     } on DioError catch (e) {
-      GlobalSettings().appSettings.setLogado(conectado: 'N');
+      await GlobalSettings().appSettings.setLogado(conectado: 'N');
       status = LoginStatus.error;
       print('EU SOU O ERRO ${e}');
     }

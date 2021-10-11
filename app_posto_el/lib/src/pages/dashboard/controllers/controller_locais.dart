@@ -28,10 +28,14 @@ abstract class _ControllerLocaisBase with Store {
       status = LocaisStatus.loading;
 
       var dio = Dio();
-      final String cnpj = GlobalSettings().appSettings.cnpj['cnpj']!;
+      String cnpj = await GlobalSettings().appSettings.cnpj['cnpj']!;
+
+      if (cnpj.isEmpty) {
+        cnpj = GlobalSettings().userSettings.cnpj;
+      }
 
       final response =
-          await dio.get('http://192.168.254.90:9000/empresa/$cnpj');
+          await dio.get('http://192.168.254.69:9000/empresa/$cnpj');
 
       final lista = response.data
           .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))
