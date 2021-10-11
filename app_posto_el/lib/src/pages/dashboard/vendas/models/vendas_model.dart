@@ -4,6 +4,7 @@ class VendasModel {
   final int ID;
   final double VLR_TOTAL;
   final DateTime? DATA;
+
   VendasModel({
     this.ID = 0,
     this.VLR_TOTAL = 0.00,

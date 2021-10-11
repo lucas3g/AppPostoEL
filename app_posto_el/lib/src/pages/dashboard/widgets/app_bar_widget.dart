@@ -68,6 +68,6 @@ class AppBarWidget extends PreferredSize {
               ),
             ],
           ),
-          preferredSize: Size.fromHeight(size.height * 0.15),
+          preferredSize: Size.fromHeight(size.height * 0.16),
         );
 }
