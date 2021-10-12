@@ -23,10 +23,10 @@ abstract class _VendasControllerBase with Store {
       status = VendasStatus.loading;
 
       var dio = Dio();
-      final cnpj = GlobalSettings().appSettings.cnpj['cnpj'];
+      final cnpj = await GlobalSettings().appSettings.cnpj['cnpj'];
 
       final response =
-          await dio.get('http://192.168.254.69:9000/vendas/Valor/$cnpj');
+          await dio.get('http://192.168.0.107:9000/vendas/valor/$cnpj');
 
       final lista = response.data
           .map<VendasModel>((elemento) => VendasModel.fromMap(elemento))

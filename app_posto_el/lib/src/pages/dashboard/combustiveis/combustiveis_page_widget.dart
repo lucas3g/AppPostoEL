@@ -1,17 +1,58 @@
+import 'package:app_posto_el/src/configs/global_settings.dart';
+import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_status.dart';
+import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CombustiveisPageWidget extends StatelessWidget {
+class CombustiveisPageWidget extends StatefulWidget {
   const CombustiveisPageWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return _buildElevationDoughnutChart(size: size);
+  State<CombustiveisPageWidget> createState() => _CombustiveisPageWidgetState();
+}
+
+class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
+  final controller = GlobalSettings().controllerLocais;
+  final controllerCombustiveis = GlobalSettings().controllerCombustiveis;
+  late List<TanquesData> listaNovaA = [];
+  late List<TanquesData> listaNovaB = [];
+
+  void getTanques() async {
+    if (controllerCombustiveis.tanques.isEmpty) {
+      await controllerCombustiveis.getTanques();
+      montaGrafico();
+    }
   }
 
-  Center _buildElevationDoughnutChart({Size size = Size.zero}) {
+  montaGrafico() {
+    listaNovaA = controllerCombustiveis.tanques
+        .where((tanque) => tanque.CCUSTO == controller.dropdownValue)
+        .map((tanque) => TanquesData('A', tanque.CAPACIDADE - tanque.VOLUME,
+            Color.fromRGBO(0, 220, 252, 1)))
+        .toList();
+
+    listaNovaB = controllerCombustiveis.tanques
+        .where((tanque) => tanque.CCUSTO == controller.dropdownValue)
+        .map((tanque) => TanquesData('B', tanque.CAPACIDADE.toDouble(),
+            Color.fromRGBO(230, 230, 230, 1)))
+        .toList();
+
+    listaNovaA.addAll(listaNovaB);
+
+    return listaNovaA;
+  }
+
+  @override
+  void initState() {
+    getTanques();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: Column(
@@ -19,277 +60,62 @@ class CombustiveisPageWidget extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
-                  children: [
-                    Text('TANQUE 1 - GC',
-                        style: AppTheme.textStyles.titleCharts),
-                    Text('Cap. 10.000 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '3.855 LT\n(38.55%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFF947400), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-
-                        series: _getElevationDoughnutSeries(),
-                      ),
-                    ),
-                  ],
+                Observer(
+                  builder: (_) => controllerCombustiveis.status ==
+                          CombustiveisStatus.success
+                      ? Column(
+                          children: controllerCombustiveis.tanques
+                              .where((tanque) =>
+                                  tanque.CCUSTO == controller.dropdownValue)
+                              .map(
+                                (tanque) => Column(
+                                  children: [
+                                    Text('TANQUE ${tanque.TANQUE} - GC',
+                                        style: AppTheme.textStyles.titleCharts),
+                                    Text('Cap. ${tanque.CAPACIDADE} LT',
+                                        style: AppTheme.textStyles.titleCharts),
+                                    Container(
+                                      width: 230,
+                                      height: 230,
+                                      child: SfCircularChart(
+                                        annotations: <CircularChartAnnotation>[
+                                          CircularChartAnnotation(
+                                            height: '100%',
+                                            width: '100%',
+                                            widget: Container(
+                                              child: PhysicalModel(
+                                                shape: BoxShape.circle,
+                                                elevation: 10,
+                                                shadowColor: Colors.black,
+                                                color: Color.fromRGBO(
+                                                    230, 230, 230, 1),
+                                                child: Container(),
+                                              ),
+                                            ),
+                                          ),
+                                          CircularChartAnnotation(
+                                            widget: Container(
+                                              child: Text(
+                                                '${tanque.VOLUME.Litros()} LT\n(${((tanque.VOLUME / tanque.CAPACIDADE) * 100).Porcentagem()} %)',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Color(0xFF947400),
+                                                    fontSize: 14),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                        series: getChartDados(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                              .toList())
+                      : LoadingWidget(
+                          size: Size(160, 160),
+                        ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      'TANQUE 2 - DA',
-                      style: AppTheme.textStyles.titleCharts,
-                    ),
-                    Text('Cap. 7.500 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '7.500 LT\n(100%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFF18BCF4), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-                        series: _getElevationDoughnutSeriesAzul(),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Column(
-                  children: [
-                    Text('TANQUE 3 - ET',
-                        style: AppTheme.textStyles.titleCharts),
-                    Text('Cap. 10.000 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '7.790 LT\n(77.90%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xffC729F7), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-
-                        series: _getElevationDoughnutSeriesRoxo(),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      'TANQUE 4 - GA',
-                      style: AppTheme.textStyles.titleCharts,
-                    ),
-                    Text('Cap. 20.000 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '7.861 LT\n(39.31%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFFF91A49), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-                        series: _getElevationDoughnutSeriesVermelho(),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Column(
-                  children: [
-                    Text('TANQUE 3 - ET',
-                        style: AppTheme.textStyles.titleCharts),
-                    Text('Cap. 10.000 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '7.790 LT\n(77.90%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xffC729F7), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-
-                        series: _getElevationDoughnutSeriesRoxo(),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      'TANQUE 4 - GA',
-                      style: AppTheme.textStyles.titleCharts,
-                    ),
-                    Text('Cap. 20.000 LT',
-                        style: AppTheme.textStyles.titleCharts),
-                    Container(
-                      width: 160,
-                      height: 160,
-                      child: SfCircularChart(
-                        /// It used to set the annotation on circular chart.
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            height: '100%',
-                            width: '100%',
-                            widget: Container(
-                              child: PhysicalModel(
-                                shape: BoxShape.circle,
-                                elevation: 10,
-                                shadowColor: Colors.black,
-                                color: Color.fromRGBO(230, 230, 230, 1),
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                          CircularChartAnnotation(
-                            widget: Container(
-                              child: const Text(
-                                '7.861 LT\n(39.31%)',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFFF91A49), fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ],
-                        series: _getElevationDoughnutSeriesVermelho(),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ],
@@ -299,77 +125,22 @@ class CombustiveisPageWidget extends StatelessWidget {
   }
 
   /// Returns the doughnut series which need to be center elevation.
-  List<DoughnutSeries<ChartSampleData, String>> _getElevationDoughnutSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'A', y: 62, color: Color(0xFFebc334)),
-      ChartSampleData(x: 'B', y: 38, color: Color.fromRGBO(230, 230, 230, 1))
-    ];
+  List<DoughnutSeries<TanquesData, String>> getChartDados() {
+    final List<TanquesData> chartData = montaGrafico();
 
-    return <DoughnutSeries<ChartSampleData, String>>[
-      DoughnutSeries<ChartSampleData, String>(
+    return <DoughnutSeries<TanquesData, String>>[
+      DoughnutSeries<TanquesData, String>(
           dataSource: chartData,
           animationDuration: 700,
-          xValueMapper: (ChartSampleData data, _) => data.x,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          pointColorMapper: (ChartSampleData data, _) => data.color)
-    ];
-  }
-
-  /// Returns the doughnut series which need to be center elevation.
-  List<DoughnutSeries<ChartSampleData, String>>
-      _getElevationDoughnutSeriesAzul() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'A', y: 100, color: Color(0xFF15BEF4)),
-      ChartSampleData(x: 'B', y: 0, color: Color.fromRGBO(230, 230, 230, 1))
-    ];
-
-    return <DoughnutSeries<ChartSampleData, String>>[
-      DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          animationDuration: 700,
-          xValueMapper: (ChartSampleData data, _) => data.x,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          pointColorMapper: (ChartSampleData data, _) => data.color)
-    ];
-  }
-
-  List<DoughnutSeries<ChartSampleData, String>>
-      _getElevationDoughnutSeriesRoxo() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'A', y: 77.90, color: Color(0xffC729F7)),
-      ChartSampleData(x: 'B', y: 12.10, color: Color.fromRGBO(230, 230, 230, 1))
-    ];
-
-    return <DoughnutSeries<ChartSampleData, String>>[
-      DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          animationDuration: 700,
-          xValueMapper: (ChartSampleData data, _) => data.x,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          pointColorMapper: (ChartSampleData data, _) => data.color)
-    ];
-  }
-
-  List<DoughnutSeries<ChartSampleData, String>>
-      _getElevationDoughnutSeriesVermelho() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'A', y: 39.31, color: Color(0xFFF91A49)),
-      ChartSampleData(x: 'B', y: 60.69, color: Color.fromRGBO(230, 230, 230, 1))
-    ];
-
-    return <DoughnutSeries<ChartSampleData, String>>[
-      DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          animationDuration: 700,
-          xValueMapper: (ChartSampleData data, _) => data.x,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          pointColorMapper: (ChartSampleData data, _) => data.color)
+          xValueMapper: (TanquesData data, _) => data.x,
+          yValueMapper: (TanquesData data, _) => data.y,
+          pointColorMapper: (TanquesData data, _) => data.color)
     ];
   }
 }
 
-class ChartSampleData {
-  ChartSampleData({required this.x, required this.y, required this.color});
+class TanquesData {
+  TanquesData(this.x, this.y, this.color);
   final String x;
   final double y;
   final Color color;

@@ -16,6 +16,13 @@ extension LitroDouble on double {
   }
 }
 
+extension PorcentagemDouble on double {
+  String Porcentagem() {
+    final format = NumberFormat.simpleCurrency(locale: 'pt_br', name: '');
+    return format.format(this);
+  }
+}
+
 extension DateTimeString on DateTime {
   String diaMes() {
     final format = DateFormat('d MMMM', 'pt_br');
