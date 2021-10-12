@@ -16,6 +16,13 @@ extension LitroDouble on double {
   }
 }
 
+extension LitroInt on int {
+  String LitrosInt() {
+    final format = NumberFormat.simpleCurrency(locale: 'pt_br', name: '');
+    return format.format(this);
+  }
+}
+
 extension PorcentagemDouble on double {
   String Porcentagem() {
     final format = NumberFormat.simpleCurrency(locale: 'pt_br', name: '');
