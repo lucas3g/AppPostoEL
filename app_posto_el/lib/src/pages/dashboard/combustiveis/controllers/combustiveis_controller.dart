@@ -24,7 +24,7 @@ abstract class _CombustiveisControllerBase with Store {
       final cnpj = await GlobalSettings().appSettings.cnpj['cnpj'];
 
       final response =
-          await dio.get('http://192.168.0.107:9000/vendas/tanques/$cnpj');
+          await dio.get('http://192.168.254.69:9000/vendas/tanques/$cnpj');
 
       final lista = response.data
           .map<CombustiveisModel>(

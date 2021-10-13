@@ -27,6 +27,8 @@ abstract class _LoginControllerBase with Store {
   @action
   Future<void> login() async {
     try {
+      status = LoginStatus.loading;
+      await Future.delayed(Duration(seconds: 1));
       if (user.cnpj.isNotEmpty &&
           user.login.isNotEmpty &&
           user.senha.isNotEmpty) {
@@ -37,7 +39,7 @@ abstract class _LoginControllerBase with Store {
         var dio = Dio();
 
         final response = await dio.get(
-          'http://192.168.0.107:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
+          'http://192.168.254.69:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
           options: Options(headers: {
             'Login': user.login.toUpperCase(),
             'Senha': user.senha.toUpperCase()

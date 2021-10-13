@@ -26,7 +26,7 @@ abstract class _VendasControllerBase with Store {
       final cnpj = await GlobalSettings().appSettings.cnpj['cnpj'];
 
       final response =
-          await dio.get('http://192.168.0.107:9000/vendas/valor/$cnpj');
+          await dio.get('http://192.168.254.69:9000/vendas/valor/$cnpj');
 
       final lista = response.data
           .map<VendasModel>((elemento) => VendasModel.fromMap(elemento))

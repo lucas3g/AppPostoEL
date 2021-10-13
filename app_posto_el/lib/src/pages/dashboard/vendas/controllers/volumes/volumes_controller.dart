@@ -24,7 +24,7 @@ abstract class _VolumesControllerBase with Store {
       final cnpj = await GlobalSettings().appSettings.cnpj['cnpj'];
 
       final response =
-          await dio.get('http://192.168.0.107:9000/vendas/volume/$cnpj');
+          await dio.get('http://192.168.254.69:9000/vendas/volume/$cnpj');
 
       final lista = response.data
           .map<VolumesModel>((elemento) => VolumesModel.fromMap(elemento))
