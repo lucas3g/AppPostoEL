@@ -15,19 +15,27 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   void verificaInternet() async {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      inicializar();
-    } else {
+    try {
+      await Future.delayed(Duration(seconds: 1));
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        inicializar();
+      }
+    } on SocketException catch (_) {
       GetIt.I.get<AppSettigns>().removeLogado();
-      BotToast.showText(text: 'Celular não está conectado a internet!');
+      BotToast.showText(
+        text: 'Celular sem Internet. Verifique sua Conexão.',
+        contentColor: Color(0xFFFF7F26),
+        duration: Duration(seconds: 3),
+      );
       Navigator.popAndPushNamed(context, '/login');
+      return;
     }
   }
 
   void inicializar() async {
     await Future.delayed(Duration(seconds: 2));
-    if (GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
+    if (await GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       Navigator.pushReplacementNamed(context, '/dashboard');

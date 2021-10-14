@@ -66,7 +66,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                           '${controllerVolumes.volumes.firstWhere((volume) => volume.ID == controller.dropdownValue).QTD_TOTAL.Litros()} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                   SizedBox(
                     height: 1,
                   ),
@@ -79,7 +82,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                               .reais(),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.green, fontWeight: FontWeight.w900))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                 ],
               ),
               Column(
@@ -91,7 +97,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                           '${controllerVolumes.somaLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                   SizedBox(
                     height: 1,
                   ),
@@ -101,7 +110,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                               local: controller.dropdownValue),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.green, fontWeight: FontWeight.w900))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                 ],
               ),
               Column(
@@ -113,7 +125,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                           '${controllerVolumes.projecaoLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.blue))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                   SizedBox(
                     height: 1,
                   ),
@@ -123,7 +138,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                               local: controller.dropdownValue),
                           style: AppTheme.textStyles.dropdownText.copyWith(
                               color: Colors.blue, fontWeight: FontWeight.w900))
-                      : LoadingWidget(size: Size(100, 20)),
+                      : LoadingWidget(
+                          size: Size(100, 20),
+                          radius: 10,
+                        ),
                 ],
               )
             ],
@@ -170,7 +188,10 @@ class _VendasWidgetState extends State<VendasWidget> {
                         text: 'Vendas dos Últimos 7 dias',
                         textStyle: AppTheme.textStyles.dropdownText),
                   )
-                : LoadingWidget(size: Size(400, 0)),
+                : LoadingWidget(
+                    size: Size(400, 0),
+                    radius: 10,
+                  ),
           ),
           Container(
             height: size.height * 0.05,
@@ -240,15 +261,26 @@ class _VendasWidgetState extends State<VendasWidget> {
                       (index) => ListTile(
                         title: Row(
                           children: [
-                            LoadingWidget(size: Size(81, 29)),
+                            LoadingWidget(
+                              size: Size(81, 29),
+                              radius: 10,
+                            ),
                             SizedBox(
                               width: 20,
                             ),
-                            Expanded(child: LoadingWidget(size: Size(81, 29))),
+                            Expanded(
+                                child: LoadingWidget(
+                              size: Size(81, 29),
+                              radius: 10,
+                            )),
                             SizedBox(
                               width: 20,
                             ),
-                            Expanded(child: LoadingWidget(size: Size(81, 29))),
+                            Expanded(
+                                child: LoadingWidget(
+                              size: Size(81, 29),
+                              radius: 10,
+                            )),
                           ],
                         ),
                       ),

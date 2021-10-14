@@ -1,9 +1,9 @@
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/vendas_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/models/vendas_model.dart';
-import 'package:app_posto_el/src/pages/dashboard/vendas/models/volumes_model.dart';
+import 'package:app_posto_el/src/services/dio.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
-import 'package:dio/dio.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:mobx/mobx.dart';
 
 part 'vendas_controller.g.dart';
@@ -22,11 +22,10 @@ abstract class _VendasControllerBase with Store {
     try {
       status = VendasStatus.loading;
 
-      var dio = Dio();
-      final cnpj = await GlobalSettings().appSettings.cnpj['cnpj'];
+      final cnpj = UtilBrasilFields.removeCaracteres(
+          await GlobalSettings().appSettings.user.cnpj);
 
-      final response =
-          await dio.get('http://192.168.254.69:9000/vendas/valor/$cnpj');
+      final response = await MeuDio.dio().get('/vendas/valor/$cnpj');
 
       final lista = response.data
           .map<VendasModel>((elemento) => VendasModel.fromMap(elemento))

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
+import 'package:app_posto_el/src/services/dio.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 
@@ -27,19 +31,25 @@ abstract class _LoginControllerBase with Store {
   @action
   Future<void> login() async {
     try {
-      status = LoginStatus.loading;
-      await Future.delayed(Duration(seconds: 1));
       if (user.cnpj.isNotEmpty &&
           user.login.isNotEmpty &&
           user.senha.isNotEmpty) {
         status = LoginStatus.loading;
 
+        try {
+          final result = await InternetAddress.lookup('google.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            print('Tem Internet');
+          }
+        } on SocketException catch (_) {
+          status = LoginStatus.semInternet;
+          return;
+        }
+
         await Future.delayed(Duration(seconds: 2));
 
-        var dio = Dio();
-
-        final response = await dio.get(
-          'http://192.168.254.69:9000/login/${user.cnpj.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '')}',
+        final response = await MeuDio.dio().get(
+          '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
           options: Options(headers: {
             'Login': user.login.toUpperCase(),
             'Senha': user.senha.toUpperCase()
@@ -56,11 +66,7 @@ abstract class _LoginControllerBase with Store {
 
         if (autorizado == 'S') {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
-          await GlobalSettings().appSettings.setUser(
-              cnpj: user.cnpj
-                  .replaceAll('.', '')
-                  .replaceAll('/', '')
-                  .replaceAll('-', ''));
+          await GlobalSettings().appSettings.setUser(user: user);
           status = LoginStatus.success;
         } else {
           await GlobalSettings().appSettings.setLogado(conectado: 'N');

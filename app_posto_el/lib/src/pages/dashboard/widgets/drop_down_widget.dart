@@ -72,6 +72,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                 )
               : LoadingWidget(
                   size: Size(double.infinity, 30),
+                  radius: 10,
                 ),
         ),
       ),

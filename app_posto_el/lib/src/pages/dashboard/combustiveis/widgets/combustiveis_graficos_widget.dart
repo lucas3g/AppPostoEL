@@ -1,4 +1,3 @@
-import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_controller.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/models/combustiveis_model.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
@@ -34,8 +33,8 @@ class CombustiveisGraficoWidget extends StatelessWidget {
         Text('Cap. ${tanque.CAPACIDADE.LitrosInt()} LT',
             style: AppTheme.textStyles.titleCharts),
         Container(
-          width: 300,
-          height: 300,
+          width: 170,
+          height: 170,
           child: SfCircularChart(
             key: UniqueKey(),
             tooltipBehavior: TooltipBehavior(
@@ -72,7 +71,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: colors[indexTanque],
-                        fontSize: 16,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

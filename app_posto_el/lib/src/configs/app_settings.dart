@@ -1,3 +1,4 @@
+import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -5,7 +6,7 @@ class AppSettigns extends ChangeNotifier {
   late SharedPreferences _prefs;
 
   Map<String, String> logado = {'conectado': 'N'};
-  Map<String, String> cnpj = {'cnpj': ''};
+  UserModel user = UserModel();
 
   AppSettigns() {
     _startSettings();
@@ -30,9 +31,9 @@ class AppSettigns extends ChangeNotifier {
   }
 
   _readUser() {
-    final cnpjApp = _prefs.getString('cnpj') ?? '';
+    final userApp = _prefs.getString('user') ?? '';
 
-    cnpj = {'cnpj': cnpjApp};
+    user = UserModel.fromJson(userApp);
 
     notifyListeners();
   }
@@ -43,8 +44,8 @@ class AppSettigns extends ChangeNotifier {
     await _readLogado();
   }
 
-  setUser({required String cnpj}) async {
-    await _prefs.setString('cnpj', cnpj);
+  setUser({required UserModel user}) async {
+    await _prefs.setString('user', user.toJson());
 
     await _readUser();
   }

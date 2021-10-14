@@ -1,9 +1,8 @@
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/models/combustiveis_model.dart';
+import 'package:app_posto_el/src/pages/dashboard/combustiveis/widgets/combustiveis_graficos_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
-import 'package:app_posto_el/src/theme/app_theme.dart';
-import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -60,81 +59,25 @@ class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
                         ? Wrap(
                             children: tanques
                                 .map(
-                                  (tanque) => Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('TANQUE ${tanque.TANQUE} - GC',
-                                          style:
-                                              AppTheme.textStyles.titleCharts),
-                                      Text(
-                                          'Cap. ${tanque.CAPACIDADE.LitrosInt()} LT',
-                                          style:
-                                              AppTheme.textStyles.titleCharts),
-                                      Container(
-                                        width: 170,
-                                        height: 170,
-                                        child: SfCircularChart(
-                                          key: UniqueKey(),
-                                          tooltipBehavior: TooltipBehavior(
-                                            tooltipPosition:
-                                                TooltipPosition.pointer,
-                                            enable: true,
-                                            color: Colors.white,
-                                            textStyle: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                            shadowColor:
-                                                colors[tanques.indexOf(tanque)],
-                                          ),
-                                          onTooltipRender: (TooltipArgs args) {
-                                            args.header =
-                                                'Capacidade: ${tanque.CAPACIDADE.LitrosInt()}';
-                                            args.text =
-                                                'Usado: ${tanque.VOLUME.Litros()}\nResta: ${(tanque.CAPACIDADE - tanque.VOLUME).Litros()}';
-                                          },
-                                          annotations: <
-                                              CircularChartAnnotation>[
-                                            CircularChartAnnotation(
-                                              height: '100%',
-                                              width: '100%',
-                                              widget: Container(
-                                                child: PhysicalModel(
-                                                  shape: BoxShape.circle,
-                                                  elevation: 10,
-                                                  shadowColor: Colors.black,
-                                                  color: Color.fromRGBO(
-                                                      230, 230, 230, 1),
-                                                  child: Container(),
-                                                ),
-                                              ),
-                                            ),
-                                            CircularChartAnnotation(
-                                              widget: Container(
-                                                child: Text(
-                                                  '${tanque.VOLUME.Litros()} LT\n(${((tanque.VOLUME / tanque.CAPACIDADE) * 100).Porcentagem()}% )',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: colors[tanques
-                                                          .indexOf(tanque)],
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                          series: getSeriesTanques(
-                                              tanque: tanque,
-                                              index: tanques.indexOf(tanque)),
-                                        ),
-                                      ),
-                                    ],
+                                  (tanque) => CombustiveisGraficoWidget(
+                                    tanque: tanque,
+                                    indexTanque: tanques.indexOf(tanque),
                                   ),
                                 ) // Map
                                 .toList(),
                           )
-                        : LoadingWidget(
-                            size: Size(160, 160),
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              LoadingWidget(
+                                size: Size(160, 160),
+                                radius: 80,
+                              ),
+                              LoadingWidget(
+                                size: Size(160, 160),
+                                radius: 80,
+                              ),
+                            ],
                           );
                   },
                 ),

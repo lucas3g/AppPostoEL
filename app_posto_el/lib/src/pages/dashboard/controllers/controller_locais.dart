@@ -1,10 +1,10 @@
-import 'package:app_posto_el/src/configs/app_settings.dart';
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
+import 'package:app_posto_el/src/services/dio.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 
-import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 
 part 'controller_locais.g.dart';
@@ -27,15 +27,14 @@ abstract class _ControllerLocaisBase with Store {
     try {
       status = LocaisStatus.loading;
 
-      var dio = Dio();
-      String cnpj = await GlobalSettings().appSettings.cnpj['cnpj']!;
+      String cnpj = UtilBrasilFields.removeCaracteres(
+          await GlobalSettings().appSettings.user.cnpj);
 
       if (cnpj.isEmpty) {
         cnpj = GlobalSettings().userSettings.cnpj;
       }
 
-      final response =
-          await dio.get('http://192.168.254.69:9000/empresa/$cnpj');
+      final response = await MeuDio.dio().get('/empresa/$cnpj');
 
       final lista = response.data
           .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))

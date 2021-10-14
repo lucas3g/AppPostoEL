@@ -3,7 +3,9 @@ import 'package:shimmer/shimmer.dart';
 
 class LoadingWidget extends StatelessWidget {
   final Size size;
-  const LoadingWidget({Key? key, required this.size}) : super(key: key);
+  final double? radius;
+  const LoadingWidget({Key? key, required this.size, required this.radius})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class LoadingWidget extends StatelessWidget {
         highlightColor: Colors.grey.shade200,
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+              color: Colors.grey, borderRadius: BorderRadius.circular(radius!)),
         ),
       ),
     );
