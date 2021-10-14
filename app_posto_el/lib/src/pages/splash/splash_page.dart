@@ -23,6 +23,7 @@ class _SplashPageState extends State<SplashPage> {
       }
     } on SocketException catch (_) {
       GetIt.I.get<AppSettigns>().removeLogado();
+
       BotToast.showText(
         text: 'Celular sem Internet. Verifique sua Conexão.',
         contentColor: Color(0xFFFF7F26),

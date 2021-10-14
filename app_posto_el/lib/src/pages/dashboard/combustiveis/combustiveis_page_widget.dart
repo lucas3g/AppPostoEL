@@ -94,15 +94,17 @@ class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
       {required CombustiveisModel tanque, required int index}) {
     final List<TanqueData> chartData = [
       TanqueData(
-          x: 'A',
-          y: tanque.VOLUME.toDouble(),
-          pointColor: index < colors.length ? colors[index] : colors[0]),
+        x: 'A',
+        y: tanque.VOLUME.toDouble(),
+        pointColor: index < colors.length ? colors[index] : colors[0],
+      ),
       TanqueData(
-          x: 'B',
-          y: tanque.VOLUME.toDouble() > tanque.CAPACIDADE.toDouble()
-              ? 0
-              : tanque.CAPACIDADE.toDouble() - tanque.VOLUME.toDouble(),
-          pointColor: Color.fromRGBO(230, 230, 230, 1))
+        x: 'B',
+        y: tanque.VOLUME.toDouble() > tanque.CAPACIDADE.toDouble()
+            ? 0
+            : tanque.CAPACIDADE.toDouble() - tanque.VOLUME.toDouble(),
+        pointColor: Color.fromRGBO(230, 230, 230, 1),
+      )
     ];
 
     return <DoughnutSeries<TanqueData, String>>[

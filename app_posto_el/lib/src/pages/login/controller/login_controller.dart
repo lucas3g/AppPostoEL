@@ -22,7 +22,6 @@ abstract class _LoginControllerBase with Store {
   @action
   void onChanged({String? cnpj, String? login, String? senha}) {
     user = user.copyWith(cnpj: cnpj, login: login, senha: senha);
-    print(user);
   }
 
   @observable

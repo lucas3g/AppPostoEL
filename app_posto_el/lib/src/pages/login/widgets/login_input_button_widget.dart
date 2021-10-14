@@ -3,8 +3,11 @@ import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginInputButtonWidget extends StatefulWidget {
@@ -52,6 +55,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Spacer(),
               Text('Entre com sua conta',
                   style: AppTheme.textStyles.title
                       .copyWith(fontSize: 14, color: Colors.black)),
@@ -139,9 +143,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   hintText: 'Senha',
                   suffixIcon: GestureDetector(
                     child: Icon(
-                      visiblePassword
-                          ? Icons.remove_red_eye
-                          : Icons.visibility_off,
+                      visiblePassword ? Icons.visibility : Icons.visibility_off,
                       size: 25,
                       color: visiblePassword
                           ? AppTheme.colors.secondaryColor
@@ -196,7 +198,11 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                       controllerLogin.login();
                       //Navigator.pushNamed(context, '/dashboard');
                     },
-                    child: Text('Entrar'),
+                    child: Text(
+                      'Entrar',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
@@ -217,6 +223,15 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   ],
                 ),
               ),
+              Spacer(),
+              Text(
+                'EL Sistemas - 2021 - 54 3364 1588',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.grey[600]),
+              ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),

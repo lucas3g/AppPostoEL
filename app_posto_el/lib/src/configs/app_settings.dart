@@ -52,7 +52,7 @@ class AppSettigns extends ChangeNotifier {
 
   removeLogado() async {
     await _prefs.remove('conectado');
-    await _prefs.remove('cnpj');
+    await _prefs.remove('user');
     await _readLogado();
   }
 }

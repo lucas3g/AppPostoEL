@@ -3,22 +3,26 @@ import 'dart:convert';
 class VendasModel {
   final int ID;
   final double VLR_TOTAL;
+  final double QTD_TOTAL;
   final DateTime? DATA;
 
   VendasModel({
     this.ID = 0,
     this.VLR_TOTAL = 0.00,
+    this.QTD_TOTAL = 0.00,
     this.DATA,
   });
 
   VendasModel copyWith({
     int? ID,
     double? VLR_TOTAL,
+    double? QTD_TOTAL,
     DateTime? data,
   }) {
     return VendasModel(
       ID: ID ?? this.ID,
       VLR_TOTAL: VLR_TOTAL ?? this.VLR_TOTAL,
+      QTD_TOTAL: QTD_TOTAL ?? this.QTD_TOTAL,
       DATA: data ?? this.DATA,
     );
   }
@@ -27,6 +31,7 @@ class VendasModel {
     return {
       'ID': ID,
       'VLR_TOTAL': VLR_TOTAL,
+      'QTD_TOTAL': QTD_TOTAL,
       'DATA': DATA,
     };
   }
@@ -35,6 +40,7 @@ class VendasModel {
     return VendasModel(
       ID: map['ID'] ?? 0,
       VLR_TOTAL: map['VLR_TOTAL'] ?? 0.00,
+      QTD_TOTAL: map['QTD_TOTAL'] ?? 0.00,
       DATA: DateTime.parse(map['DATA'] ?? DateTime.now().toString()),
     );
   }
@@ -46,7 +52,7 @@ class VendasModel {
 
   @override
   String toString() =>
-      'VendasModel(ID: $ID, VLR_TOTAL: $VLR_TOTAL, data: $DATA)';
+      'VendasModel(ID: $ID, VLR_TOTAL: $VLR_TOTAL, QTD_TOTAL: $QTD_TOTAL, data: $DATA)';
 
   @override
   bool operator ==(Object other) {
@@ -55,9 +61,11 @@ class VendasModel {
     return other is VendasModel &&
         other.ID == ID &&
         other.VLR_TOTAL == VLR_TOTAL &&
+        other.QTD_TOTAL == QTD_TOTAL &&
         other.DATA == DATA;
   }
 
   @override
-  int get hashCode => ID.hashCode ^ VLR_TOTAL.hashCode ^ DATA.hashCode;
+  int get hashCode =>
+      ID.hashCode ^ VLR_TOTAL.hashCode ^ QTD_TOTAL.hashCode ^ DATA.hashCode;
 }

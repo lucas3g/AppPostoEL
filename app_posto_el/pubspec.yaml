@@ -45,6 +45,7 @@ dependencies:
   connectivity: ^3.0.6
   brasil_fields: ^1.2.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

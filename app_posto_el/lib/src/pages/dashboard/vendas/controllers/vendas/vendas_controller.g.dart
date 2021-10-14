@@ -72,6 +72,28 @@ mixin _$VendasController on _VendasControllerBase, Store {
   }
 
   @override
+  String somaLitros({required int local}) {
+    final _$actionInfo = _$_VendasControllerBaseActionController.startAction(
+        name: '_VendasControllerBase.somaLitros');
+    try {
+      return super.somaLitros(local: local);
+    } finally {
+      _$_VendasControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String projecaoLitros({required int local}) {
+    final _$actionInfo = _$_VendasControllerBaseActionController.startAction(
+        name: '_VendasControllerBase.projecaoLitros');
+    try {
+      return super.projecaoLitros(local: local);
+    } finally {
+      _$_VendasControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 vendas: ${vendas},

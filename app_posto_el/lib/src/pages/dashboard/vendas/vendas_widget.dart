@@ -1,6 +1,5 @@
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/vendas_status.dart';
-import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/volumes/volumes_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
@@ -21,15 +20,10 @@ class VendasWidget extends StatefulWidget {
 class _VendasWidgetState extends State<VendasWidget> {
   final controller = GlobalSettings().controllerLocais;
   final controllerVendas = GlobalSettings().controllerVendas;
-  final controllerVolumes = GlobalSettings().controllerVolumes;
   late List<dynamic> listaNova = [];
 
   void getVendas() async {
     if (controllerVendas.vendas.isEmpty) await controllerVendas.getVendas();
-  }
-
-  void getLitros() async {
-    if (controllerVolumes.volumes.isEmpty) await controllerVolumes.getLitros();
   }
 
   montaGrafico() {
@@ -44,7 +38,6 @@ class _VendasWidgetState extends State<VendasWidget> {
   @override
   void initState() {
     getVendas();
-    getLitros();
     super.initState();
   }
 
@@ -61,9 +54,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Vendas de Hoje',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVolumes.status == VolumesStatus.success
+                  controllerVendas.status == VendasStatus.success
                       ? Text(
-                          '${controllerVolumes.volumes.firstWhere((volume) => volume.ID == controller.dropdownValue).QTD_TOTAL.Litros()} LT',
+                          '${controllerVendas.vendas.firstWhere((venda) => venda.ID == controller.dropdownValue).QTD_TOTAL.Litros()} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(
@@ -92,9 +85,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Vendas da Semana',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVolumes.status == VolumesStatus.success
+                  controllerVendas.status == VendasStatus.success
                       ? Text(
-                          '${controllerVolumes.somaLitros(local: controller.dropdownValue)} LT',
+                          '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.green))
                       : LoadingWidget(
@@ -120,9 +113,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Text('Proj. de Vendas',
                       style: AppTheme.textStyles.dropdownText),
-                  controllerVolumes.status == VolumesStatus.success
+                  controllerVendas.status == VendasStatus.success
                       ? Text(
-                          '${controllerVolumes.projecaoLitros(local: controller.dropdownValue)} LT',
+                          '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
                           style: AppTheme.textStyles.dropdownText
                               .copyWith(color: Colors.blue))
                       : LoadingWidget(
@@ -237,13 +230,16 @@ class _VendasWidgetState extends State<VendasWidget> {
                                   child: Text(venda.DATA!.DiaMes(),
                                       style: TextStyle(fontSize: 16)),
                                 ),
-                                Expanded(
+                                Spacer(),
+                                Container(
                                   child: Text(
-                                    '0,00 LT',
+                                    venda.QTD_TOTAL.Litros(),
+                                    textAlign: TextAlign.end,
                                     style: AppTheme.textStyles.dropdownText
                                         .copyWith(fontSize: 16),
                                   ),
                                 ),
+                                Spacer(),
                                 Expanded(
                                   flex: 0,
                                   child: Text(venda.VLR_TOTAL.reais(),
