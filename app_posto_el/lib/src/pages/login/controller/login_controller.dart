@@ -36,6 +36,11 @@ abstract class _LoginControllerBase with Store {
           user.senha.isNotEmpty) {
         status = LoginStatus.loading;
 
+        if (!UtilBrasilFields.isCNPJValido(user.cnpj)) {
+          status = LoginStatus.invalidCNPJ;
+          return;
+        }
+
         try {
           final result = await InternetAddress.lookup('google.com');
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -48,24 +53,25 @@ abstract class _LoginControllerBase with Store {
 
         await Future.delayed(Duration(seconds: 2));
 
-        final response = await GlobalSettings.recursiveFunction(
-            function: () {
-              final response = MeuDio.dio().get(
-                '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
-                options: Options(
-                  headers: {
-                    'Login': user.login.toUpperCase(),
-                    'Senha': user.senha.toUpperCase()
-                  },
-                ),
-              );
-              return response;
-            },
-            quantity: 0,
-            callback: () {
-              status = LoginStatus.error;
-              return;
-            });
+        final Response<dynamic> response =
+            await GlobalSettings.recursiveFunction(
+                function: () {
+                  final response = MeuDio.dio().get(
+                    '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
+                    options: Options(
+                      headers: {
+                        'Login': user.login.toUpperCase(),
+                        'Senha': user.senha.toUpperCase()
+                      },
+                    ),
+                  );
+                  return response;
+                },
+                quantity: 0,
+                callback: () {
+                  status = LoginStatus.error;
+                  return;
+                });
 
         // final response = await MeuDio.dio().get(
         //   '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',

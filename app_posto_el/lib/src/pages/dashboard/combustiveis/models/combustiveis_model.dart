@@ -5,11 +5,13 @@ class CombustiveisModel {
   final int CAPACIDADE;
   final int TANQUE;
   final int CCUSTO;
+  final String DESCRICAO;
   CombustiveisModel({
     this.VOLUME = 0.00,
     this.CAPACIDADE = 0,
     this.TANQUE = 0,
     this.CCUSTO = 0,
+    this.DESCRICAO = '',
   });
 
   CombustiveisModel copyWith({
@@ -17,12 +19,14 @@ class CombustiveisModel {
     int? CAPACIDADE,
     int? TANQUE,
     int? CCUSTO,
+    String? DESCRICAO,
   }) {
     return CombustiveisModel(
       VOLUME: VOLUME ?? this.VOLUME,
       CAPACIDADE: CAPACIDADE ?? this.CAPACIDADE,
       TANQUE: TANQUE ?? this.TANQUE,
       CCUSTO: CCUSTO ?? this.CCUSTO,
+      DESCRICAO: DESCRICAO ?? this.DESCRICAO,
     );
   }
 
@@ -32,6 +36,7 @@ class CombustiveisModel {
       'CAPACIDADE': CAPACIDADE,
       'TANQUE': TANQUE,
       'CCUSTO': CCUSTO,
+      'DESCRICAO': DESCRICAO,
     };
   }
 
@@ -41,6 +46,7 @@ class CombustiveisModel {
       CAPACIDADE: map['CAPACIDADE'] ?? 0,
       TANQUE: map['TANQUE'] ?? 0,
       CCUSTO: map['CCUSTO'] ?? 0,
+      DESCRICAO: map['DESCRICAO'] ?? '',
     );
   }
 
@@ -51,7 +57,7 @@ class CombustiveisModel {
 
   @override
   String toString() {
-    return 'CombustiveisModel(VOLUME: $VOLUME, CAPACIDADE: $CAPACIDADE, TANQUE: $TANQUE, CCUSTO: $CCUSTO)';
+    return 'CombustiveisModel(VOLUME: $VOLUME, CAPACIDADE: $CAPACIDADE, TANQUE: $TANQUE, CCUSTO: $CCUSTO, DESCRICAO: $DESCRICAO)';
   }
 
   @override
@@ -62,7 +68,8 @@ class CombustiveisModel {
         other.VOLUME == VOLUME &&
         other.CAPACIDADE == CAPACIDADE &&
         other.TANQUE == TANQUE &&
-        other.CCUSTO == CCUSTO;
+        other.CCUSTO == CCUSTO &&
+        other.DESCRICAO == DESCRICAO;
   }
 
   @override
@@ -70,6 +77,7 @@ class CombustiveisModel {
     return VOLUME.hashCode ^
         CAPACIDADE.hashCode ^
         TANQUE.hashCode ^
-        CCUSTO.hashCode;
+        CCUSTO.hashCode ^
+        DESCRICAO.hashCode;
   }
 }

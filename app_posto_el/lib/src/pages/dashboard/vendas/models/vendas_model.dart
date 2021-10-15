@@ -39,8 +39,8 @@ class VendasModel {
   factory VendasModel.fromMap(Map<String, dynamic> map) {
     return VendasModel(
       ID: map['ID'] ?? 0,
-      VLR_TOTAL: map['VLR_TOTAL'] ?? 0.00,
-      QTD_TOTAL: map['QTD_TOTAL'] ?? 0.00,
+      VLR_TOTAL: double.tryParse(map['VLR_TOTAL'].toString()) ?? 0.00,
+      QTD_TOTAL: double.tryParse(map['QTD_TOTAL'].toString()) ?? 0.00,
       DATA: DateTime.parse(map['DATA'] ?? DateTime.now().toString()),
     );
   }

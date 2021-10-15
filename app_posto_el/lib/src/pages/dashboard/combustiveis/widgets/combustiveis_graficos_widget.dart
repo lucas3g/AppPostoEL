@@ -23,12 +23,33 @@ class CombustiveisGraficoWidget extends StatelessWidget {
     Color(0xFFAB414D),
   ];
 
+  String retornaDescricao({required String desc}) {
+    String descricao;
+    if (desc.contains('GASOLINA C COMUM')) {
+      descricao = 'GC';
+    } else if (desc.contains('GASOLINA ADITIVADA')) {
+      descricao = 'GA';
+    } else if (desc.contains('DIESEL B S500 PETROBRAS GRID')) {
+      descricao = 'DB S500 GRID';
+    } else if (desc.contains('DIESEL B S500 COMUM')) {
+      descricao = 'DB S500 C';
+    } else if (desc.contains('OLEO DIESEL B S10')) {
+      descricao = 'OD B S10';
+    } else if (desc.contains('ETANOL COMUM')) {
+      descricao = 'EC';
+    } else {
+      descricao = 'DESCRICAO NAO ENCONTRADA';
+    }
+    return descricao;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('TANQUE ${tanque.TANQUE} - GC',
+        Text(
+            'TANQUE ${tanque.TANQUE} - ${retornaDescricao(desc: tanque.DESCRICAO)}',
             style: AppTheme.textStyles.titleCharts),
         Text('Cap. ${tanque.CAPACIDADE.LitrosInt()} LT',
             style: AppTheme.textStyles.titleCharts),

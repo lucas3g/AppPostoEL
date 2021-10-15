@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
         inicializar();
       }
     } on SocketException catch (_) {
-      GetIt.I.get<AppSettigns>().removeLogado();
+      await GetIt.I.get<AppSettigns>().removeLogado();
 
       MeuToast.toast(
           title: 'Ops... :(',
@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void inicializar() async {
     await Future.delayed(Duration(seconds: 2));
-    if (await GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
+    if (GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       Navigator.pushReplacementNamed(context, '/dashboard');

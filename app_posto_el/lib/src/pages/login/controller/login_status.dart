@@ -1,1 +1,1 @@
-enum LoginStatus { empty, loading, success, error, semInternet }
+enum LoginStatus { empty, loading, success, error, semInternet, invalidCNPJ }

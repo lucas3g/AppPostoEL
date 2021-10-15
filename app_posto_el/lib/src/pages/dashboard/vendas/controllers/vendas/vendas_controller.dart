@@ -94,10 +94,10 @@ abstract class _VendasControllerBase with Store {
     var inicio = DateTime.now().subtract(Duration(days: 7));
 
     final double result = vendas
-        .where((volume) =>
-            !DateTime.parse(volume.DATA.toString()).isBefore(inicio) &&
-            volume.ID == local)
-        .map((volume) => volume.QTD_TOTAL)
+        .where((venda) =>
+            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
+            venda.ID == local)
+        .map((venda) => venda.QTD_TOTAL)
         .reduce((value, element) => value + element);
     return result.Litros();
   }
@@ -105,8 +105,8 @@ abstract class _VendasControllerBase with Store {
   @action
   String projecaoLitros({required int local}) {
     final double total = vendas
-        .where((volume) => volume.ID == local)
-        .map((volume) => volume.QTD_TOTAL)
+        .where((venda) => venda.ID == local)
+        .map((venda) => venda.QTD_TOTAL)
         .reduce((value, element) => value + element);
     final dias = DateTime.now();
 

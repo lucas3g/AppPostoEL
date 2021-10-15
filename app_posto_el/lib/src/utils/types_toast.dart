@@ -1,1 +1,1 @@
-enum TypeToast { success, error, noNet }
+enum TypeToast { success, error, noNet, dadosInv }
