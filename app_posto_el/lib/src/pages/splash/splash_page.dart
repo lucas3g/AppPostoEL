@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:app_posto_el/src/configs/app_settings.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
-import 'package:bot_toast/bot_toast.dart';
+import 'package:app_posto_el/src/utils/meu_toast.dart';
+import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,11 +25,12 @@ class _SplashPageState extends State<SplashPage> {
     } on SocketException catch (_) {
       GetIt.I.get<AppSettigns>().removeLogado();
 
-      BotToast.showText(
-        text: 'Celular sem Internet. Verifique sua Conexão.',
-        contentColor: Color(0xFFFF7F26),
-        duration: Duration(seconds: 3),
-      );
+      MeuToast.toast(
+          title: 'Ops... :(',
+          message: 'Parece que você está sem Internet',
+          type: TypeToast.noNet,
+          context: context);
+
       Navigator.popAndPushNamed(context, '/login');
       return;
     }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:app_posto_el/src/services/dio.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
@@ -47,21 +48,34 @@ abstract class _LoginControllerBase with Store {
 
         await Future.delayed(Duration(seconds: 2));
 
-        final response = await MeuDio.dio().get(
-          '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
-          options: Options(headers: {
-            'Login': user.login.toUpperCase(),
-            'Senha': user.senha.toUpperCase()
-          }),
-        );
-        // final String login = 'ADM';
-        // final String senha = 'EL';
+        final response = await GlobalSettings.recursiveFunction(
+            function: () {
+              final response = MeuDio.dio().get(
+                '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
+                options: Options(
+                  headers: {
+                    'Login': user.login.toUpperCase(),
+                    'Senha': user.senha.toUpperCase()
+                  },
+                ),
+              );
+              return response;
+            },
+            quantity: 0,
+            callback: () {
+              status = LoginStatus.error;
+              return;
+            });
 
-        // final response = await dio.get(
-        //   'http://192.168.254.90:9000/login/01459027000100',
-        //   options: Options(headers: {'Login': login, 'Senha': senha}),
+        // final response = await MeuDio.dio().get(
+        //   '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
+        //   options: Options(headers: {
+        //     'Login': user.login.toUpperCase(),
+        //     'Senha': user.senha.toUpperCase()
+        //   }),
         // );
-        late String autorizado = response.data['APP_POSTO'];
+
+        final String autorizado = response.data['APP_POSTO'];
 
         if (autorizado == 'S') {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');

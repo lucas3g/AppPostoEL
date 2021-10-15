@@ -1,5 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/meu_toast.dart';
+import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +34,17 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
       if (controllerLogin.status == LoginStatus.success) {
         Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (controllerLogin.status == LoginStatus.error) {
-        BotToast.showText(
-          text: 'Não Foi Possivel Fazer Login.\nVerifique seus Dados.',
-          contentColor: Color(0xffcf1f36),
-        );
+        MeuToast.toast(
+            title: 'Ops... :(',
+            message: 'Não Foi Possivel Fazer Login.Verifique seus Dados.',
+            type: TypeToast.error,
+            context: context);
       } else if (controllerLogin.status == LoginStatus.semInternet) {
-        BotToast.showText(
-          text: 'Celular sem Internet. Verifique sua Conexão.',
-          contentColor: Color(0xFFFF7F26),
-        );
+        MeuToast.toast(
+            title: 'Ops... :(',
+            message: 'Parece que você está sem Internet',
+            type: TypeToast.noNet,
+            context: context);
       }
     });
     super.initState();

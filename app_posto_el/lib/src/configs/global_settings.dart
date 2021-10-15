@@ -11,4 +11,26 @@ class GlobalSettings {
   final controllerLocais = GetIt.I.get<ControllerLocais>();
   final controllerVendas = GetIt.I.get<VendasController>();
   final controllerCombustiveis = GetIt.I.get<CombustiveisController>();
+
+  static recursiveFunction(
+      {required Function function,
+      required int quantity,
+      required Function? callback}) async {
+    try {
+      return await function();
+    } catch (err) {
+      if (quantity == 3) {
+        if (callback != null) {
+          return await callback();
+        }
+        return;
+      } else {
+        quantity++;
+        return Future.delayed(Duration(milliseconds: 200)).then((value) async {
+          return await recursiveFunction(
+              function: function, quantity: quantity, callback: callback);
+        });
+      }
+    }
+  }
 }
