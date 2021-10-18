@@ -1,6 +1,7 @@
 import 'package:app_posto_el/src/components/el_input_widget.dart';
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:app_posto_el/src/utils/meu_toast.dart';
 import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginInputButtonWidget extends StatefulWidget {
@@ -30,9 +31,15 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
 
   @override
   void initState() {
-    autorun((_) {
+    autorun((_) async {
       if (controllerLogin.status == LoginStatus.success) {
+        await Future.delayed(Duration(seconds: 1));
         Navigator.pushReplacementNamed(context, '/dashboard');
+        MeuToast.toast(
+            title: 'Bem-Vindo :)',
+            message: 'Você acessou o sistema Posto Plus com Sucesso.',
+            type: TypeToast.success,
+            context: context);
       } else if (controllerLogin.status == LoginStatus.error) {
         MeuToast.toast(
             title: 'Ops... :(',
@@ -97,6 +104,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                 height: 15,
               ),
               ELInputWidget(
+                inputFormaters: [UpperCaseTextFormatter()],
                 onFieldSubmitted: (value) {
                   senha.requestFocus();
                 },
@@ -108,39 +116,11 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                 type: 'LOGIN',
                 obscureText: false,
               ),
-              // TextFormField(
-              //   onFieldSubmitted: (value) {
-              //     senha.requestFocus();
-              //   },
-              //   focusNode: login,
-              //   textCapitalization: TextCapitalization.characters,
-              //   initialValue: controllerLogin.user.login,
-              //   onChanged: (value) {
-              //     controllerLogin.onChanged(login: value);
-              //   },
-              //   cursorColor: AppTheme.colors.primaryColor,
-              //   textAlignVertical: TextAlignVertical.top,
-              //   decoration: InputDecoration(
-              //     isDense: true,
-              //     fillColor: Colors.grey[300],
-              //     filled: true,
-              //     hintText: 'Login',
-              //     alignLabelWithHint: true,
-              //     focusedBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.all(Radius.circular(20)),
-              //       borderSide: BorderSide(
-              //         color: AppTheme.colors.secondaryColor,
-              //       ),
-              //     ),
-              //     border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.all(Radius.circular(20)),
-              //         borderSide: BorderSide.none),
-              //   ),
-              // ),
               SizedBox(
                 height: 15,
               ),
               ELInputWidget(
+                inputFormaters: [UpperCaseTextFormatter()],
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(FocusNode());
                   controllerLogin.login();
@@ -166,88 +146,58 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   },
                 ),
               ),
-              // TextFormField(
-              //   onFieldSubmitted: (_) {
-              //     FocusScope.of(context).requestFocus(FocusNode());
-              //     controllerLogin.login();
-              //   },
-              //   focusNode: senha,
-              //   textCapitalization: TextCapitalization.characters,
-              //   initialValue: controllerLogin.user.senha,
-              //   onChanged: (value) {
-              //     controllerLogin.onChanged(senha: value);
-              //   },
-              //   obscureText: !visiblePassword,
-              //   cursorColor: AppTheme.colors.primaryColor,
-              //   decoration: InputDecoration(
-              //     isDense: true,
-              //     hintText: 'Senha',
-              //     suffixIcon: GestureDetector(
-              //       child: Icon(
-              //         visiblePassword ? Icons.visibility : Icons.visibility_off,
-              //         size: 25,
-              //         color: visiblePassword
-              //             ? AppTheme.colors.secondaryColor
-              //             : Color(0xFF666666),
-              //       ),
-              //       onTap: () {
-              //         visiblePassword = !visiblePassword;
-              //         setState(() {});
-              //       },
-              //     ),
-              //     fillColor: Colors.grey[300],
-              //     filled: true,
-              //     alignLabelWithHint: true,
-              //     focusedBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.all(Radius.circular(20)),
-              //       borderSide: BorderSide(
-              //         color: AppTheme.colors.secondaryColor,
-              //       ),
-              //     ),
-              //     border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.all(Radius.circular(20)),
-              //         borderSide: BorderSide.none),
-              //   ),
-              // ),
               SizedBox(
                 height: 15,
               ),
-              Visibility(
-                visible: controllerLogin.status == LoginStatus.empty ||
-                    controllerLogin.status == LoginStatus.error ||
-                    controllerLogin.status == LoginStatus.semInternet ||
-                    controllerLogin.status == LoginStatus.invalidCNPJ,
-                replacement: Container(
-                  width: double.infinity,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xffcf1f36),
-                    ),
-                  ),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+              controllerLogin.status == LoginStatus.empty ||
+                      controllerLogin.status == LoginStatus.error ||
+                      controllerLogin.status == LoginStatus.invalidCNPJ ||
+                      controllerLogin.status == LoginStatus.semInternet
+                  ? AnimatedSwitcher(
+                      duration: Duration(seconds: 1),
+                      child: Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            fixedSize: Size.fromHeight(45),
+                            primary: Color(0xffcf1f36),
+                          ), //Color(0xFF1E319D)
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            controllerLogin.login();
+                            //Navigator.pushNamed(context, '/dashboard');
+                          },
+                          child: Text(
+                            'Entrar',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
                       ),
-                      fixedSize: Size.fromHeight(45),
-                      primary: Color(0xffcf1f36),
-                    ), //Color(0xFF1E319D)
-                    onPressed: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      controllerLogin.login();
-                      //Navigator.pushNamed(context, '/dashboard');
-                    },
-                    child: Text(
-                      'Entrar',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ),
-                ),
-              ),
+                    )
+                  : controllerLogin.status == LoginStatus.loading
+                      ? AnimatedSwitcher(
+                          duration: Duration(milliseconds: 100),
+                          child: Container(
+                            width: double.infinity,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xffcf1f36),
+                              ),
+                            ),
+                          ),
+                        )
+                      : controllerLogin.status == LoginStatus.success
+                          ? AnimatedSwitcher(
+                              duration: Duration(seconds: 1),
+                              child: Lottie.asset(
+                                  'assets/images/success_red.json',
+                                  width: 90),
+                            )
+                          : Container(),
               SizedBox(
                 height: 15,
               ),
