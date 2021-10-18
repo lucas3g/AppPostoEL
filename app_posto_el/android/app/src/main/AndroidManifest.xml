@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="Up DashBoard"
+        android:label="Posto Plus"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

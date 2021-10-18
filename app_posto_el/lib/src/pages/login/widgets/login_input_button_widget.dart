@@ -3,10 +3,13 @@ import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/meu_toast.dart';
 import 'package:app_posto_el/src/utils/types_toast.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
@@ -85,6 +88,10 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                 type: 'CNPJ',
                 obscureText: false,
                 focusNode: login,
+                inputFormaters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  CpfOuCnpjFormatter()
+                ],
               ),
               SizedBox(
                 height: 15,

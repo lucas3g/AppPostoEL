@@ -23,10 +23,9 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('E', style: AppTheme.textStyles.titleLogin),
-                Text('L', style: AppTheme.textStyles.titleLogin),
+                Text('Posto', style: AppTheme.textStyles.titleLogin),
                 Text(
-                  ' Sistemas',
+                  ' Plus',
                   style: AppTheme.textStyles.titleLogin.copyWith(
                     color: Color(0xFF525252),
                   ),

@@ -53,6 +53,8 @@ class CombustiveisGraficoWidget extends StatelessWidget {
             style: AppTheme.textStyles.titleCharts),
         Text('Cap. ${tanque.CAPACIDADE.LitrosInt()} LT',
             style: AppTheme.textStyles.titleCharts),
+        Text('Resta: ${(tanque.CAPACIDADE - tanque.VOLUME).Litros()} LT',
+            style: AppTheme.textStyles.titleCharts),
         Container(
           width: 170,
           height: 170,

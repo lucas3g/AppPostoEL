@@ -84,14 +84,11 @@ class _SplashPageState extends State<SplashPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('E',
-                        style: AppTheme.textStyles.titleLogin
-                            .copyWith(fontSize: 70)),
-                    Text('L',
+                    Text('Posto',
                         style: AppTheme.textStyles.titleLogin
                             .copyWith(fontSize: 70)),
                     Text(
-                      ' Sistemas',
+                      ' Plus',
                       style: AppTheme.textStyles.titleLogin.copyWith(
                         color: Color(0xFF525252),
                       ),
