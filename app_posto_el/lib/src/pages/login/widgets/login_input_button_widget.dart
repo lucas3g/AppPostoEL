@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:app_posto_el/src/components/el_input_widget.dart';
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
@@ -5,13 +7,11 @@ import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:app_posto_el/src/utils/meu_toast.dart';
 import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginInputButtonWidget extends StatefulWidget {
@@ -21,7 +21,8 @@ class LoginInputButtonWidget extends StatefulWidget {
   State<LoginInputButtonWidget> createState() => _LoginInputButtonWidgetState();
 }
 
-class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
+class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
+    with TickerProviderStateMixin {
   final controllerLogin = LoginController();
   late Map<String, String> logado;
   var visiblePassword = false;
@@ -29,17 +30,14 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
   FocusNode login = FocusNode();
   FocusNode senha = FocusNode();
 
+  late AnimationController _animation;
+  late Duration _smallDuration;
+
   @override
   void initState() {
     autorun((_) async {
       if (controllerLogin.status == LoginStatus.success) {
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.pushReplacementNamed(context, '/dashboard');
-        MeuToast.toast(
-            title: 'Bem-Vindo :)',
-            message: 'Você acessou o sistema Posto Plus com Sucesso.',
-            type: TypeToast.success,
-            context: context);
+        //Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (controllerLogin.status == LoginStatus.error) {
         MeuToast.toast(
             title: 'Ops... :(',
@@ -61,6 +59,15 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
       }
     });
     super.initState();
+    _smallDuration = Duration(milliseconds: (2000 * 0.2).round());
+    _animation =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _animation.dispose();
+    super.dispose();
   }
 
   @override
@@ -149,55 +156,63 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
               SizedBox(
                 height: 15,
               ),
-              controllerLogin.status == LoginStatus.empty ||
-                      controllerLogin.status == LoginStatus.error ||
-                      controllerLogin.status == LoginStatus.invalidCNPJ ||
-                      controllerLogin.status == LoginStatus.semInternet
-                  ? AnimatedSwitcher(
-                      duration: Duration(seconds: 1),
-                      child: Container(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            fixedSize: Size.fromHeight(45),
-                            primary: Color(0xffcf1f36),
-                          ), //Color(0xFF1E319D)
-                          onPressed: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            controllerLogin.login();
-                            //Navigator.pushNamed(context, '/dashboard');
-                          },
-                          child: Text(
-                            'Entrar',
+              AnimatedContainer(
+                duration: _smallDuration,
+                width: controllerLogin.status == LoginStatus.loading
+                    ? _animation.value * 40
+                    : double.maxFinite,
+                child: GestureDetector(
+                  onTap: () {
+                    _animation.forward();
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    controllerLogin.login();
+                  },
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffcf1f36)),
+                      borderRadius: BorderRadius.circular(20),
+                      color: controllerLogin.status == LoginStatus.success
+                          ? Colors.white
+                          : Color(0xffcf1f36),
+                    ),
+                    child: AnimatedSize(
+                      duration: _smallDuration,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          controllerLogin.status == LoginStatus.success
+                              ? Icon(
+                                  Icons.ac_unit,
+                                  color: controllerLogin.status ==
+                                          LoginStatus.success
+                                      ? Color(0xffcf1f36)
+                                      : Colors.white,
+                                )
+                              : Container(),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            controllerLogin.status == LoginStatus.success
+                                ? 'Sucesso :)'
+                                : controllerLogin.status == LoginStatus.empty
+                                    ? 'Entrar'
+                                    : 'Acessando...',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                color: controllerLogin.status ==
+                                        LoginStatus.success
+                                    ? Color(0xffcf1f36)
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
-                        ),
+                        ],
                       ),
-                    )
-                  : controllerLogin.status == LoginStatus.loading
-                      ? AnimatedSwitcher(
-                          duration: Duration(milliseconds: 100),
-                          child: Container(
-                            width: double.infinity,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xffcf1f36),
-                              ),
-                            ),
-                          ),
-                        )
-                      : controllerLogin.status == LoginStatus.success
-                          ? AnimatedSwitcher(
-                              duration: Duration(seconds: 1),
-                              child: Lottie.asset(
-                                  'assets/images/success_red.json',
-                                  width: 90),
-                            )
-                          : Container(),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),

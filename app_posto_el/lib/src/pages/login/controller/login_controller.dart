@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:app_posto_el/src/services/dio.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
@@ -51,7 +50,7 @@ abstract class _LoginControllerBase with Store {
           return;
         }
 
-        await Future.delayed(Duration(seconds: 2));
+        //await Future.delayed(Duration(seconds: 2));
 
         final Response<dynamic> response =
             await GlobalSettings.recursiveFunction(
@@ -73,14 +72,6 @@ abstract class _LoginControllerBase with Store {
                   return;
                 });
 
-        // final response = await MeuDio.dio().get(
-        //   '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
-        //   options: Options(headers: {
-        //     'Login': user.login.toUpperCase(),
-        //     'Senha': user.senha.toUpperCase()
-        //   }),
-        // );
-
         final String autorizado = response.data['APP_POSTO'];
 
         if (autorizado == 'S') {
@@ -100,7 +91,7 @@ abstract class _LoginControllerBase with Store {
     } on DioError catch (e) {
       await GlobalSettings().appSettings.setLogado(conectado: 'N');
       status = LoginStatus.error;
-      print('EU SOU O ERRO ${e}');
+      print('EU SOU O ERRO $e');
     }
   }
 }
