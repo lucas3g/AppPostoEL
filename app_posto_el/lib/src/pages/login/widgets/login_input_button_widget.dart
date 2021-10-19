@@ -30,14 +30,12 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
   FocusNode login = FocusNode();
   FocusNode senha = FocusNode();
 
-  late AnimationController _animation;
-  late Duration _smallDuration;
-
   @override
   void initState() {
     autorun((_) async {
       if (controllerLogin.status == LoginStatus.success) {
-        //Navigator.pushReplacementNamed(context, '/dashboard');
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (controllerLogin.status == LoginStatus.error) {
         MeuToast.toast(
             title: 'Ops... :(',
@@ -59,39 +57,30 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
       }
     });
     super.initState();
-    _smallDuration = Duration(milliseconds: (2000 * 0.2).round());
-    _animation =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _animation.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => Scaffold(
-        backgroundColor: AppTheme.colors.backgroundPrimary,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Text(
-                'Entre com sua conta',
-                style: AppTheme.textStyles.title.copyWith(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
+    return Scaffold(
+      backgroundColor: AppTheme.colors.backgroundPrimary,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(),
+            Text(
+              'Entre com sua conta',
+              style: AppTheme.textStyles.title.copyWith(
+                fontSize: 14,
+                color: Colors.black,
               ),
-              SizedBox(
-                height: 15,
-              ),
-              ELInputWidget(
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Observer(
+              builder: (_) => ELInputWidget(
                 onFieldSubmitted: (value) {
                   login.requestFocus();
                 },
@@ -107,10 +96,12 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                   CpfOuCnpjFormatter()
                 ],
               ),
-              SizedBox(
-                height: 15,
-              ),
-              ELInputWidget(
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Observer(
+              builder: (_) => ELInputWidget(
                 inputFormaters: [UpperCaseTextFormatter()],
                 onFieldSubmitted: (value) {
                   senha.requestFocus();
@@ -123,10 +114,12 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                 type: 'LOGIN',
                 obscureText: false,
               ),
-              SizedBox(
-                height: 15,
-              ),
-              ELInputWidget(
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Observer(
+              builder: (_) => ELInputWidget(
                 inputFormaters: [UpperCaseTextFormatter()],
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(FocusNode());
@@ -153,95 +146,97 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                   },
                 ),
               ),
-              SizedBox(
-                height: 15,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Observer(
+              builder: (_) => AnimatedContainer(
+                duration: Duration(seconds: 2),
+                curve: Curves.easeIn,
+                width: controllerLogin.status == LoginStatus.empty ||
+                        controllerLogin.status == LoginStatus.error ||
+                        controllerLogin.status == LoginStatus.invalidCNPJ ||
+                        controllerLogin.status == LoginStatus.semInternet
+                    ? MediaQuery.of(context).size.width
+                    : 45,
+                child: controllerLogin.status == LoginStatus.empty ||
+                        controllerLogin.status == LoginStatus.error ||
+                        controllerLogin.status == LoginStatus.invalidCNPJ ||
+                        controllerLogin.status == LoginStatus.semInternet
+                    ? buildButton()
+                    : buildSmallButton(),
               ),
-              AnimatedContainer(
-                duration: _smallDuration,
-                width: controllerLogin.status == LoginStatus.loading
-                    ? _animation.value * 40
-                    : double.maxFinite,
-                child: GestureDetector(
-                  onTap: () {
-                    _animation.forward();
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    controllerLogin.login();
-                  },
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffcf1f36)),
-                      borderRadius: BorderRadius.circular(20),
-                      color: controllerLogin.status == LoginStatus.success
-                          ? Colors.white
-                          : Color(0xffcf1f36),
-                    ),
-                    child: AnimatedSize(
-                      duration: _smallDuration,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          controllerLogin.status == LoginStatus.success
-                              ? Icon(
-                                  Icons.ac_unit,
-                                  color: controllerLogin.status ==
-                                          LoginStatus.success
-                                      ? Color(0xffcf1f36)
-                                      : Colors.white,
-                                )
-                              : Container(),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            controllerLogin.status == LoginStatus.success
-                                ? 'Sucesso :)'
-                                : controllerLogin.status == LoginStatus.empty
-                                    ? 'Entrar'
-                                    : 'Acessando...',
-                            style: TextStyle(
-                                color: controllerLogin.status ==
-                                        LoginStatus.success
-                                    ? Color(0xffcf1f36)
-                                    : Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: 'Não tem uma conta?',
+                      style: AppTheme.textStyles.title
+                          .copyWith(fontSize: 12, color: Color(0xFF525252))),
+                  TextSpan(
+                      text: ' Entre em contato conosco.',
+                      style: AppTheme.textStyles.title
+                          .copyWith(fontSize: 12, color: Color(0xFF525252)))
+                ],
               ),
-              SizedBox(
-                height: 15,
-              ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text: 'Não tem uma conta?',
-                        style: AppTheme.textStyles.title
-                            .copyWith(fontSize: 12, color: Color(0xFF525252))),
-                    TextSpan(
-                        text: ' Entre em contato conosco.',
-                        style: AppTheme.textStyles.title
-                            .copyWith(fontSize: 12, color: Color(0xFF525252)))
-                  ],
-                ),
-              ),
-              Spacer(),
-              Text(
-                'EL Sistemas - 2021 - 54 3364 1588',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.grey[600]),
-              ),
-              SizedBox(
-                height: 10,
-              )
-            ],
-          ),
+            ),
+            Spacer(),
+            Text(
+              'EL Sistemas - 2021 - 54 3364 1588',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.grey[600]),
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget buildButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          fixedSize: Size.fromHeight(45),
+          primary: Color(0xffcf1f36),
+          shadowColor: Color(0xffcf1f36),
+          elevation: 8), //Color(0xFF1E319D)
+      onPressed: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        controllerLogin.login();
+      },
+      child: FittedBox(
+        child: Text(
+          'Entrar',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  Widget buildSmallButton() {
+    return Container(
+      height: 45,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: controllerLogin.status == LoginStatus.success
+              ? Colors.green
+              : Color(0xffcf1f36)),
+      child: Center(
+        child: controllerLogin.status == LoginStatus.success
+            ? Icon(Icons.done, size: 35, color: Colors.white)
+            : CircularProgressIndicator(
+                color: Colors.white,
+              ),
       ),
     );
   }

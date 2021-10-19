@@ -38,7 +38,8 @@ class _SplashPageState extends State<SplashPage> {
 
   void inicializar() async {
     await Future.delayed(Duration(seconds: 2));
-    if (GetIt.I.get<AppSettigns>().logado['conectado'] == 'N') {
+    final conectado = GetIt.I.get<AppSettigns>().logado['conectado']!;
+    if (conectado == 'N') {
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       Navigator.pushReplacementNamed(context, '/dashboard');

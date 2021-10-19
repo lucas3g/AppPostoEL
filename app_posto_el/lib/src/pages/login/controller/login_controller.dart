@@ -27,6 +27,9 @@ abstract class _LoginControllerBase with Store {
   @observable
   LoginStatus status = LoginStatus.empty;
 
+  @observable
+  double width = double.maxFinite;
+
   @action
   Future<void> login() async {
     try {
@@ -34,6 +37,8 @@ abstract class _LoginControllerBase with Store {
           user.login.isNotEmpty &&
           user.senha.isNotEmpty) {
         status = LoginStatus.loading;
+
+        width = 45;
 
         if (!UtilBrasilFields.isCNPJValido(user.cnpj)) {
           status = LoginStatus.invalidCNPJ;
@@ -50,7 +55,7 @@ abstract class _LoginControllerBase with Store {
           return;
         }
 
-        //await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 2));
 
         final Response<dynamic> response =
             await GlobalSettings.recursiveFunction(
@@ -78,13 +83,14 @@ abstract class _LoginControllerBase with Store {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
           await GlobalSettings().appSettings.setUser(user: user);
           status = LoginStatus.success;
+          await Future.delayed(Duration(seconds: 2));
         } else {
           await GlobalSettings().appSettings.setLogado(conectado: 'N');
           status = LoginStatus.error;
         }
       } else {
         status = LoginStatus.error;
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(Duration(seconds: 2));
         status = LoginStatus.empty;
       }
       // print('EU SOU RESPONSE ${autorizado}');

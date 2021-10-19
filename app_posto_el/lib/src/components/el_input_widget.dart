@@ -30,39 +30,45 @@ class ELInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      inputFormatters: inputFormaters,
-      onFieldSubmitted: onFieldSubmitted,
-      onChanged: (value) {
-        if (type == 'CNPJ') {
-          controllerLogin.onChanged(cnpj: value);
-        } else if (type == 'LOGIN') {
-          controllerLogin.onChanged(login: value);
-        } else {
-          controllerLogin.onChanged(senha: value);
-        }
-      },
-      focusNode: type != 'CNPJ' ? focusNode : FocusNode(),
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      cursorColor: AppTheme.colors.primaryColor,
-      textAlignVertical: TextAlignVertical.top,
-      decoration: InputDecoration(
-        isDense: true,
-        fillColor: Colors.grey[300],
-        filled: true,
-        suffixIcon: sufixIcon,
-        hintText: hintText,
-        alignLabelWithHint: true,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(
-            color: AppTheme.colors.secondaryColor,
+    return PhysicalModel(
+      color: Colors.white,
+      elevation: 8,
+      shadowColor: Colors.grey,
+      borderRadius: BorderRadius.circular(20),
+      child: TextFormField(
+        inputFormatters: inputFormaters,
+        onFieldSubmitted: onFieldSubmitted,
+        onChanged: (value) {
+          if (type == 'CNPJ') {
+            controllerLogin.onChanged(cnpj: value);
+          } else if (type == 'LOGIN') {
+            controllerLogin.onChanged(login: value);
+          } else {
+            controllerLogin.onChanged(senha: value);
+          }
+        },
+        focusNode: type != 'CNPJ' ? focusNode : FocusNode(),
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        cursorColor: AppTheme.colors.primaryColor,
+        textAlignVertical: TextAlignVertical.top,
+        decoration: InputDecoration(
+          isDense: true,
+          fillColor: Colors.grey.shade300,
+          filled: true,
+          suffixIcon: sufixIcon,
+          hintText: hintText,
+          alignLabelWithHint: true,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: AppTheme.colors.secondaryColor,
+            ),
           ),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none),
         ),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide.none),
       ),
     );
   }
