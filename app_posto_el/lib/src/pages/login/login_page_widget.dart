@@ -14,7 +14,7 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 60,
+        toolbarHeight: 40,
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppTheme.colors.backgroundPrimary,

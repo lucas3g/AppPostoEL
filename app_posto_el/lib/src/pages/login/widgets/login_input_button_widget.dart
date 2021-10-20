@@ -150,8 +150,50 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
             SizedBox(
               height: 15,
             ),
-            Observer(
-              builder: (_) => AnimatedContainer(
+            Observer(builder: (_) {
+              Widget buildButton() {
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      fixedSize: Size.fromHeight(45),
+                      primary: Color(0xffcf1f36),
+                      shadowColor: Color(0xffcf1f36),
+                      elevation: 8), //Color(0xFF1E319D)
+                  onPressed: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    controllerLogin.login();
+                  },
+                  child: FittedBox(
+                    child: Text(
+                      'Entrar',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                );
+              }
+
+              Widget buildSmallButton() {
+                return Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: controllerLogin.status == LoginStatus.success
+                          ? Colors.green
+                          : Color(0xffcf1f36)),
+                  child: Center(
+                    child: controllerLogin.status == LoginStatus.success
+                        ? Icon(Icons.done, size: 35, color: Colors.white)
+                        : CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                  ),
+                );
+              }
+
+              return AnimatedContainer(
                 duration: Duration(seconds: 2),
                 curve: Curves.easeIn,
                 width: controllerLogin.status == LoginStatus.empty ||
@@ -166,8 +208,8 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                         controllerLogin.status == LoginStatus.semInternet
                     ? buildButton()
                     : buildSmallButton(),
-              ),
-            ),
+              );
+            }),
             SizedBox(
               height: 15,
             ),
@@ -196,47 +238,6 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          fixedSize: Size.fromHeight(45),
-          primary: Color(0xffcf1f36),
-          shadowColor: Color(0xffcf1f36),
-          elevation: 8), //Color(0xFF1E319D)
-      onPressed: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-        controllerLogin.login();
-      },
-      child: FittedBox(
-        child: Text(
-          'Entrar',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-      ),
-    );
-  }
-
-  Widget buildSmallButton() {
-    return Container(
-      height: 45,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: controllerLogin.status == LoginStatus.success
-              ? Colors.green
-              : Color(0xffcf1f36)),
-      child: Center(
-        child: controllerLogin.status == LoginStatus.success
-            ? Icon(Icons.done, size: 35, color: Colors.white)
-            : CircularProgressIndicator(
-                color: Colors.white,
-              ),
       ),
     );
   }

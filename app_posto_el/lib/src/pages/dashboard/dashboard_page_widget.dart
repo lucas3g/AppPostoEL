@@ -11,7 +11,6 @@ class DashBoardPageWidget extends StatefulWidget {
 
 class _DashBoardPageWidgetState extends State<DashBoardPageWidget> {
   late int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

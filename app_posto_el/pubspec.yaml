@@ -47,6 +47,9 @@ dependencies:
   flutter_app_name: ^0.1.1
   flutter_launcher_icons: ^0.9.2
   animations: ^2.0.1
+  speed_dial_fab: ^2.1.1
+  fab_circular_menu: ^1.0.2
+  syncfusion_flutter_pdfviewer: ^19.3.46-beta
 
 flutter_app_name:
   name: "Posto Plus"
