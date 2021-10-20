@@ -23,7 +23,7 @@ abstract class _VendasControllerBase with Store {
       status = VendasStatus.loading;
 
       final cnpj = UtilBrasilFields.removeCaracteres(
-          await GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj);
 
       final response = await MeuDio.dio().get('/vendas/valor/$cnpj');
 
@@ -62,9 +62,11 @@ abstract class _VendasControllerBase with Store {
 
   @action
   String somaVendas({required int local}) {
+    late double result;
+
     var inicio = DateTime.now().subtract(Duration(days: 7));
 
-    final double result = vendas
+    result = vendas
         .where((venda) =>
             !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
             venda.ID == local)

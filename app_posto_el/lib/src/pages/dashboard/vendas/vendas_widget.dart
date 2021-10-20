@@ -3,10 +3,13 @@ import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/venda
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
+import 'package:app_posto_el/src/utils/meu_toast.dart';
+import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import "package:intl/intl.dart";
+import 'package:mobx/mobx.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -164,7 +167,7 @@ class _VendasWidgetState extends State<VendasWidget> {
                               listaNova[args.pointIndex as int].dia!;
                           final double valor =
                               listaNova[args.pointIndex as int].valor;
-                          args.header = 'Dia - ${data.Dia()}';
+                          args.header = 'Dia - ${data.DiaMes()}';
                           args.text = valor.reais();
                         },
                         primaryXAxis: CategoryAxis(),
