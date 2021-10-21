@@ -15,7 +15,7 @@ class AppSettigns extends ChangeNotifier {
   _startSettings() async {
     await _startPreferences();
     await _readLogado();
-    await _readUser();
+    if (_prefs.getString('conectado') == 'S') await _readUser();
   }
 
   Future<void> _startPreferences() async {

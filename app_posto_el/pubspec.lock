@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.0"
-  animations:
-    dependency: "direct main"
-    description:
-      name: animations
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   another_flushbar:
     dependency: "direct main"
     description:
@@ -239,13 +232,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  fab_circular_menu:
-    dependency: "direct main"
-    description:
-      name: fab_circular_menu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -307,6 +293,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  flutter_svg:
+    dependency: "direct main"
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.23.0+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -485,6 +478,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1+1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   path_provider:
     dependency: transitive
     description:
@@ -665,13 +672,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
-  speed_dial_fab:
-    dependency: "direct main"
-    description:
-      name: speed_dial_fab
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   stack_trace:
     dependency: transitive
     description:
@@ -714,41 +714,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "19.3.46"
-  syncfusion_flutter_pdf:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_pdf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.46-beta"
-  syncfusion_flutter_pdfviewer:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_pdfviewer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.46-beta"
-  syncfusion_flutter_pdfviewer_macos:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_pdfviewer_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.46-beta"
-  syncfusion_flutter_pdfviewer_platform_interface:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_pdfviewer_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.46-beta"
-  syncfusion_flutter_pdfviewer_web:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_pdfviewer_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.46-beta"
   term_glyph:
     dependency: transitive
     description:

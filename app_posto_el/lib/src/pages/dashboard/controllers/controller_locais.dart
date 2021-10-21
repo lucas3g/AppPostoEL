@@ -28,7 +28,7 @@ abstract class _ControllerLocaisBase with Store {
       status = LocaisStatus.loading;
 
       String cnpj = UtilBrasilFields.removeCaracteres(
-          await GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj);
 
       if (cnpj.isEmpty) {
         cnpj = GlobalSettings().userSettings.cnpj;
