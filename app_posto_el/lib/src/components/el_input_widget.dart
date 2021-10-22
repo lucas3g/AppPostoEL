@@ -36,6 +36,8 @@ class ELInputWidget extends StatelessWidget {
       shadowColor: Colors.grey,
       borderRadius: BorderRadius.circular(20),
       child: TextFormField(
+        textInputAction:
+            type == 'SENHA' ? TextInputAction.done : TextInputAction.next,
         inputFormatters: inputFormaters,
         onFieldSubmitted: onFieldSubmitted,
         onChanged: (value) {

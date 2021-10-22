@@ -75,9 +75,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Navigator.pop(context);
-                        await Future.delayed(Duration(milliseconds: 150));
                         GetIt.I.get<AppSettigns>().removeLogado();
+                        await Future.delayed(Duration(milliseconds: 150));
+                        Navigator.pop(context);
                         Navigator.popAndPushNamed(context, '/login');
                       },
                       child: PhysicalModel(
@@ -87,21 +87,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
                           child: Center(
-                            child: GetIt.I
-                                        .get<AppSettigns>()
-                                        .logado['conectado'] ==
-                                    'S'
-                                ? Text(
-                                    'Sim',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  )
-                                : CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                          ),
+                              child: Text(
+                            'Sim',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          )),
                           height: 45,
                           width: 120,
                           decoration: BoxDecoration(
