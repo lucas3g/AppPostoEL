@@ -27,8 +27,12 @@ class _VendasWidgetState extends State<VendasWidget> {
   }
 
   montaGrafico() {
+    var inicio = DateTime.now().subtract(Duration(days: 7));
+
     listaNova = controllerVendas.vendas
-        .where((venda) => venda.ID == controller.dropdownValue)
+        .where((venda) =>
+            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
+            venda.ID == controller.dropdownValue)
         .map((venda) => VendasSemanais(venda.DATA!, venda.VLR_TOTAL))
         .toList();
     listaNova.sort((a, b) => a.dia.isAfter(b.dia) ? 1 : -1);

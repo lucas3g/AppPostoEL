@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/vendas_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/models/vendas_model.dart';
@@ -21,6 +23,17 @@ abstract class _VendasControllerBase with Store {
   Future<void> getVendas() async {
     try {
       status = VendasStatus.loading;
+
+      try {
+        final result = await InternetAddress.lookup(MeuDio.baseUrl);
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          print('Tem Internet');
+        }
+      } on SocketException catch (_) {
+        print('Sem Internet Vendas');
+        status = VendasStatus.falhaServidor;
+        return;
+      }
 
       final cnpj = UtilBrasilFields.removeCaracteres(
           GlobalSettings().appSettings.user.cnpj);

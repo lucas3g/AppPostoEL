@@ -14,12 +14,13 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 40,
+        toolbarHeight: 50,
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppTheme.colors.backgroundPrimary,
         title: Column(
           children: [
+            SizedBox(height: 20),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [

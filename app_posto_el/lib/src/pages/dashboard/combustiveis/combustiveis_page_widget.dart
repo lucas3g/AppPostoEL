@@ -1,11 +1,11 @@
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_status.dart';
-import 'package:app_posto_el/src/pages/dashboard/combustiveis/models/combustiveis_model.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/widgets/combustiveis_graficos_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
+import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CombustiveisPageWidget extends StatefulWidget {
   const CombustiveisPageWidget({Key? key}) : super(key: key);
@@ -17,15 +17,6 @@ class CombustiveisPageWidget extends StatefulWidget {
 class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
   final controller = GlobalSettings().controllerLocais;
   final controllerCombustiveis = GlobalSettings().controllerCombustiveis;
-  final List<Color> colors = [
-    Color(0xFFFF7F26),
-    Color(0xFFC627F8),
-    Color(0xFFAB0155),
-    Color(0xFF2A2F3B),
-    Color(0xFF18BCF4),
-    Color(0xFF07311D),
-    Color(0xFFAB414D),
-  ];
 
   void getTanques() async {
     if (controllerCombustiveis.tanques.isEmpty) {
@@ -83,45 +74,97 @@ class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
                 ),
               ],
             ),
+            Container(
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Combustível',
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Quantidade',
+                        textAlign: TextAlign.end,
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Observer(
+              builder: (_) =>
+                  controllerCombustiveis.status == CombustiveisStatus.success
+                      ? Column(
+                          children: (controllerCombustiveis.tanques
+                              .where((local) =>
+                                  local.CCUSTO == controller.dropdownValue)
+                              .map(
+                                (combustivel) => ListTile(
+                                  title: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          combustivel.DESCRICAO,
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          combustivel.VOLUME.Litros(),
+                                          textAlign: TextAlign.end,
+                                          style: AppTheme
+                                              .textStyles.dropdownText
+                                              .copyWith(fontSize: 16),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )).toList(),
+                        )
+                      : Column(
+                          children: List.generate(
+                            10,
+                            (index) => ListTile(
+                              title: Row(
+                                children: [
+                                  LoadingWidget(
+                                    size: Size(81, 29),
+                                    radius: 10,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: LoadingWidget(
+                                      size: Size(81, 29),
+                                      radius: 10,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: LoadingWidget(
+                                      size: Size(81, 29),
+                                      radius: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+            ),
           ],
         ),
       ),
     );
   }
-
-  /// Returns the doughnut series which need to be center elevation.
-  List<DoughnutSeries<TanqueData, String>> getSeriesTanques(
-      {required CombustiveisModel tanque, required int index}) {
-    final List<TanqueData> chartData = [
-      TanqueData(
-        x: 'A',
-        y: tanque.VOLUME.toDouble(),
-        pointColor: index < colors.length ? colors[index] : colors[0],
-      ),
-      TanqueData(
-        x: 'B',
-        y: tanque.VOLUME.toDouble() > tanque.CAPACIDADE.toDouble()
-            ? 0
-            : tanque.CAPACIDADE.toDouble() - tanque.VOLUME.toDouble(),
-        pointColor: Color.fromRGBO(230, 230, 230, 1),
-      )
-    ];
-
-    return <DoughnutSeries<TanqueData, String>>[
-      DoughnutSeries<TanqueData, String>(
-        dataSource: chartData,
-        animationDuration: 700,
-        xValueMapper: (TanqueData data, _) => data.x,
-        yValueMapper: (TanqueData data, _) => data.y,
-        pointColorMapper: (TanqueData data, _) => data.pointColor,
-      )
-    ];
-  }
-}
-
-class TanqueData {
-  TanqueData({required this.x, required this.y, required this.pointColor});
-  final String x;
-  final double y;
-  final Color pointColor;
 }

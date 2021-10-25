@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/models/model_locais.dart';
@@ -26,6 +28,17 @@ abstract class _ControllerLocaisBase with Store {
   Future<void> getLocais() async {
     try {
       status = LocaisStatus.loading;
+
+      try {
+        final result = await InternetAddress.lookup(MeuDio.baseUrl);
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          print('Tem Internet');
+        }
+      } on SocketException catch (_) {
+        print('Sem Internet Locais');
+        status = LocaisStatus.falhaServidor;
+        return;
+      }
 
       String cnpj = UtilBrasilFields.removeCaracteres(
           GlobalSettings().appSettings.user.cnpj);

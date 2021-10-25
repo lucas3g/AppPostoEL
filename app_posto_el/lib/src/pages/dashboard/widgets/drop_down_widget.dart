@@ -1,10 +1,14 @@
+import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/controller_locais.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/locais_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/meu_toast.dart';
+import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({Key? key}) : super(key: key);
@@ -25,6 +29,21 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   void initState() {
     carregarLocais();
+
+    autorun((_) async {
+      if (controller.status == LocaisStatus.falhaServidor) {
+        MeuToast.toast(
+            title: 'Ops... :(',
+            message:
+                'Erro ao tentar se comunicar com o Servidor... Por favor tente novamente mais tarde.',
+            type: TypeToast.noNet,
+            context: context);
+        await Future.delayed(Duration(seconds: 4));
+        await GlobalSettings().appSettings.removeLogado();
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      }
+    });
+
     super.initState();
   }
 

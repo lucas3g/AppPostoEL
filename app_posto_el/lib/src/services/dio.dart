@@ -10,4 +10,6 @@ class MeuDio {
 
     return dio;
   }
+
+  static String get baseUrl => 'google.com';
 }

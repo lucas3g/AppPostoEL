@@ -1,1 +1,1 @@
-enum VendasStatus { empty, loading, success, error, semInternet }
+enum VendasStatus { empty, loading, success, error, semInternet, falhaServidor }

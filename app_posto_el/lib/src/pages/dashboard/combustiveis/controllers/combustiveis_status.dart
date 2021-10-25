@@ -1,1 +1,8 @@
-enum CombustiveisStatus { empty, loading, success, error, semInternet }
+enum CombustiveisStatus {
+  empty,
+  loading,
+  success,
+  error,
+  semInternet,
+  falhaServidor
+}

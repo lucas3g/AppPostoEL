@@ -46,11 +46,12 @@ abstract class _LoginControllerBase with Store {
         }
 
         try {
-          final result = await InternetAddress.lookup('google.com');
+          final result = await InternetAddress.lookup(MeuDio.baseUrl);
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
             print('Tem Internet');
           }
         } on SocketException catch (_) {
+          print('Sem Internet Login');
           status = LoginStatus.semInternet;
           return;
         }

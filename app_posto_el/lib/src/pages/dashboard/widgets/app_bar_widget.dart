@@ -78,7 +78,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                         GetIt.I.get<AppSettigns>().removeLogado();
                         await Future.delayed(Duration(milliseconds: 150));
                         Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/login');
+                        Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: PhysicalModel(
                         color: Colors.white,

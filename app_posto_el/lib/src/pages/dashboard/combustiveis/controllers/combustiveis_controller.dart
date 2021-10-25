@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/models/combustiveis_model.dart';
@@ -21,8 +23,19 @@ abstract class _CombustiveisControllerBase with Store {
     try {
       status = CombustiveisStatus.loading;
 
+      try {
+        final result = await InternetAddress.lookup(MeuDio.baseUrl);
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          print('Tem Internet');
+        }
+      } on SocketException catch (_) {
+        print('Sem Internet Combustiveis');
+        status = CombustiveisStatus.falhaServidor;
+        return;
+      }
+
       final cnpj = UtilBrasilFields.removeCaracteres(
-          await GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj);
 
       final response = await MeuDio.dio().get('/vendas/tanques/$cnpj');
 
