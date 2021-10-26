@@ -68,8 +68,9 @@ class ELInputWidget extends StatelessWidget {
             ),
           ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );

@@ -277,18 +277,20 @@ class _VendasWidgetState extends State<VendasWidget> {
                                   width: 20,
                                 ),
                                 Expanded(
-                                    child: LoadingWidget(
-                                  size: Size(81, 29),
-                                  radius: 10,
-                                )),
+                                  child: LoadingWidget(
+                                    size: Size(81, 29),
+                                    radius: 10,
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 20,
                                 ),
                                 Expanded(
-                                    child: LoadingWidget(
-                                  size: Size(81, 29),
-                                  radius: 10,
-                                )),
+                                  child: LoadingWidget(
+                                    size: Size(81, 29),
+                                    radius: 10,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
