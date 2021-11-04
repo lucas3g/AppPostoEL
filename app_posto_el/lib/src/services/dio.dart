@@ -5,7 +5,7 @@ class MeuDio {
 
   static Dio dio() {
     BaseOptions options = BaseOptions(
-      baseUrl: 'http://192.168.254.69:9000',
+      baseUrl: 'https://elinfo2.jelastic.saveincloud.net/AppPostoPlus/',
     );
 
     final Dio dio = Dio(options);

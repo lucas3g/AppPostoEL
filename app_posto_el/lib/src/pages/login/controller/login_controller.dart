@@ -61,14 +61,12 @@ abstract class _LoginControllerBase with Store {
         final Response<dynamic> response =
             await GlobalSettings.recursiveFunction(
                 function: () {
-                  final response = MeuDio.dio().get(
-                    '/login/${UtilBrasilFields.removeCaracteres(user.cnpj)}',
-                    options: Options(
-                      headers: {
-                        'Login': user.login.toUpperCase(),
-                        'Senha': user.senha.toUpperCase()
-                      },
-                    ),
+                  final response = MeuDio.dio().request(
+                    '/login/${UtilBrasilFields.removeCaracteres(user.cnpj.substring(0, 10))}',
+                    data: {
+                      'USUARIO': user.login.toUpperCase(),
+                      'SENHA': user.senha.toUpperCase()
+                    },
                   );
                   return response;
                 },
@@ -78,7 +76,10 @@ abstract class _LoginControllerBase with Store {
                   return;
                 });
 
-        final String autorizado = response.data['APP_POSTO'];
+        print(response.data);
+
+        final String autorizado = 'N';
+        // response.data['app_posto'];
 
         if (autorizado == 'S') {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
