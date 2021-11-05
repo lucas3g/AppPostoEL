@@ -59,13 +59,12 @@ class _VendasWidgetState extends State<VendasWidget> {
                 children: [
                   Column(
                     children: [
-                      Text('Vendas de Hoje',
-                          style: AppTheme.textStyles.dropdownText),
+                      Text('Hoje', style: AppTheme.textStyles.dropdownText),
                       controllerVendas.status == VendasStatus.success
                           ? Text(
                               '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
                               style: AppTheme.textStyles.dropdownText
-                                  .copyWith(color: Colors.green))
+                                  .copyWith(color: Colors.blue))
                           : LoadingWidget(
                               size: Size(100, 20),
                               radius: 10,
@@ -81,8 +80,8 @@ class _VendasWidgetState extends State<VendasWidget> {
                                   .vlrTotal
                                   .reais(),
                               style: AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w900))
+                                color: Colors.green,
+                              ))
                           : LoadingWidget(
                               size: Size(100, 20),
                               radius: 10,
@@ -91,13 +90,12 @@ class _VendasWidgetState extends State<VendasWidget> {
                   ),
                   Column(
                     children: [
-                      Text('Vendas da Semana',
-                          style: AppTheme.textStyles.dropdownText),
+                      Text('Semana', style: AppTheme.textStyles.dropdownText),
                       controllerVendas.status == VendasStatus.success
                           ? Text(
                               '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
                               style: AppTheme.textStyles.dropdownText
-                                  .copyWith(color: Colors.green))
+                                  .copyWith(color: Colors.blue))
                           : LoadingWidget(
                               size: Size(100, 20),
                               radius: 10,
@@ -110,8 +108,8 @@ class _VendasWidgetState extends State<VendasWidget> {
                               controllerVendas.somaVendas(
                                   local: controller.dropdownValue),
                               style: AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w900))
+                                color: Colors.green,
+                              ))
                           : LoadingWidget(
                               size: Size(100, 20),
                               radius: 10,
@@ -120,8 +118,7 @@ class _VendasWidgetState extends State<VendasWidget> {
                   ),
                   Column(
                     children: [
-                      Text('Proj. de Vendas',
-                          style: AppTheme.textStyles.dropdownText),
+                      Text('Projeção', style: AppTheme.textStyles.dropdownText),
                       controllerVendas.status == VendasStatus.success
                           ? Text(
                               '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
@@ -139,8 +136,8 @@ class _VendasWidgetState extends State<VendasWidget> {
                               controllerVendas.projecaoVenda(
                                   local: controller.dropdownValue),
                               style: AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.w900))
+                                color: Colors.green,
+                              ))
                           : LoadingWidget(
                               size: Size(100, 20),
                               radius: 10,
@@ -239,7 +236,9 @@ class _VendasWidgetState extends State<VendasWidget> {
                                   children: [
                                     Expanded(
                                       child: Text(venda.data!.DiaMes(),
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          )),
                                     ),
                                     Spacer(),
                                     Container(
