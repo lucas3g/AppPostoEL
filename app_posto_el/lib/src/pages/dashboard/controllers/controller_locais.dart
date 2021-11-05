@@ -19,7 +19,7 @@ abstract class _ControllerLocaisBase with Store {
   ObservableList<ModelLocais> locais = ObservableList.of([]);
 
   @observable
-  int dropdownValue = 0;
+  int dropdownValue = 1;
 
   @observable
   LocaisStatus status = LocaisStatus.empty;
@@ -43,11 +43,8 @@ abstract class _ControllerLocaisBase with Store {
       String cnpj = UtilBrasilFields.removeCaracteres(
           GlobalSettings().appSettings.user.cnpj);
 
-      if (cnpj.isEmpty) {
-        cnpj = GlobalSettings().userSettings.cnpj;
-      }
-
-      final response = await MeuDio.dio().get('/empresa/$cnpj');
+      final response =
+          await MeuDio.dio().get('getJson/${cnpj.substring(0, 10)}/empresa');
 
       final lista = response.data
           .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))
@@ -62,7 +59,7 @@ abstract class _ControllerLocaisBase with Store {
       }
     } catch (e) {
       status = LocaisStatus.error;
-      print('EU SOU O ERRO $e');
+      print('EU SOU O ERRO LOCAIS $e');
     }
   }
 }

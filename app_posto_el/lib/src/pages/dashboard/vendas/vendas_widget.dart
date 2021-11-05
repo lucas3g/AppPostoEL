@@ -31,9 +31,9 @@ class _VendasWidgetState extends State<VendasWidget> {
 
     listaNova = controllerVendas.vendas
         .where((venda) =>
-            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
-            venda.ID == controller.dropdownValue)
-        .map((venda) => VendasSemanais(venda.DATA!, venda.VLR_TOTAL))
+            !DateTime.parse(venda.data.toString()).isBefore(inicio) &&
+            venda.local == controller.dropdownValue)
+        .map((venda) => VendasSemanais(venda.data!, venda.vlrTotal))
         .toList();
     listaNova.sort((a, b) => a.dia.isAfter(b.dia) ? 1 : -1);
     return listaNova;
@@ -63,7 +63,7 @@ class _VendasWidgetState extends State<VendasWidget> {
                           style: AppTheme.textStyles.dropdownText),
                       controllerVendas.status == VendasStatus.success
                           ? Text(
-                              '${controllerVendas.vendas.firstWhere((venda) => venda.ID == controller.dropdownValue).QTD_TOTAL.Litros()} LT',
+                              '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
                               style: AppTheme.textStyles.dropdownText
                                   .copyWith(color: Colors.green))
                           : LoadingWidget(
@@ -77,8 +77,8 @@ class _VendasWidgetState extends State<VendasWidget> {
                           ? Text(
                               controllerVendas.vendas
                                   .firstWhere((venda) =>
-                                      venda.ID == controller.dropdownValue)
-                                  .VLR_TOTAL
+                                      venda.local == controller.dropdownValue)
+                                  .vlrTotal
                                   .reais(),
                               style: AppTheme.textStyles.dropdownText.copyWith(
                                   color: Colors.green,
@@ -231,20 +231,20 @@ class _VendasWidgetState extends State<VendasWidget> {
                 builder: (_) => controllerVendas.status == VendasStatus.success
                     ? Column(
                         children: (controllerVendas.vendas
-                            .where(
-                                (local) => local.ID == controller.dropdownValue)
+                            .where((local) =>
+                                local.local == controller.dropdownValue)
                             .map(
                               (venda) => ListTile(
                                 title: Row(
                                   children: [
                                     Expanded(
-                                      child: Text(venda.DATA!.DiaMes(),
+                                      child: Text(venda.data!.DiaMes(),
                                           style: TextStyle(fontSize: 16)),
                                     ),
                                     Spacer(),
                                     Container(
                                       child: Text(
-                                        venda.QTD_TOTAL.Litros(),
+                                        venda.qtdTotal.Litros(),
                                         textAlign: TextAlign.end,
                                         style: AppTheme.textStyles.dropdownText
                                             .copyWith(fontSize: 16),
@@ -253,7 +253,7 @@ class _VendasWidgetState extends State<VendasWidget> {
                                     Spacer(),
                                     Expanded(
                                       flex: 0,
-                                      child: Text(venda.VLR_TOTAL.reais(),
+                                      child: Text(venda.vlrTotal.reais(),
                                           style: AppTheme
                                               .textStyles.dropdownText
                                               .copyWith(fontSize: 16)),

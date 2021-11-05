@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_posto_el/src/configs/global_settings.dart';
@@ -36,17 +37,18 @@ abstract class _VendasControllerBase with Store {
       }
 
       final cnpj = UtilBrasilFields.removeCaracteres(
-          GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj.substring(0, 10));
 
-      final response = await MeuDio.dio().get('/vendas/valor/$cnpj');
+      final response = await MeuDio.dio().get('getJson/$cnpj/vendas/vendas');
 
-      final lista = response.data
+      final lista = jsonDecode(response.data)
           .map<VendasModel>((elemento) => VendasModel.fromMap(elemento))
           .toList();
 
-      final responseVolumes = await MeuDio.dio().get('/vendas/volume/$cnpj');
+      final responseVolumes =
+          await MeuDio.dio().get('getJson/$cnpj/vendas/volume');
 
-      final listaVolumes = responseVolumes.data
+      final listaVolumes = jsonDecode(responseVolumes.data)
           .map<VendasModel>((elemento) => VendasModel.fromMap(elemento))
           .toList();
 
@@ -54,8 +56,8 @@ abstract class _VendasControllerBase with Store {
 
       for (var venda in lista) {
         for (var volume in listaVolumes) {
-          if (venda.ID == volume.ID && venda.DATA == volume.DATA) {
-            listaNova.add(venda.copyWith(QTD_TOTAL: volume.QTD_TOTAL));
+          if (venda.local == volume.local && venda.data == volume.data) {
+            listaNova.add(venda.copyWith(qtdTotal: volume.qtdTotal));
           }
         }
       }
@@ -69,7 +71,7 @@ abstract class _VendasControllerBase with Store {
       }
     } catch (e) {
       status = VendasStatus.error;
-      print('EU SOU O ERRO $e');
+      print('EU SOU O ERRO DAS VENDAS $e');
     }
   }
 
@@ -81,9 +83,9 @@ abstract class _VendasControllerBase with Store {
 
     result = vendas
         .where((venda) =>
-            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
-            venda.ID == local)
-        .map((venda) => venda.VLR_TOTAL)
+            !DateTime.parse(venda.data.toString()).isBefore(inicio) &&
+            venda.local == local)
+        .map((venda) => venda.vlrTotal)
         .reduce((value, element) => value + element);
     return result.reais();
   }
@@ -91,8 +93,8 @@ abstract class _VendasControllerBase with Store {
   @action
   String projecaoVenda({required int local}) {
     final double total = vendas
-        .where((venda) => venda.ID == local)
-        .map((venda) => venda.VLR_TOTAL)
+        .where((venda) => venda.local == local)
+        .map((venda) => venda.vlrTotal)
         .reduce((value, element) => value + element);
     final dias = DateTime.now();
 
@@ -110,9 +112,9 @@ abstract class _VendasControllerBase with Store {
 
     final double result = vendas
         .where((venda) =>
-            !DateTime.parse(venda.DATA.toString()).isBefore(inicio) &&
-            venda.ID == local)
-        .map((venda) => venda.QTD_TOTAL)
+            !DateTime.parse(venda.data.toString()).isBefore(inicio) &&
+            venda.local == local)
+        .map((venda) => venda.qtdTotal)
         .reduce((value, element) => value + element);
     return result.Litros();
   }
@@ -120,8 +122,8 @@ abstract class _VendasControllerBase with Store {
   @action
   String projecaoLitros({required int local}) {
     final double total = vendas
-        .where((venda) => venda.ID == local)
-        .map((venda) => venda.QTD_TOTAL)
+        .where((venda) => venda.local == local)
+        .map((venda) => venda.qtdTotal)
         .reduce((value, element) => value + element);
     final dias = DateTime.now();
 

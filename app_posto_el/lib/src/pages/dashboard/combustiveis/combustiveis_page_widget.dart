@@ -42,7 +42,7 @@ class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
                   builder: (_) {
                     final tanques = controllerCombustiveis.tanques
                         .where((tanque) =>
-                            tanque.CCUSTO == controller.dropdownValue)
+                            tanque.ccusto == controller.dropdownValue)
                         .toList();
 
                     return controllerCombustiveis.status ==
@@ -103,20 +103,20 @@ class _CombustiveisPageWidgetState extends State<CombustiveisPageWidget> {
                       ? Column(
                           children: (controllerCombustiveis.tanques
                               .where((local) =>
-                                  local.CCUSTO == controller.dropdownValue)
+                                  local.ccusto == controller.dropdownValue)
                               .map(
                                 (combustivel) => ListTile(
                                   title: Row(
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          combustivel.DESCRICAO,
+                                          combustivel.descricao,
                                           style: TextStyle(fontSize: 16),
                                         ),
                                       ),
                                       Container(
                                         child: Text(
-                                          combustivel.VOLUME.Litros(),
+                                          combustivel.volume.Litros(),
                                           textAlign: TextAlign.end,
                                           style: AppTheme
                                               .textStyles.dropdownText

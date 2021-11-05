@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_posto_el/src/configs/global_settings.dart';
@@ -35,11 +36,11 @@ abstract class _CombustiveisControllerBase with Store {
       }
 
       final cnpj = UtilBrasilFields.removeCaracteres(
-          GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj.substring(0, 10));
 
-      final response = await MeuDio.dio().get('/vendas/tanques/$cnpj');
+      final response = await MeuDio.dio().get('getJson/$cnpj/tanques/volume');
 
-      final lista = response.data
+      final lista = jsonDecode(response.data)
           .map<CombustiveisModel>(
               (elemento) => CombustiveisModel.fromMap(elemento))
           .toList();

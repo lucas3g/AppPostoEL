@@ -1,47 +1,47 @@
 import 'dart:convert';
 
 class VendasModel {
-  final int ID;
-  final double VLR_TOTAL;
-  final double QTD_TOTAL;
-  final DateTime? DATA;
+  final int local;
+  final double vlrTotal;
+  final double qtdTotal;
+  final DateTime? data;
 
   VendasModel({
-    this.ID = 0,
-    this.VLR_TOTAL = 0.00,
-    this.QTD_TOTAL = 0.00,
-    this.DATA,
+    this.local = 0,
+    this.vlrTotal = 0.00,
+    this.qtdTotal = 0.00,
+    this.data,
   });
 
   VendasModel copyWith({
-    int? ID,
-    double? VLR_TOTAL,
-    double? QTD_TOTAL,
+    int? local,
+    double? vlrTotal,
+    double? qtdTotal,
     DateTime? data,
   }) {
     return VendasModel(
-      ID: ID ?? this.ID,
-      VLR_TOTAL: VLR_TOTAL ?? this.VLR_TOTAL,
-      QTD_TOTAL: QTD_TOTAL ?? this.QTD_TOTAL,
-      DATA: data ?? this.DATA,
+      local: local ?? this.local,
+      vlrTotal: vlrTotal ?? this.vlrTotal,
+      qtdTotal: qtdTotal ?? this.qtdTotal,
+      data: data ?? this.data,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'ID': ID,
-      'VLR_TOTAL': VLR_TOTAL,
-      'QTD_TOTAL': QTD_TOTAL,
-      'DATA': DATA,
+      'local': local,
+      'vlrTotal': vlrTotal,
+      'qtdTotal': qtdTotal,
+      'data': data,
     };
   }
 
   factory VendasModel.fromMap(Map<String, dynamic> map) {
     return VendasModel(
-      ID: map['ID'] ?? 0,
-      VLR_TOTAL: double.tryParse(map['VLR_TOTAL'].toString()) ?? 0.00,
-      QTD_TOTAL: double.tryParse(map['QTD_TOTAL'].toString()) ?? 0.00,
-      DATA: DateTime.parse(map['DATA'] ?? DateTime.now().toString()),
+      local: map['local'] ?? 0,
+      vlrTotal: double.tryParse(map['vlrTotal'].toString()) ?? 0.00,
+      qtdTotal: double.tryParse(map['qtdTotal'].toString()) ?? 0.00,
+      data: DateTime.parse(map['data'] ?? DateTime.now().toString()),
     );
   }
 
@@ -52,20 +52,20 @@ class VendasModel {
 
   @override
   String toString() =>
-      'VendasModel(ID: $ID, VLR_TOTAL: $VLR_TOTAL, QTD_TOTAL: $QTD_TOTAL, data: $DATA)';
+      'VendasModel(local: $local, vlrTotal: $vlrTotal, qtdTotal: $qtdTotal, data: $data)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is VendasModel &&
-        other.ID == ID &&
-        other.VLR_TOTAL == VLR_TOTAL &&
-        other.QTD_TOTAL == QTD_TOTAL &&
-        other.DATA == DATA;
+        other.local == local &&
+        other.vlrTotal == vlrTotal &&
+        other.qtdTotal == qtdTotal &&
+        other.data == data;
   }
 
   @override
   int get hashCode =>
-      ID.hashCode ^ VLR_TOTAL.hashCode ^ QTD_TOTAL.hashCode ^ DATA.hashCode;
+      local.hashCode ^ vlrTotal.hashCode ^ qtdTotal.hashCode ^ data.hashCode;
 }

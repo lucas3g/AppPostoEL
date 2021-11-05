@@ -1,52 +1,52 @@
 import 'dart:convert';
 
 class CombustiveisModel {
-  final double VOLUME;
-  final int CAPACIDADE;
-  final int TANQUE;
-  final int CCUSTO;
-  final String DESCRICAO;
+  final double volume;
+  final int capacidade;
+  final int tanque;
+  final int ccusto;
+  final String descricao;
   CombustiveisModel({
-    this.VOLUME = 0.00,
-    this.CAPACIDADE = 0,
-    this.TANQUE = 0,
-    this.CCUSTO = 0,
-    this.DESCRICAO = '',
+    this.volume = 0.00,
+    this.capacidade = 0,
+    this.tanque = 0,
+    this.ccusto = 0,
+    this.descricao = '',
   });
 
   CombustiveisModel copyWith({
-    double? VOLUME,
-    int? CAPACIDADE,
-    int? TANQUE,
-    int? CCUSTO,
-    String? DESCRICAO,
+    double? volume,
+    int? capacidade,
+    int? tanque,
+    int? ccusto,
+    String? descricao,
   }) {
     return CombustiveisModel(
-      VOLUME: VOLUME ?? this.VOLUME,
-      CAPACIDADE: CAPACIDADE ?? this.CAPACIDADE,
-      TANQUE: TANQUE ?? this.TANQUE,
-      CCUSTO: CCUSTO ?? this.CCUSTO,
-      DESCRICAO: DESCRICAO ?? this.DESCRICAO,
+      volume: volume ?? this.volume,
+      capacidade: capacidade ?? this.capacidade,
+      tanque: tanque ?? this.tanque,
+      ccusto: ccusto ?? this.ccusto,
+      descricao: descricao ?? this.descricao,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'VOLUME': VOLUME,
-      'CAPACIDADE': CAPACIDADE,
-      'TANQUE': TANQUE,
-      'CCUSTO': CCUSTO,
-      'DESCRICAO': DESCRICAO,
+      'volume': volume,
+      'capacidade': capacidade,
+      'tanque': tanque,
+      'ccusto': ccusto,
+      'descricao': descricao,
     };
   }
 
   factory CombustiveisModel.fromMap(Map<String, dynamic> map) {
     return CombustiveisModel(
-      VOLUME: map['VOLUME'] ?? 0.00,
-      CAPACIDADE: map['CAPACIDADE'] ?? 0,
-      TANQUE: map['TANQUE'] ?? 0,
-      CCUSTO: map['CCUSTO'] ?? 0,
-      DESCRICAO: map['DESCRICAO'] ?? '',
+      volume: map['volume'] ?? 0.00,
+      capacidade: map['capacidade'] ?? 0,
+      tanque: map['tanque'] ?? 0,
+      ccusto: map['ccusto'] ?? 0,
+      descricao: map['descricao'] ?? '',
     );
   }
 
@@ -57,7 +57,7 @@ class CombustiveisModel {
 
   @override
   String toString() {
-    return 'CombustiveisModel(VOLUME: $VOLUME, CAPACIDADE: $CAPACIDADE, TANQUE: $TANQUE, CCUSTO: $CCUSTO, DESCRICAO: $DESCRICAO)';
+    return 'CombustiveisModel(volume: $volume, capacidade: $capacidade, tanque: $tanque, ccusto: $ccusto, descricao: $descricao)';
   }
 
   @override
@@ -65,19 +65,19 @@ class CombustiveisModel {
     if (identical(this, other)) return true;
 
     return other is CombustiveisModel &&
-        other.VOLUME == VOLUME &&
-        other.CAPACIDADE == CAPACIDADE &&
-        other.TANQUE == TANQUE &&
-        other.CCUSTO == CCUSTO &&
-        other.DESCRICAO == DESCRICAO;
+        other.volume == volume &&
+        other.capacidade == capacidade &&
+        other.tanque == tanque &&
+        other.ccusto == ccusto &&
+        other.descricao == descricao;
   }
 
   @override
   int get hashCode {
-    return VOLUME.hashCode ^
-        CAPACIDADE.hashCode ^
-        TANQUE.hashCode ^
-        CCUSTO.hashCode ^
-        DESCRICAO.hashCode;
+    return volume.hashCode ^
+        capacidade.hashCode ^
+        tanque.hashCode ^
+        ccusto.hashCode ^
+        descricao.hashCode;
   }
 }

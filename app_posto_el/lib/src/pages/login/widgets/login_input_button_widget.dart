@@ -194,7 +194,7 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
               }
 
               return AnimatedContainer(
-                duration: Duration(seconds: 2),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.easeIn,
                 width: controllerLogin.status == LoginStatus.empty ||
                         controllerLogin.status == LoginStatus.error ||

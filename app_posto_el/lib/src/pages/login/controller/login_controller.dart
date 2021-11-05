@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_posto_el/src/configs/global_settings.dart';
@@ -58,17 +59,21 @@ abstract class _LoginControllerBase with Store {
 
         await Future.delayed(Duration(seconds: 2));
 
+        final authConfig =
+            jsonEncode({'USUARIO': user.login, 'SENHA': user.senha});
+
         final Response<dynamic> response =
             await GlobalSettings.recursiveFunction(
                 function: () {
-                  final response = MeuDio.dio().request(
-                    '/login/${UtilBrasilFields.removeCaracteres(user.cnpj.substring(0, 10))}',
-                    data: {
-                      'USUARIO': user.login.toUpperCase(),
-                      'SENHA': user.senha.toUpperCase()
-                    },
-                  );
-                  return response;
+                  try {
+                    final response = MeuDio.dio().post(
+                      '/login/${UtilBrasilFields.removeCaracteres(user.cnpj.substring(0, 10))}',
+                      data: authConfig,
+                    );
+                    return response;
+                  } on DioError catch (e) {
+                    print('EU SOU O ERRO DO DIO $e');
+                  }
                 },
                 quantity: 0,
                 callback: () {
@@ -78,8 +83,7 @@ abstract class _LoginControllerBase with Store {
 
         print(response.data);
 
-        final String autorizado = 'N';
-        // response.data['app_posto'];
+        final String autorizado = jsonDecode(response.data)['app_posto'];
 
         if (autorizado == 'S') {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
@@ -90,12 +94,12 @@ abstract class _LoginControllerBase with Store {
           await GlobalSettings().appSettings.setLogado(conectado: 'N');
           status = LoginStatus.error;
         }
+        print('EU SOU RESPONSE $autorizado');
       } else {
         status = LoginStatus.error;
         await Future.delayed(Duration(seconds: 2));
         status = LoginStatus.empty;
       }
-      // print('EU SOU RESPONSE ${autorizado}');
     } on DioError catch (e) {
       await GlobalSettings().appSettings.setLogado(conectado: 'N');
       status = LoginStatus.error;

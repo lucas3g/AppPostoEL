@@ -50,11 +50,11 @@ class CombustiveisGraficoWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-            'TANQUE ${tanque.TANQUE}', //'TANQUE ${tanque.TANQUE} - ${retornaDescricao(desc: tanque.DESCRICAO)}',
+            'TANQUE ${tanque.tanque}', //'TANQUE ${tanque.TANQUE} - ${retornaDescricao(desc: tanque.DESCRICAO)}',
             style: AppTheme.textStyles.titleCharts),
-        Text('Cap. ${tanque.CAPACIDADE.LitrosInt()} LT',
+        Text('Cap. ${tanque.capacidade.LitrosInt()} LT',
             style: AppTheme.textStyles.titleCharts),
-        Text('Resta: ${(tanque.CAPACIDADE - tanque.VOLUME).Litros()} LT',
+        Text('Resta: ${(tanque.capacidade - tanque.volume).Litros()} LT',
             style: AppTheme.textStyles.titleCharts),
         Container(
           width: 170,
@@ -70,9 +70,9 @@ class CombustiveisGraficoWidget extends StatelessWidget {
               shadowColor: colors[indexTanque],
             ),
             onTooltipRender: (TooltipArgs args) {
-              args.header = 'Capacidade: ${tanque.CAPACIDADE.LitrosInt()}';
+              args.header = 'Capacidade: ${tanque.capacidade.LitrosInt()}';
               args.text =
-                  'Usado: ${tanque.VOLUME.Litros()}\nResta: ${(tanque.CAPACIDADE - tanque.VOLUME).Litros()}';
+                  'Usado: ${tanque.volume.Litros()}\nResta: ${(tanque.capacidade - tanque.volume).Litros()}';
             },
             annotations: <CircularChartAnnotation>[
               CircularChartAnnotation(
@@ -91,7 +91,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
               CircularChartAnnotation(
                 widget: Container(
                   child: Text(
-                    '${tanque.VOLUME.Litros()} LT\n(${((tanque.VOLUME / tanque.CAPACIDADE) * 100).Porcentagem()}% )',
+                    '${tanque.volume.Litros()} LT\n(${((tanque.volume / tanque.capacidade) * 100).Porcentagem()}% )',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: colors[indexTanque],
@@ -113,13 +113,13 @@ class CombustiveisGraficoWidget extends StatelessWidget {
     final List<TanqueData> chartData = [
       TanqueData(
           x: 'A',
-          y: tanque.VOLUME.toDouble(),
+          y: tanque.volume.toDouble(),
           pointColor: index < colors.length ? colors[index] : colors[0]),
       TanqueData(
           x: 'B',
-          y: tanque.VOLUME.toDouble() > tanque.CAPACIDADE.toDouble()
+          y: tanque.volume.toDouble() > tanque.capacidade.toDouble()
               ? 0
-              : tanque.CAPACIDADE.toDouble() - tanque.VOLUME.toDouble(),
+              : tanque.capacidade.toDouble() - tanque.volume.toDouble(),
           pointColor: Color.fromRGBO(230, 230, 230, 1))
     ];
 

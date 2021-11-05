@@ -21,7 +21,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   final controller = GetIt.I.get<ControllerLocais>();
 
   void carregarLocais() async {
-    await controller.getLocais();
+    //await controller.getLocais();
     if (controller.locais.isNotEmpty)
       controller.dropdownValue = controller.locais[0].id;
   }
