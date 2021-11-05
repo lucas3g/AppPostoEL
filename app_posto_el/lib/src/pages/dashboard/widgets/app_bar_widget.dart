@@ -164,7 +164,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
               SizedBox(
                 height: size.height * 0.005,
               ),
-              //DropDownWidget(),
+              DropDownWidget(),
             ],
           ),
         ],

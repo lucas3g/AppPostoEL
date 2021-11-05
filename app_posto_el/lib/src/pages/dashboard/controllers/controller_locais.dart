@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_posto_el/src/configs/global_settings.dart';
@@ -19,7 +20,7 @@ abstract class _ControllerLocaisBase with Store {
   ObservableList<ModelLocais> locais = ObservableList.of([]);
 
   @observable
-  int dropdownValue = 1;
+  int dropdownValue = 0;
 
   @observable
   LocaisStatus status = LocaisStatus.empty;
@@ -41,12 +42,11 @@ abstract class _ControllerLocaisBase with Store {
       }
 
       String cnpj = UtilBrasilFields.removeCaracteres(
-          GlobalSettings().appSettings.user.cnpj);
+          GlobalSettings().appSettings.user.cnpj.substring(0, 10));
 
-      final response =
-          await MeuDio.dio().get('getJson/${cnpj.substring(0, 10)}/empresa');
+      final response = await MeuDio.dio().get('getJson/$cnpj/locais/locais');
 
-      final lista = response.data
+      final lista = jsonDecode(response.data)
           .map<ModelLocais>((elemento) => ModelLocais.fromMap(elemento))
           .toList();
 

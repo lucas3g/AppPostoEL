@@ -81,9 +81,13 @@ abstract class _LoginControllerBase with Store {
                   return;
                 });
 
-        print(response.data);
+        late String autorizado = 'N';
 
-        final String autorizado = jsonDecode(response.data)['app_posto'];
+        if (response.data.toString().isNotEmpty) {
+          autorizado = jsonDecode(response.data)['app_posto'];
+        } else {
+          autorizado = 'N';
+        }
 
         if (autorizado == 'S') {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
@@ -92,9 +96,9 @@ abstract class _LoginControllerBase with Store {
           await Future.delayed(Duration(seconds: 2));
         } else {
           await GlobalSettings().appSettings.setLogado(conectado: 'N');
-          status = LoginStatus.error;
+          status = LoginStatus.naoAutorizado;
         }
-        print('EU SOU RESPONSE $autorizado');
+        // print('EU SOU RESPONSE $autorizado');
       } else {
         status = LoginStatus.error;
         await Future.delayed(Duration(seconds: 2));

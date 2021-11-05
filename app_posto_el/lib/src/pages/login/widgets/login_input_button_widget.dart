@@ -54,6 +54,12 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
             message: 'Você digitou um CNPJ inválido.',
             type: TypeToast.dadosInv,
             context: context);
+      } else if (controllerLogin.status == LoginStatus.naoAutorizado) {
+        MeuToast.toast(
+            title: 'Ops... :(',
+            message: 'Seu usuário não tem permissão para acessar o aplicativo.',
+            type: TypeToast.dadosInv,
+            context: context);
       }
     });
     super.initState();
@@ -199,13 +205,15 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                 width: controllerLogin.status == LoginStatus.empty ||
                         controllerLogin.status == LoginStatus.error ||
                         controllerLogin.status == LoginStatus.invalidCNPJ ||
-                        controllerLogin.status == LoginStatus.semInternet
+                        controllerLogin.status == LoginStatus.semInternet ||
+                        controllerLogin.status == LoginStatus.naoAutorizado
                     ? MediaQuery.of(context).size.width
                     : 45,
                 child: controllerLogin.status == LoginStatus.empty ||
                         controllerLogin.status == LoginStatus.error ||
                         controllerLogin.status == LoginStatus.invalidCNPJ ||
-                        controllerLogin.status == LoginStatus.semInternet
+                        controllerLogin.status == LoginStatus.semInternet ||
+                        controllerLogin.status == LoginStatus.naoAutorizado
                     ? buildButton()
                     : buildSmallButton(),
               );
