@@ -49,8 +49,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-            'TANQUE ${tanque.tanque}', //'TANQUE ${tanque.TANQUE} - ${retornaDescricao(desc: tanque.DESCRICAO)}',
+        Text('TANQUE ${tanque.descResumida}',
             style: AppTheme.textStyles.titleCharts),
         Text('Cap. ${tanque.capacidade.LitrosInt()} LT',
             style: AppTheme.textStyles.titleCharts),

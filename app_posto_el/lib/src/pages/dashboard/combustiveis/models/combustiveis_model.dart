@@ -6,12 +6,14 @@ class CombustiveisModel {
   final int tanque;
   final int ccusto;
   final String descricao;
+  final String descResumida;
   CombustiveisModel({
     this.volume = 0.00,
     this.capacidade = 0,
     this.tanque = 0,
     this.ccusto = 0,
     this.descricao = '',
+    this.descResumida = '',
   });
 
   CombustiveisModel copyWith({
@@ -20,6 +22,7 @@ class CombustiveisModel {
     int? tanque,
     int? ccusto,
     String? descricao,
+    String? descResumida,
   }) {
     return CombustiveisModel(
       volume: volume ?? this.volume,
@@ -27,6 +30,7 @@ class CombustiveisModel {
       tanque: tanque ?? this.tanque,
       ccusto: ccusto ?? this.ccusto,
       descricao: descricao ?? this.descricao,
+      descResumida: descResumida ?? this.descResumida,
     );
   }
 
@@ -37,6 +41,7 @@ class CombustiveisModel {
       'tanque': tanque,
       'ccusto': ccusto,
       'descricao': descricao,
+      'descResumida': descResumida,
     };
   }
 
@@ -47,6 +52,7 @@ class CombustiveisModel {
       tanque: map['tanque'] ?? 0,
       ccusto: map['ccusto'] ?? 0,
       descricao: map['descricao'] ?? '',
+      descResumida: map['descResumida'] ?? '',
     );
   }
 
@@ -57,7 +63,7 @@ class CombustiveisModel {
 
   @override
   String toString() {
-    return 'CombustiveisModel(volume: $volume, capacidade: $capacidade, tanque: $tanque, ccusto: $ccusto, descricao: $descricao)';
+    return 'CombustiveisModel(volume: $volume, capacidade: $capacidade, tanque: $tanque, ccusto: $ccusto, descricao: $descricao, descResumida: $descResumida)';
   }
 
   @override
@@ -69,7 +75,8 @@ class CombustiveisModel {
         other.capacidade == capacidade &&
         other.tanque == tanque &&
         other.ccusto == ccusto &&
-        other.descricao == descricao;
+        other.descricao == descricao &&
+        other.descResumida == descResumida;
   }
 
   @override
@@ -78,6 +85,7 @@ class CombustiveisModel {
         capacidade.hashCode ^
         tanque.hashCode ^
         ccusto.hashCode ^
-        descricao.hashCode;
+        descricao.hashCode ^
+        descResumida.hashCode;
   }
 }
