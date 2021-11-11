@@ -62,4 +62,10 @@ abstract class _ControllerLocaisBase with Store {
       print('EU SOU O ERRO LOCAIS $e');
     }
   }
+
+  @action
+  limpaDadosLocais() {
+    status = LocaisStatus.loading;
+    locais.clear();
+  }
 }

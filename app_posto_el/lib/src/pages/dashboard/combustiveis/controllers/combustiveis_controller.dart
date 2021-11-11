@@ -57,4 +57,10 @@ abstract class _CombustiveisControllerBase with Store {
       print('EU SOU O ERRO $e');
     }
   }
+
+  @action
+  limpaDadosTanques() {
+    status = CombustiveisStatus.loading;
+    tanques.clear();
+  }
 }

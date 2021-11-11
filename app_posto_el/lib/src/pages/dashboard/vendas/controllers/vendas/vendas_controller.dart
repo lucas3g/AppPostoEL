@@ -134,4 +134,10 @@ abstract class _VendasControllerBase with Store {
 
     return result.Litros();
   }
+
+  @action
+  limpaDadosVendas() {
+    status = VendasStatus.loading;
+    vendas.clear();
+  }
 }

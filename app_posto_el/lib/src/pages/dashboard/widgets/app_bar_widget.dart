@@ -1,4 +1,5 @@
 import 'package:app_posto_el/src/configs/app_settings.dart';
+import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/drop_down_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        GetIt.I.get<AppSettigns>().removeLogado();
+                        await GetIt.I.get<AppSettigns>().removeLogado();
                         await Future.delayed(Duration(milliseconds: 150));
                         Navigator.pop(context);
                         Navigator.pushReplacementNamed(context, '/login');

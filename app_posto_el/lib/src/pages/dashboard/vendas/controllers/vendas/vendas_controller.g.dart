@@ -94,6 +94,17 @@ mixin _$VendasController on _VendasControllerBase, Store {
   }
 
   @override
+  dynamic limpaDadosVendas() {
+    final _$actionInfo = _$_VendasControllerBaseActionController.startAction(
+        name: '_VendasControllerBase.limpaDadosVendas');
+    try {
+      return super.limpaDadosVendas();
+    } finally {
+      _$_VendasControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 vendas: ${vendas},

@@ -1,3 +1,5 @@
+import 'package:app_posto_el/src/configs/global_settings.dart';
+import 'package:app_posto_el/src/pages/dashboard/widgets/controller/limpa_dados_controller.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,8 +53,10 @@ class AppSettigns extends ChangeNotifier {
   }
 
   removeLogado() async {
+    final controller = LimpaDadosController();
     await _prefs.remove('conectado');
     await _prefs.remove('user');
+    controller.limpaDados();
     await _readLogado();
   }
 }

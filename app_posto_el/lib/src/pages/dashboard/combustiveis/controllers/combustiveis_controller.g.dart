@@ -47,6 +47,20 @@ mixin _$CombustiveisController on _CombustiveisControllerBase, Store {
     return _$getTanquesAsyncAction.run(() => super.getTanques());
   }
 
+  final _$_CombustiveisControllerBaseActionController =
+      ActionController(name: '_CombustiveisControllerBase');
+
+  @override
+  dynamic limpaDadosTanques() {
+    final _$actionInfo = _$_CombustiveisControllerBaseActionController
+        .startAction(name: '_CombustiveisControllerBase.limpaDadosTanques');
+    try {
+      return super.limpaDadosTanques();
+    } finally {
+      _$_CombustiveisControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

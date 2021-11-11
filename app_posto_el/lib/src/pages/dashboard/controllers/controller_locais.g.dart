@@ -61,6 +61,20 @@ mixin _$ControllerLocais on _ControllerLocaisBase, Store {
     return _$getLocaisAsyncAction.run(() => super.getLocais());
   }
 
+  final _$_ControllerLocaisBaseActionController =
+      ActionController(name: '_ControllerLocaisBase');
+
+  @override
+  dynamic limpaDadosLocais() {
+    final _$actionInfo = _$_ControllerLocaisBaseActionController.startAction(
+        name: '_ControllerLocaisBase.limpaDadosLocais');
+    try {
+      return super.limpaDadosLocais();
+    } finally {
+      _$_ControllerLocaisBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
