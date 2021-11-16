@@ -18,7 +18,7 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.0'
+    flutterVersionName = '3.0'
 }
 
 apply plugin: 'com.android.application'
@@ -52,8 +52,8 @@ android {
         applicationId "com.elsistemas.apppostoplus"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 3
-        versionName 'Version 3.0.0'
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
    signingConfigs {
