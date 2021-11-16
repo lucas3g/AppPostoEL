@@ -54,97 +54,110 @@ class _VendasWidgetState extends State<VendasWidget> {
         child: Container(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text('Hoje', style: AppTheme.textStyles.dropdownText),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
-                              style: AppTheme.textStyles.dropdownText
-                                  .copyWith(color: Colors.blue))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              controllerVendas.vendas
-                                  .firstWhere((venda) =>
-                                      venda.local == controller.dropdownValue)
-                                  .vlrTotal
-                                  .reais(),
-                              style: AppTheme.textStyles.dropdownText.copyWith(
-                                color: Colors.green,
-                              ))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text('Semana', style: AppTheme.textStyles.dropdownText),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
-                              style: AppTheme.textStyles.dropdownText
-                                  .copyWith(color: Colors.blue))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              controllerVendas.somaVendas(
-                                  local: controller.dropdownValue),
-                              style: AppTheme.textStyles.dropdownText.copyWith(
-                                color: Colors.green,
-                              ))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text('Projeção', style: AppTheme.textStyles.dropdownText),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
-                              style: AppTheme.textStyles.dropdownText
-                                  .copyWith(color: Colors.blue))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      controllerVendas.status == VendasStatus.success
-                          ? Text(
-                              controllerVendas.projecaoVenda(
-                                  local: controller.dropdownValue),
-                              style: AppTheme.textStyles.dropdownText.copyWith(
-                                color: Colors.green,
-                              ))
-                          : LoadingWidget(
-                              size: Size(100, 20),
-                              radius: 10,
-                            ),
-                    ],
-                  )
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Hoje', style: AppTheme.textStyles.dropdownText),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
+                                style: AppTheme.textStyles.dropdownText
+                                    .copyWith(color: Colors.blue))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                controllerVendas.vendas
+                                    .firstWhere((venda) =>
+                                        venda.local == controller.dropdownValue)
+                                    .vlrTotal
+                                    .reais(),
+                                style:
+                                    AppTheme.textStyles.dropdownText.copyWith(
+                                  color: Colors.green,
+                                ))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text('Semana', style: AppTheme.textStyles.dropdownText),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
+                                style: AppTheme.textStyles.dropdownText
+                                    .copyWith(color: Colors.blue))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                controllerVendas.somaVendas(
+                                    local: controller.dropdownValue),
+                                style:
+                                    AppTheme.textStyles.dropdownText.copyWith(
+                                  color: Colors.green,
+                                ))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text('Projeção',
+                            style: AppTheme.textStyles.dropdownText),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
+                                style: AppTheme.textStyles.dropdownText
+                                    .copyWith(color: Colors.blue))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        controllerVendas.status == VendasStatus.success
+                            ? Text(
+                                controllerVendas.projecaoVenda(
+                                    local: controller.dropdownValue),
+                                style:
+                                    AppTheme.textStyles.dropdownText.copyWith(
+                                  color: Colors.green,
+                                ))
+                            : LoadingWidget(
+                                size: Size(100, 20),
+                                radius: 10,
+                              ),
+                      ],
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: size.height * 0.02,
@@ -198,27 +211,22 @@ class _VendasWidgetState extends State<VendasWidget> {
                 child: ListTile(
                   title: Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          'Data',
-                          style: AppTheme.textStyles.dropdownText
-                              .copyWith(fontSize: 16),
-                        ),
+                      Text(
+                        'Data',
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
                       ),
-                      Expanded(
-                        child: Text(
-                          'Litros',
-                          style: AppTheme.textStyles.dropdownText
-                              .copyWith(fontSize: 16),
-                        ),
+                      Spacer(),
+                      Text(
+                        'Litros',
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
                       ),
-                      Expanded(
-                        flex: 0,
-                        child: Text(
-                          'Valor R\$',
-                          style: AppTheme.textStyles.dropdownText
-                              .copyWith(fontSize: 16),
-                        ),
+                      Spacer(),
+                      Text(
+                        'Valor R\$',
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
                       ),
                     ],
                   ),
@@ -234,29 +242,23 @@ class _VendasWidgetState extends State<VendasWidget> {
                               (venda) => ListTile(
                                 title: Row(
                                   children: [
-                                    Expanded(
-                                      child: Text(venda.data!.DiaMes(),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          )),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                      child: Text(
-                                        venda.qtdTotal.Litros(),
-                                        textAlign: TextAlign.end,
-                                        style: AppTheme.textStyles.dropdownText
-                                            .copyWith(fontSize: 16),
+                                    Text(
+                                      venda.data!.DiaMes(),
+                                      style: TextStyle(
+                                        fontSize: 16,
                                       ),
                                     ),
                                     Spacer(),
-                                    Expanded(
-                                      flex: 0,
-                                      child: Text(venda.vlrTotal.reais(),
-                                          style: AppTheme
-                                              .textStyles.dropdownText
-                                              .copyWith(fontSize: 16)),
+                                    Text(
+                                      venda.qtdTotal.Litros(),
+                                      textAlign: TextAlign.end,
+                                      style: AppTheme.textStyles.dropdownText
+                                          .copyWith(fontSize: 16),
                                     ),
+                                    Spacer(),
+                                    Text(venda.vlrTotal.reais(),
+                                        style: AppTheme.textStyles.dropdownText
+                                            .copyWith(fontSize: 16)),
                                   ],
                                 ),
                               ),
