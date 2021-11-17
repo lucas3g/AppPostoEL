@@ -37,6 +37,7 @@ class _DashBoardBottomNavBarState extends State<DashBoardBottomNavBar> {
         backgroundColor: AppTheme.colors.secondaryColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.7),
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             label: 'Vendas',
@@ -45,6 +46,10 @@ class _DashBoardBottomNavBarState extends State<DashBoardBottomNavBar> {
           BottomNavigationBarItem(
             label: 'Tanques',
             icon: Icon(Icons.local_gas_station),
+          ),
+          BottomNavigationBarItem(
+            label: 'Saldo CR',
+            icon: Icon(Icons.account_balance_rounded),
           ),
         ],
       ),

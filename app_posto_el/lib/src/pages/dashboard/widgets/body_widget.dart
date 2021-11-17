@@ -1,10 +1,12 @@
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/combustiveis_page_widget.dart';
+import 'package:app_posto_el/src/pages/dashboard/saldo_cr/saldo_cr_page.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/vendas_widget.dart';
 import 'package:flutter/material.dart';
 
 var pages = [
   VendasWidget(),
   CombustiveisPageWidget(),
+  SaldoCRPage(),
 ];
 
 class BodyWidget extends SingleChildScrollView {
