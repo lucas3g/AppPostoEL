@@ -132,13 +132,16 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                             .copyWith(fontSize: 16),
                       ),
                       Text(
-                        filteredUsers
-                            .where((saldo) =>
-                                saldo.local == controllerLocais.dropdownValue)
-                            .map((saldo) => saldo.saldoAtual)
-                            .reduce((value, element) => value! + element!)!
-                            .toDouble()
-                            .reais(),
+                        filteredUsers.isNotEmpty
+                            ? filteredUsers
+                                .where((saldo) =>
+                                    saldo.local ==
+                                    controllerLocais.dropdownValue)
+                                .map((saldo) => saldo.saldoAtual)
+                                .reduce((value, element) => value! + element!)!
+                                .toDouble()
+                                .reais()
+                            : "R\$ 0.00",
                         style: AppTheme.textStyles.dropdownText.copyWith(
                             fontSize: 30,
                             color: AppTheme.colors.secondaryColor),
