@@ -1,10 +1,12 @@
-import 'package:app_posto_el/src/components/el_input_widget.dart';
+import 'dart:async';
+
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/saldo_cr/controller/saldo_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/saldo_cr/model/saldo_model.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:app_posto_el/src/utils/formatters.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -19,12 +21,24 @@ class SaldoCRPage extends StatefulWidget {
 class _SaldoCRPageState extends State<SaldoCRPage> {
   final controller = GlobalSettings().controllerSaldo;
   final controllerLocais = GlobalSettings().controllerLocais;
+
   List<SaldoModel> filteredUsers = [];
 
   void getSaldo() async {
     await controller.getSaldo();
     setState(() {
-      filteredUsers = controller.saldo;
+      filteredUsers = controller.saldo
+          .where((e) => e.local == controllerLocais.dropdownValue)
+          .toList();
+    });
+  }
+
+  void _onSearchChanged(String value) {
+    setState(() {
+      filteredUsers = controller.saldo
+          .where((saldo) =>
+              (saldo.nomeCliente!.toLowerCase().contains(value.toLowerCase())))
+          .toList();
     });
   }
 
@@ -58,15 +72,15 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                   shadowColor: Colors.grey,
                   borderRadius: BorderRadius.circular(20),
                   child: TextFormField(
+                    inputFormatters: [UpperCaseTextFormatter()],
                     focusNode: _focusNodes[0],
                     onChanged: (value) {
-                      setState(() {
-                        filteredUsers = controller.saldo
-                            .where((saldo) => (saldo.nomeCliente!
-                                .toLowerCase()
-                                .contains(value.toLowerCase())))
-                            .toList();
-                      });
+                      EasyDebounce.debounce(
+                          'my-debouncer', // <-- An ID for this particular debouncer
+                          Duration(
+                              milliseconds: 500), // <-- The debounce duration
+                          () => _onSearchChanged(value) // <-- The target method
+                          ); // <-- The target method
                     },
                     cursorColor: AppTheme.colors.primaryColor,
                     textAlignVertical: TextAlignVertical.top,
@@ -118,7 +132,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                             .copyWith(fontSize: 16),
                       ),
                       Text(
-                        controller.saldo
+                        filteredUsers
                             .where((saldo) =>
                                 saldo.local == controllerLocais.dropdownValue)
                             .map((saldo) => saldo.saldoAtual)
@@ -132,15 +146,16 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: filteredUsers.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: Column(
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    if (filteredUsers.isNotEmpty) ...[
+                      ...filteredUsers.map((saldo) {
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
@@ -149,7 +164,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      filteredUsers[index].nomeCliente!,
+                                      saldo.nomeCliente!,
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -157,10 +172,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                                     ),
                                   ),
                                   Text(
-                                    filteredUsers[index]
-                                        .saldoAtual!
-                                        .toDouble()
-                                        .reais(),
+                                    saldo.saldoAtual!.toDouble().reais(),
                                     textAlign: TextAlign.end,
                                     style: AppTheme.textStyles.dropdownText
                                         .copyWith(
@@ -176,7 +188,11 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                             ],
                           ),
                         );
-                      }),
+                      })
+                    ] else ...[
+                      Text('Nenhum cliente encontrado!')
+                    ]
+                  ],
                 ),
               ],
             )
@@ -273,3 +289,25 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
     });
   }
 }
+
+
+
+// Container(
+                //   height: 40,
+                //   width: double.maxFinite,
+                //   padding: EdgeInsets.only(bottom: 5),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.end,
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text('Lucas Emanuel Silva',
+                //           style: TextStyle(fontSize: 16)),
+                //       Text(
+                //         'R\$ 804,00',
+                //         style: AppTheme.textStyles.dropdownText.copyWith(
+                //             fontSize: 16,
+                //             color: AppTheme.colors.secondaryColor),
+                //       )
+                //     ],
+                //   ),
+                // ),
