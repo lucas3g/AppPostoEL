@@ -1,57 +1,235 @@
+import 'package:app_posto_el/src/configs/global_settings.dart';
+import 'package:app_posto_el/src/pages/dashboard/saldo_cr/controller/saldo_status.dart';
+import 'package:app_posto_el/src/pages/dashboard/widgets/loading_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:app_posto_el/src/utils/formatters.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
-class SaldoCRPage extends StatelessWidget {
+class SaldoCRPage extends StatefulWidget {
   const SaldoCRPage({Key? key}) : super(key: key);
 
   @override
+  State<SaldoCRPage> createState() => _SaldoCRPageState();
+}
+
+class _SaldoCRPageState extends State<SaldoCRPage> {
+  final controller = GlobalSettings().controllerSaldo;
+  final controllerLocais = GlobalSettings().controllerLocais;
+
+  void getSaldo() async {
+    await controller.getSaldo();
+  }
+
+  @override
+  void initState() {
+    autorun((_) {
+      getSaldo();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: PhysicalModel(
-            color: Colors.white,
-            elevation: 8,
-            shadowColor: AppTheme.colors.secondaryColor,
-            borderRadius: BorderRadius.circular(20),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Cliente',
-                    style:
-                        AppTheme.textStyles.dropdownText.copyWith(fontSize: 16),
+    return Observer(builder: (_) {
+      return controller.status == SaldoStatus.success
+          ? Column(
+              children: [
+                Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                    ),
                   ),
-                  Text(
-                    'Saldo R\$',
-                    style:
-                        AppTheme.textStyles.dropdownText.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        PhysicalModel(
-          color: Colors.white,
-          elevation: 8,
-          shadowColor: AppTheme.colors.secondaryColor,
-          borderRadius: BorderRadius.circular(20),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Lucas Emanuel Silva'), Text('910,16')],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-      ],
-    );
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Total Geral',
+                        style: AppTheme.textStyles.dropdownText
+                            .copyWith(fontSize: 16),
+                      ),
+                      Text(
+                        controller.saldo
+                            .where((saldo) =>
+                                saldo.local == controllerLocais.dropdownValue)
+                            .map((saldo) => saldo.saldoAtual)
+                            .reduce((value, element) => value! + element!)!
+                            .toDouble()
+                            .reais(),
+                        style: AppTheme.textStyles.dropdownText.copyWith(
+                            fontSize: 30,
+                            color: AppTheme.colors.secondaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ...controller.saldo
+                        .where((saldo) =>
+                            saldo.local == controllerLocais.dropdownValue)
+                        .map(
+                          (saldo) => ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        saldo.nomeCliente!,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                    Text(
+                                      saldo.saldoAtual!.toDouble().reais(),
+                                      textAlign: TextAlign.end,
+                                      style: AppTheme.textStyles.dropdownText
+                                          .copyWith(
+                                              fontSize: 16,
+                                              color: AppTheme
+                                                  .colors.secondaryColor),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                  ].toList(),
+                ),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LoadingWidget(size: Size(100, 35), radius: 20),
+                SizedBox(
+                  height: 10,
+                ),
+                LoadingWidget(size: Size(150, 50), radius: 20),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingWidget(size: Size(250, 30), radius: 20),
+                    LoadingWidget(size: Size(100, 30), radius: 20),
+                  ],
+                )
+              ],
+            );
+    });
   }
 }
+
+
+
+// Container(
+                //   height: 40,
+                //   width: double.maxFinite,
+                //   padding: EdgeInsets.only(bottom: 5),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.end,
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text('Lucas Emanuel Silva',
+                //           style: TextStyle(fontSize: 16)),
+                //       Text(
+                //         'R\$ 804,00',
+                //         style: AppTheme.textStyles.dropdownText.copyWith(
+                //             fontSize: 16,
+                //             color: AppTheme.colors.secondaryColor),
+                //       )
+                //     ],
+                //   ),
+                // ),

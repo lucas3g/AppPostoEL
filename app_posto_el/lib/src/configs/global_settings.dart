@@ -1,6 +1,7 @@
 import 'package:app_posto_el/src/configs/app_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/combustiveis/controllers/combustiveis_controller.dart';
 import 'package:app_posto_el/src/pages/dashboard/controllers/controller_locais.dart';
+import 'package:app_posto_el/src/pages/dashboard/saldo_cr/controller/saldo_controller.dart';
 import 'package:app_posto_el/src/pages/dashboard/vendas/controllers/vendas/vendas_controller.dart';
 import 'package:get_it/get_it.dart';
 
@@ -9,6 +10,7 @@ class GlobalSettings {
   final controllerLocais = GetIt.I.get<ControllerLocais>();
   final controllerVendas = GetIt.I.get<VendasController>();
   final controllerCombustiveis = GetIt.I.get<CombustiveisController>();
+  final controllerSaldo = GetIt.I.get<SaldoController>();
 
   static recursiveFunction(
       {required Function function,

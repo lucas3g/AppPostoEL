@@ -144,7 +144,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                         width: size.width * 0.05,
                       ),
                       Text(
-                        currentIndex == 0 ? 'Vendas' : 'Tanques de Combustível',
+                        currentIndex == 0
+                            ? 'Vendas'
+                            : currentIndex == 1
+                                ? 'Tanques de Combustível'
+                                : 'Saldo - Contas a Receber',
                         style: AppTheme.textStyles.title,
                         textAlign: TextAlign.center,
                       ),
