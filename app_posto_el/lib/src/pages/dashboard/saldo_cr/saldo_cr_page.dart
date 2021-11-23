@@ -21,42 +21,46 @@ class SaldoCRPage extends StatefulWidget {
 class _SaldoCRPageState extends State<SaldoCRPage> {
   final controller = GlobalSettings().controllerSaldo;
   final controllerLocais = GlobalSettings().controllerLocais;
+  final TextEditingController controllerInput = TextEditingController();
 
   List<SaldoModel> filteredUsers = [];
 
   void getSaldo() async {
-    await controller.getSaldo();
-    setState(() {
-      filteredUsers = controller.saldo
-          .where((e) => e.local == controllerLocais.dropdownValue)
-          .toList();
-    });
+    controllerInput.clear();
+
+    if (controller.saldo.isEmpty) {
+      await controller.getSaldo();
+      setState(() {
+        filteredUsers = controller.saldo
+            .where((e) => e.local == controllerLocais.dropdownValue)
+            .toList();
+      });
+    } else {
+      setState(() {
+        filteredUsers = controller.saldo
+            .where((e) => e.local == controllerLocais.dropdownValue)
+            .toList();
+      });
+    }
   }
 
   void _onSearchChanged(String value) {
     setState(() {
       filteredUsers = controller.saldo
           .where((saldo) =>
-              (saldo.nomeCliente!.toLowerCase().contains(value.toLowerCase())))
+              (saldo.nomeCliente!
+                  .toLowerCase()
+                  .contains(value.toLowerCase())) &&
+              saldo.local == controllerLocais.dropdownValue)
           .toList();
     });
   }
-
-  List<FocusNode> _focusNodes = [
-    FocusNode(),
-  ];
 
   @override
   void initState() {
     autorun((_) {
       getSaldo();
     });
-    _focusNodes.forEach((node) {
-      node.addListener(() {
-        setState(() {});
-      });
-    });
-
     super.initState();
   }
 
@@ -66,46 +70,63 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
       return controller.status == SaldoStatus.success
           ? Column(
               children: [
-                PhysicalModel(
-                  color: Colors.white,
-                  elevation: 8,
-                  shadowColor: Colors.grey,
-                  borderRadius: BorderRadius.circular(20),
-                  child: TextFormField(
-                    inputFormatters: [UpperCaseTextFormatter()],
-                    focusNode: _focusNodes[0],
-                    onChanged: (value) {
-                      EasyDebounce.debounce(
-                          'my-debouncer', // <-- An ID for this particular debouncer
-                          Duration(
-                              milliseconds: 500), // <-- The debounce duration
-                          () => _onSearchChanged(value) // <-- The target method
-                          ); // <-- The target method
-                    },
-                    cursorColor: AppTheme.colors.primaryColor,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: InputDecoration(
-                      isDense: true,
-                      fillColor: Colors.grey.shade300,
-                      filled: true,
-                      prefixIcon: Icon(
-                        Icons.search_rounded,
-                        size: 25,
-                        color: _focusNodes[0].hasFocus
-                            ? AppTheme.colors.secondaryColor
-                            : Colors.grey,
-                      ),
-                      hintText: 'Pesquisar um cliente',
-                      alignLabelWithHint: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          color: AppTheme.colors.secondaryColor,
+                Theme(
+                  data: ThemeData(
+                    colorScheme: ThemeData().colorScheme.copyWith(
+                          primary: AppTheme.colors.secondaryColor,
                         ),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
+                  ),
+                  child: PhysicalModel(
+                    color: Colors.white,
+                    elevation: 8,
+                    shadowColor: Colors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                    child: TextFormField(
+                      controller: controllerInput,
+                      inputFormatters: [UpperCaseTextFormatter()],
+                      onChanged: (value) {
+                        EasyDebounce.debounce(
+                            'my-debouncer', // <-- An ID for this particular debouncer
+                            Duration(
+                                milliseconds: 500), // <-- The debounce duration
+                            () =>
+                                _onSearchChanged(value) // <-- The target method
+                            ); // <-- The target method
+                      },
+                      cursorColor: AppTheme.colors.primaryColor,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        fillColor: Colors.grey.shade300,
+                        filled: true,
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          size: 25,
+                        ),
+                        suffixIcon: controllerInput.value.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(
+                                  Icons.clear,
+                                  size: 25,
+                                ),
+                                onPressed: () {
+                                  controllerInput.clear();
+                                  _onSearchChanged('');
+                                },
+                              )
+                            : null,
+                        hintText: 'Pesquisar um cliente',
+                        alignLabelWithHint: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(
+                            color: AppTheme.colors.secondaryColor,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
