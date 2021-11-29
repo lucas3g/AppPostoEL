@@ -36,24 +36,15 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
             .toList();
       });
     } else {
-      setState(() {
-        filteredUsers = controller.saldo
-            .where((e) => e.local == controllerLocais.dropdownValue)
-            .toList();
-      });
+      filteredUsers =
+          await controller.filtro(local: controllerLocais.dropdownValue);
     }
   }
 
-  void _onSearchChanged(String value) {
-    setState(() {
-      filteredUsers = controller.saldo
-          .where((saldo) =>
-              (saldo.nomeCliente!
-                  .toLowerCase()
-                  .contains(value.toLowerCase())) &&
-              saldo.local == controllerLocais.dropdownValue)
-          .toList();
-    });
+  void _onSearchChanged(String value) async {
+    filteredUsers = await controller.onSearchChanged(
+        value: value, local: controllerLocais.dropdownValue);
+    setState(() {});
   }
 
   @override

@@ -47,7 +47,7 @@ class CombustiveisModel {
 
   factory CombustiveisModel.fromMap(Map<String, dynamic> map) {
     return CombustiveisModel(
-      volume: map['volume'] ?? 0.00,
+      volume: double.tryParse(map['volume'].toString()) ?? 0.0,
       capacidade: map['capacidade'] ?? 0,
       tanque: map['tanque'] ?? 0,
       ccusto: map['ccusto'] ?? 0,

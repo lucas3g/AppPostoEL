@@ -46,6 +46,23 @@ mixin _$SaldoController on _SaldoControllerBase, Store {
     return _$getSaldoAsyncAction.run(() => super.getSaldo());
   }
 
+  final _$filtroAsyncAction = AsyncAction('_SaldoControllerBase.filtro');
+
+  @override
+  Future<ObservableList<SaldoModel>> filtro({required int local}) {
+    return _$filtroAsyncAction.run(() => super.filtro(local: local));
+  }
+
+  final _$onSearchChangedAsyncAction =
+      AsyncAction('_SaldoControllerBase.onSearchChanged');
+
+  @override
+  Future<ObservableList<SaldoModel>> onSearchChanged(
+      {required String value, required int local}) {
+    return _$onSearchChangedAsyncAction
+        .run(() => super.onSearchChanged(value: value, local: local));
+  }
+
   @override
   String toString() {
     return '''

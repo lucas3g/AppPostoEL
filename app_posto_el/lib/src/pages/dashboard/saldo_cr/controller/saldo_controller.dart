@@ -42,4 +42,40 @@ abstract class _SaldoControllerBase with Store {
       print('Eu sou erro do saldo $e');
     }
   }
+
+  @action
+  Future<ObservableList<SaldoModel>> filtro({required int local}) async {
+    status = SaldoStatus.loading;
+
+    ObservableList<SaldoModel> lista =
+        ObservableList.of(saldo.where((e) => e.local == local));
+
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    status = SaldoStatus.success;
+    return lista;
+  }
+
+  @action
+  Future<ObservableList<SaldoModel>> onSearchChanged(
+      {required String value, required int local}) async {
+    if (value.isEmpty) {
+      status = SaldoStatus.loading;
+    }
+
+    ObservableList<SaldoModel> lista = ObservableList.of(saldo
+        .where((saldo) =>
+            (saldo.nomeCliente!.toLowerCase().contains(value.toLowerCase())) &&
+            saldo.local == local)
+        .toList());
+
+    if (value.isEmpty) {
+      await Future.delayed(const Duration(milliseconds: 300));
+    }
+
+    if (value.isEmpty) {
+      status = SaldoStatus.success;
+    }
+    return lista;
+  }
 }
