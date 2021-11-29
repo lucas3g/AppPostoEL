@@ -50,7 +50,7 @@ abstract class _SaldoControllerBase with Store {
     ObservableList<SaldoModel> lista =
         ObservableList.of(saldo.where((e) => e.local == local));
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 600));
 
     status = SaldoStatus.success;
     return lista;

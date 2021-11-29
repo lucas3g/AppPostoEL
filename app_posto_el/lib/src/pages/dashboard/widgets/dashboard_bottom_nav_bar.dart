@@ -1,4 +1,5 @@
 import 'package:app_posto_el/src/theme/app_theme.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,42 +18,23 @@ class _DashBoardBottomNavBarState extends State<DashBoardBottomNavBar> {
   late int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(25),
-        topRight: Radius.circular(25),
-      ),
-      child: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-            widget.onChanged(index);
-          });
-        },
-        selectedLabelStyle: TextStyle(
-          color: Colors.black87,
-          fontSize: 16,
-        ),
-        backgroundColor: AppTheme.colors.secondaryColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(0.7),
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Vendas',
-            icon: Icon(Icons.attach_money_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Tanques',
-            icon: Icon(Icons.local_gas_station),
-          ),
-          BottomNavigationBarItem(
-            label: 'Saldo CR',
-            icon: Icon(Icons.account_balance_rounded),
-          ),
-        ],
-      ),
+    return CurvedNavigationBar(
+      height: 50,
+      index: currentIndex,
+      onTap: (index) {
+        setState(() {
+          currentIndex = index;
+          widget.onChanged(index);
+        });
+      },
+      color: AppTheme.colors.secondaryColor,
+      animationCurve: Curves.easeInOut,
+      backgroundColor: Colors.grey.shade50,
+      items: [
+        Icon(Icons.attach_money_rounded, color: Colors.white),
+        Icon(Icons.local_gas_station, color: Colors.white),
+        Icon(Icons.account_balance_rounded, color: Colors.white),
+      ],
     );
   }
 }

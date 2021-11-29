@@ -64,6 +64,8 @@ abstract class _VendasControllerBase with Store {
 
       vendas = ObservableList.of(listaNova);
 
+      await Future.delayed(const Duration(milliseconds: 300));
+
       if (vendas.isNotEmpty) {
         status = VendasStatus.success;
       } else {
