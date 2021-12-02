@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/saldo_cr/controller/saldo_status.dart';
 import 'package:app_posto_el/src/pages/dashboard/saldo_cr/model/saldo_model.dart';
@@ -77,12 +75,9 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                       inputFormatters: [UpperCaseTextFormatter()],
                       onChanged: (value) {
                         EasyDebounce.debounce(
-                            'my-debouncer', // <-- An ID for this particular debouncer
-                            Duration(
-                                milliseconds: 500), // <-- The debounce duration
-                            () =>
-                                _onSearchChanged(value) // <-- The target method
-                            ); // <-- The target method
+                            'my-debouncer',
+                            Duration(milliseconds: 500),
+                            () => _onSearchChanged(value));
                       },
                       cursorColor: AppTheme.colors.primaryColor,
                       textAlignVertical: TextAlignVertical.top,
@@ -304,25 +299,3 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
     });
   }
 }
-
-
-
-// Container(
-                //   height: 40,
-                //   width: double.maxFinite,
-                //   padding: EdgeInsets.only(bottom: 5),
-                //   child: Row(
-                //     crossAxisAlignment: CrossAxisAlignment.end,
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text('Lucas Emanuel Silva',
-                //           style: TextStyle(fontSize: 16)),
-                //       Text(
-                //         'R\$ 804,00',
-                //         style: AppTheme.textStyles.dropdownText.copyWith(
-                //             fontSize: 16,
-                //             color: AppTheme.colors.secondaryColor),
-                //       )
-                //     ],
-                //   ),
-                // ),
