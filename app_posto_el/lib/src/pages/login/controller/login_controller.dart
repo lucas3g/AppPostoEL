@@ -57,7 +57,7 @@ abstract class _LoginControllerBase with Store {
           return;
         }
 
-        await Future.delayed(Duration(seconds: 2));
+        //await Future.delayed(Duration(seconds: 2));
 
         final authConfig =
             jsonEncode({'USUARIO': user.login, 'SENHA': user.senha});
@@ -93,7 +93,7 @@ abstract class _LoginControllerBase with Store {
           await GlobalSettings().appSettings.setLogado(conectado: 'S');
           await GlobalSettings().appSettings.setUser(user: user);
           status = LoginStatus.success;
-          await Future.delayed(Duration(seconds: 2));
+          //await Future.delayed(Duration(seconds: 2));
         } else {
           await GlobalSettings().appSettings.setLogado(conectado: 'N');
           status = LoginStatus.naoAutorizado;
@@ -101,7 +101,7 @@ abstract class _LoginControllerBase with Store {
         // print('EU SOU RESPONSE $autorizado');
       } else {
         status = LoginStatus.error;
-        await Future.delayed(Duration(seconds: 2));
+        //await Future.delayed(Duration(seconds: 2));
         status = LoginStatus.empty;
       }
     } on DioError catch (e) {

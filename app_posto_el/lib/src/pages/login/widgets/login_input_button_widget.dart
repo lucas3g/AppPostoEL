@@ -157,65 +157,61 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
               height: 15,
             ),
             Observer(builder: (_) {
-              Widget buildButton() {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      fixedSize: Size.fromHeight(45),
-                      primary: Color(0xffcf1f36),
-                      shadowColor: Color(0xffcf1f36),
-                      elevation: 8),
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    controllerLogin.login();
-                  },
-                  child: FittedBox(
-                    child: Text(
-                      'Entrar',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ),
-                );
-              }
-
-              Widget buildSmallButton() {
-                return Container(
+              return GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  controllerLogin.login();
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
                   height: 45,
+                  width: controllerLogin.status == LoginStatus.loading ||
+                          controllerLogin.status == LoginStatus.success
+                      ? 45
+                      : double.maxFinite,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(20),
                       color: controllerLogin.status == LoginStatus.success
                           ? Colors.green
-                          : Color(0xffcf1f36)),
-                  child: Center(
-                    child: controllerLogin.status == LoginStatus.success
-                        ? Icon(Icons.done, size: 35, color: Colors.white)
-                        : CircularProgressIndicator(
+                          : Color(0xffcf1f36),
+                      boxShadow: [
+                        BoxShadow(
+                          color: controllerLogin.status == LoginStatus.success
+                              ? Colors.green
+                              : Color(0xffcf1f36),
+                          blurRadius: 10,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
+                  alignment: Alignment.center,
+                  child: AnimatedCrossFade(
+                    firstChild: controllerLogin.status != LoginStatus.success
+                        ? Text(
+                            'Entrar',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.white),
+                            textAlign: TextAlign.center,
+                          )
+                        : Icon(
+                            Icons.done,
+                            size: 35,
                             color: Colors.white,
                           ),
+                    secondChild: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                    crossFadeState:
+                        controllerLogin.status == LoginStatus.loading
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                    duration: Duration(milliseconds: 200),
                   ),
-                );
-              }
-
-              return AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeIn,
-                width: controllerLogin.status == LoginStatus.empty ||
-                        controllerLogin.status == LoginStatus.error ||
-                        controllerLogin.status == LoginStatus.invalidCNPJ ||
-                        controllerLogin.status == LoginStatus.semInternet ||
-                        controllerLogin.status == LoginStatus.naoAutorizado
-                    ? MediaQuery.of(context).size.width
-                    : 45,
-                child: controllerLogin.status == LoginStatus.empty ||
-                        controllerLogin.status == LoginStatus.error ||
-                        controllerLogin.status == LoginStatus.invalidCNPJ ||
-                        controllerLogin.status == LoginStatus.semInternet ||
-                        controllerLogin.status == LoginStatus.naoAutorizado
-                    ? buildButton()
-                    : buildSmallButton(),
+                ),
               );
             }),
             SizedBox(
