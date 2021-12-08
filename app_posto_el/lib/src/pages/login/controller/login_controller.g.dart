@@ -39,21 +39,6 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
-  final _$widthAtom = Atom(name: '_LoginControllerBase.width');
-
-  @override
-  double get width {
-    _$widthAtom.reportRead();
-    return super.width;
-  }
-
-  @override
-  set width(double value) {
-    _$widthAtom.reportWrite(value, super.width, () {
-      super.width = value;
-    });
-  }
-
   final _$loginAsyncAction = AsyncAction('_LoginControllerBase.login');
 
   @override
@@ -79,8 +64,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
   String toString() {
     return '''
 user: ${user},
-status: ${status},
-width: ${width}
+status: ${status}
     ''';
   }
 }

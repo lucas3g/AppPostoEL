@@ -14,6 +14,7 @@ class ELInputWidget extends StatelessWidget {
   final Widget? sufixIcon;
   final List<TextInputFormatter>? inputFormaters;
   final Function(String?) onFieldSubmitted;
+
   ELInputWidget({
     Key? key,
     required this.focusNode,

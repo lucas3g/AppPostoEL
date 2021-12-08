@@ -21,8 +21,7 @@ class LoginInputButtonWidget extends StatefulWidget {
   State<LoginInputButtonWidget> createState() => _LoginInputButtonWidgetState();
 }
 
-class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
-    with TickerProviderStateMixin {
+class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
   final controllerLogin = LoginController();
   late Map<String, String> logado;
   var visiblePassword = false;
@@ -156,14 +155,14 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
             SizedBox(
               height: 15,
             ),
-            Observer(builder: (_) {
-              return GestureDetector(
+            Observer(
+              builder: (_) => GestureDetector(
                 onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
                   controllerLogin.login();
+                  FocusScope.of(context).requestFocus(FocusNode());
                 },
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
+                  duration: Duration(milliseconds: 300),
                   height: 45,
                   width: controllerLogin.status == LoginStatus.loading ||
                           controllerLogin.status == LoginStatus.success
@@ -212,8 +211,8 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget>
                     duration: Duration(milliseconds: 200),
                   ),
                 ),
-              );
-            }),
+              ),
+            ),
             SizedBox(
               height: 15,
             ),
