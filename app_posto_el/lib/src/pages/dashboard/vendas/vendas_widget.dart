@@ -28,7 +28,6 @@ class _VendasWidgetState extends State<VendasWidget> {
 
   montaGrafico() {
     var inicio = DateTime.now().subtract(Duration(days: 7));
-
     listaNova = controllerVendas.vendas
         .where((venda) =>
             !DateTime.parse(venda.data.toString()).isBefore(inicio) &&

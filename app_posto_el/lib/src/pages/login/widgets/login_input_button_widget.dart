@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:app_posto_el/src/components/el_input_widget.dart';
 import 'package:app_posto_el/src/pages/login/controller/login_controller.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
@@ -8,8 +6,6 @@ import 'package:app_posto_el/src/utils/meu_toast.dart';
 import 'package:app_posto_el/src/utils/types_toast.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -84,72 +80,66 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
             SizedBox(
               height: 15,
             ),
-            Observer(
-              builder: (_) => ELInputWidget(
-                onFieldSubmitted: (value) {
-                  login.requestFocus();
-                },
-                controllerLogin: controllerLogin,
-                keyboardType: TextInputType.number,
-                hintText: 'CNPJ',
-                mascaraCnpj: true,
-                type: 'CNPJ',
-                obscureText: false,
-                focusNode: login,
-                inputFormaters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CpfOuCnpjFormatter()
-                ],
-              ),
+            ELInputWidget(
+              onFieldSubmitted: (value) {
+                login.requestFocus();
+              },
+              controllerLogin: controllerLogin,
+              keyboardType: TextInputType.number,
+              hintText: 'CNPJ',
+              mascaraCnpj: true,
+              type: 'CNPJ',
+              obscureText: false,
+              focusNode: login,
+              inputFormaters: [
+                FilteringTextInputFormatter.digitsOnly,
+                CpfOuCnpjFormatter()
+              ],
             ),
             SizedBox(
               height: 15,
             ),
-            Observer(
-              builder: (_) => ELInputWidget(
-                inputFormaters: [UpperCaseTextFormatter()],
-                onFieldSubmitted: (value) {
-                  senha.requestFocus();
-                },
-                focusNode: login,
-                controllerLogin: controllerLogin,
-                keyboardType: TextInputType.text,
-                hintText: 'Login',
-                mascaraCnpj: false,
-                type: 'LOGIN',
-                obscureText: false,
-              ),
+            ELInputWidget(
+              inputFormaters: [UpperCaseTextFormatter()],
+              onFieldSubmitted: (value) {
+                senha.requestFocus();
+              },
+              focusNode: login,
+              controllerLogin: controllerLogin,
+              keyboardType: TextInputType.text,
+              hintText: 'Login',
+              mascaraCnpj: false,
+              type: 'LOGIN',
+              obscureText: false,
             ),
             SizedBox(
               height: 15,
             ),
-            Observer(
-              builder: (_) => ELInputWidget(
-                inputFormaters: [UpperCaseTextFormatter()],
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  controllerLogin.login();
-                },
-                focusNode: senha,
-                controllerLogin: controllerLogin,
-                keyboardType: TextInputType.text,
-                hintText: 'Senha',
-                mascaraCnpj: false,
-                type: 'SENHA',
-                obscureText: !visiblePassword,
-                sufixIcon: GestureDetector(
-                  child: Icon(
-                    visiblePassword ? Icons.visibility : Icons.visibility_off,
-                    size: 25,
-                    color: visiblePassword
-                        ? AppTheme.colors.secondaryColor
-                        : Color(0xFF666666),
-                  ),
-                  onTap: () {
-                    visiblePassword = !visiblePassword;
-                    setState(() {});
-                  },
+            ELInputWidget(
+              inputFormaters: [UpperCaseTextFormatter()],
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(FocusNode());
+                controllerLogin.login();
+              },
+              focusNode: senha,
+              controllerLogin: controllerLogin,
+              keyboardType: TextInputType.text,
+              hintText: 'Senha',
+              mascaraCnpj: false,
+              type: 'SENHA',
+              obscureText: !visiblePassword,
+              sufixIcon: GestureDetector(
+                child: Icon(
+                  visiblePassword ? Icons.visibility : Icons.visibility_off,
+                  size: 25,
+                  color: visiblePassword
+                      ? AppTheme.colors.secondaryColor
+                      : Color(0xFF666666),
                 ),
+                onTap: () {
+                  visiblePassword = !visiblePassword;
+                  setState(() {});
+                },
               ),
             ),
             SizedBox(
@@ -158,8 +148,14 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
             Observer(
               builder: (_) => GestureDetector(
                 onTap: () {
-                  controllerLogin.login();
-                  FocusScope.of(context).requestFocus(FocusNode());
+                  if (controllerLogin.status == LoginStatus.empty ||
+                      controllerLogin.status == LoginStatus.naoAutorizado ||
+                      controllerLogin.status == LoginStatus.error ||
+                      controllerLogin.status == LoginStatus.invalidCNPJ ||
+                      controllerLogin.status == LoginStatus.semInternet) {
+                    controllerLogin.login();
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  }
                 },
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 300),
