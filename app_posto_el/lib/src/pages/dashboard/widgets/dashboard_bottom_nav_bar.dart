@@ -1,6 +1,5 @@
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardBottomNavBar extends StatefulWidget {
