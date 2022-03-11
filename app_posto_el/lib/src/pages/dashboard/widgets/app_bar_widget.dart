@@ -1,5 +1,4 @@
 import 'package:app_posto_el/src/configs/app_settings.dart';
-import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/drop_down_widget.dart';
 import 'package:app_posto_el/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';

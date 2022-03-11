@@ -1,4 +1,3 @@
-import 'package:app_posto_el/src/configs/global_settings.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/controller/limpa_dados_controller.dart';
 import 'package:app_posto_el/src/pages/login/model/user_model.dart';
 import 'package:flutter/material.dart';

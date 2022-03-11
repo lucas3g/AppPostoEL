@@ -158,14 +158,18 @@ class _LoginInputButtonWidgetState extends State<LoginInputButtonWidget> {
                   }
                 },
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 500),
                   height: 45,
                   width: controllerLogin.status == LoginStatus.loading ||
                           controllerLogin.status == LoginStatus.success
                       ? 45
-                      : double.maxFinite,
+                      : MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(
+                          controllerLogin.status == LoginStatus.loading ||
+                                  controllerLogin.status == LoginStatus.success
+                              ? 45
+                              : 20),
                       color: controllerLogin.status == LoginStatus.success
                           ? Colors.green
                           : Color(0xffcf1f36),
