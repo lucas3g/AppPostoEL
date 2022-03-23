@@ -1,16 +1,18 @@
-# app_posto_el
+# Posto Plus :fuelpump:
 
-A new Flutter project.
+[![N|Solid](https://elinfo.jelastic.saveincloud.net/assets/imagens/EL.png)](https://www.elsistemas.com.br/)
 
-## Getting Started
+Posto plus é um aplicativo para o empresário, dono do posto, ter uma visualização mais facil de seus lucros na palma da mão.
 
-This project is a starting point for a Flutter application.
+## Funcionalidades
 
-A few resources to get you started if this is your first Flutter project:
+- Total de vendas diárias, semanais e mensais;
+- Gráficos mostrando o estoque de cada produto;
+- Relação do contas a receber com total;
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Imagens
+![N|Solid](https://user-images.githubusercontent.com/53888064/159766628-a46b69be-a3ba-4e54-b9ec-c1592e9a0e31.png)
+![N|Solid](https://user-images.githubusercontent.com/53888064/159766406-db6b7446-7395-42d8-8e2b-2567d6d23bd2.png)
+![N|Solid](https://user-images.githubusercontent.com/53888064/159766704-6ffad656-d468-4acc-80fd-0c91f915f3c4.png)
+![N|Solid](https://user-images.githubusercontent.com/53888064/159766964-6fbfce3a-44dc-4698-b218-7cbc9f968e99.png)
+![N|Solid](https://user-images.githubusercontent.com/53888064/159766574-fe05fb02-abdc-4ab5-a2a7-e7ee968668d6.png)
