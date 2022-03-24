@@ -65,6 +65,7 @@ dev_dependencies:
   # For information on the generic Dart part of this file, see the
   # following page: https://dart.dev/tools/pub/pubspec
   build_runner: ^2.1.2
+  flutter_lints: ^1.0.4
 
 # The following section is specific to Flutter.
 flutter:

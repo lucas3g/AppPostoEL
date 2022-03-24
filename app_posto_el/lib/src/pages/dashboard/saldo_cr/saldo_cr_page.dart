@@ -10,7 +10,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 class SaldoCRPage extends StatefulWidget {
-  const SaldoCRPage({Key? key}) : super(key: key);
+  SaldoCRPage({Key? key}) : super(key: key);
 
   @override
   State<SaldoCRPage> createState() => _SaldoCRPageState();
