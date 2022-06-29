@@ -85,7 +85,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   Widget get child => Stack(
         children: [
           Container(
-            height: 80,
+            height: size.height * .13,
             decoration: BoxDecoration(
               color: AppTheme.colors.secondaryColor,
               borderRadius: const BorderRadius.only(
@@ -138,5 +138,5 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       );
 
   @override
-  Size get preferredSize => const Size.fromHeight(130);
+  Size get preferredSize => Size.fromHeight(size.height * .18);
 }
