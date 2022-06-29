@@ -1,4 +1,4 @@
-package com.elsistemas.app_posto_el
+package com.elsistemas.apppostoplus
 
 import io.flutter.embedding.android.FlutterActivity
 
