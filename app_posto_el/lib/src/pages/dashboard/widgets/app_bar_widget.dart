@@ -85,7 +85,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   Widget get child => Stack(
         children: [
           Container(
-            height: size.height * .13,
+            height: size.height * .14,
             decoration: BoxDecoration(
               color: AppTheme.colors.secondaryColor,
               borderRadius: const BorderRadius.only(
@@ -97,7 +97,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 40),
                 child: SizedBox(
                   height: 30,
                   child: Row(
@@ -129,7 +129,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                 ),
               ),
               const SizedBox(
-                height: 3,
+                height: 5,
               ),
               const DropDownWidget(),
             ],
@@ -138,5 +138,5 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       );
 
   @override
-  Size get preferredSize => Size.fromHeight(size.height * .18);
+  Size get preferredSize => Size.fromHeight(size.height * .10);
 }
