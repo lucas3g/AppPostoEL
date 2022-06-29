@@ -3,8 +3,9 @@ import 'package:app_posto_el/src/pages/dashboard/widgets/body_widget.dart';
 import 'package:app_posto_el/src/pages/dashboard/widgets/dashboard_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class DashBoardPageWidget extends StatefulWidget {
+  const DashBoardPageWidget({Key? key}) : super(key: key);
+
   @override
   State<DashBoardPageWidget> createState() => _DashBoardPageWidgetState();
 }

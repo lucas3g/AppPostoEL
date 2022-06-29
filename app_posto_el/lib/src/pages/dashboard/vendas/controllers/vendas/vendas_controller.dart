@@ -27,11 +27,8 @@ abstract class _VendasControllerBase with Store {
 
       try {
         final result = await InternetAddress.lookup(MeuDio.baseUrl);
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          print('Tem Internet');
-        }
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
       } on SocketException catch (_) {
-        print('Sem Internet Vendas');
         status = VendasStatus.falhaServidor;
         return;
       }
@@ -81,7 +78,7 @@ abstract class _VendasControllerBase with Store {
   String somaVendas({required int local}) {
     late double result;
 
-    var inicio = DateTime.now().subtract(Duration(days: 7));
+    var inicio = DateTime.now().subtract(const Duration(days: 7));
 
     result = vendas
         .where((venda) =>
@@ -110,7 +107,7 @@ abstract class _VendasControllerBase with Store {
 
   @action
   String somaLitros({required int local}) {
-    var inicio = DateTime.now().subtract(Duration(days: 7));
+    var inicio = DateTime.now().subtract(const Duration(days: 7));
 
     final double result = vendas
         .where((venda) =>

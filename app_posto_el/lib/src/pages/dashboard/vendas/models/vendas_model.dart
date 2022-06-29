@@ -38,10 +38,10 @@ class VendasModel {
 
   factory VendasModel.fromMap(Map<String, dynamic> map) {
     return VendasModel(
-      local: map['local'] ?? 0,
-      vlrTotal: double.tryParse(map['vlrTotal'].toString()) ?? 0.00,
-      qtdTotal: double.tryParse(map['qtdTotal'].toString()) ?? 0.00,
-      data: DateTime.parse(map['data'] ?? DateTime.now().toString()),
+      local: map['LOCAL'] ?? 0,
+      vlrTotal: double.tryParse(map['VLR_TOTAL'].toString()) ?? 0.00,
+      qtdTotal: double.tryParse(map['QTD_TOTAL'].toString()) ?? 0.00,
+      data: DateTime.tryParse(map['DATA'].toString()) ?? DateTime.now(),
     );
   }
 
@@ -52,7 +52,7 @@ class VendasModel {
 
   @override
   String toString() =>
-      'VendasModel(local: $local, vlrTotal: $vlrTotal, qtdTotal: $qtdTotal, data: $data)';
+      'VendasModel(LOCAL: $local, VLRTOTAL: $vlrTotal, QTDTOTAL: $qtdTotal, DATA: $data)';
 
   @override
   bool operator ==(Object other) {

@@ -23,11 +23,12 @@ void main() async {
       getIt.registerSingleton<CombustiveisController>(CombustiveisController());
       getIt.registerSingleton<SaldoController>(SaldoController());
 
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent, // status bar color
       ));
+
       runApp(AppWidget());
     },
-    (error, st) => print(error),
+    (error, st) => error,
   );
 }

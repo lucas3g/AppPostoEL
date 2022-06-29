@@ -27,8 +27,8 @@ class ModelLocais {
 
   factory ModelLocais.fromMap(Map<String, dynamic> map) {
     return ModelLocais(
-      id: map['id'] ?? 1,
-      descricao: map['descricao'] ?? 'Empresa Teste',
+      id: map['ID'] ?? 1,
+      descricao: map['DESCRICAO'] ?? 'Empresa Teste',
     );
   }
 

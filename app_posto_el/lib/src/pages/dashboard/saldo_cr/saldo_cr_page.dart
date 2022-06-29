@@ -10,7 +10,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 class SaldoCRPage extends StatefulWidget {
-  SaldoCRPage({Key? key}) : super(key: key);
+  const SaldoCRPage({Key? key}) : super(key: key);
 
   @override
   State<SaldoCRPage> createState() => _SaldoCRPageState();
@@ -55,6 +55,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Observer(builder: (_) {
       return controller.status == SaldoStatus.success
           ? Column(
@@ -76,7 +77,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                       onChanged: (value) {
                         EasyDebounce.debounce(
                             'my-debouncer',
-                            Duration(milliseconds: 500),
+                            const Duration(milliseconds: 500),
                             () => _onSearchChanged(value));
                       },
                       cursorColor: AppTheme.colors.primaryColor,
@@ -85,13 +86,13 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                         isDense: true,
                         fillColor: Colors.grey.shade300,
                         filled: true,
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.search_rounded,
                           size: 25,
                         ),
                         suffixIcon: controllerInput.value.text.isNotEmpty
                             ? IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.clear,
                                   size: 25,
                                 ),
@@ -117,12 +118,12 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Container(
                   width: double.maxFinite,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
                         color: Colors.black,
@@ -158,7 +159,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                 ),
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     if (filteredUsers.isNotEmpty) ...[
@@ -175,7 +176,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                                   Expanded(
                                     child: Text(
                                       saldo.nomeCliente!,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16,
                                       ),
                                       softWrap: true,
@@ -192,7 +193,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                                   ),
                                 ],
                               ),
-                              Divider(
+                              const Divider(
                                 thickness: 2,
                               )
                             ],
@@ -200,7 +201,7 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
                         );
                       })
                     ] else ...[
-                      Text('Nenhum cliente encontrado!')
+                      const Text('Nenhum cliente encontrado!')
                     ]
                   ],
                 ),
@@ -209,90 +210,31 @@ class _SaldoCRPageState extends State<SaldoCRPage> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                LoadingWidget(size: Size(100, 35), radius: 20),
-                SizedBox(
+                LoadingWidget(size: Size(size.width * .2, 35), radius: 20),
+                const SizedBox(
                   height: 10,
                 ),
-                LoadingWidget(size: Size(150, 50), radius: 20),
-                SizedBox(
+                LoadingWidget(size: Size(size.width * .5, 50), radius: 20),
+                const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
                 SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadingWidget(size: Size(250, 30), radius: 20),
-                    LoadingWidget(size: Size(100, 30), radius: 20),
-                  ],
+                  height: size.height * .55,
+                  child: ListView.separated(
+                    itemBuilder: (_, __) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          LoadingWidget(
+                              size: Size(size.width * .6, 30), radius: 20),
+                          LoadingWidget(
+                              size: Size(size.width * .25, 30), radius: 20),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemCount: 10,
+                  ),
                 )
               ],
             );

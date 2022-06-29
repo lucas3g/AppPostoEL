@@ -79,7 +79,7 @@ abstract class _LoginControllerBase with Store {
         late String autorizado = 'N';
 
         if (response.data.toString().isNotEmpty) {
-          autorizado = jsonDecode(response.data)['app_posto'];
+          autorizado = jsonDecode(response.data)['APP_POSTO'];
         } else {
           autorizado = 'N';
         }

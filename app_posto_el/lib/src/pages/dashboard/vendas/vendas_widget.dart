@@ -26,7 +26,7 @@ class _VendasWidgetState extends State<VendasWidget> {
   }
 
   montaGrafico() {
-    var inicio = DateTime.now().subtract(Duration(days: 7));
+    var inicio = DateTime.now().subtract(const Duration(days: 7));
     listaNova = controllerVendas.vendas
         .where((venda) =>
             !DateTime.parse(venda.data.toString()).isBefore(inicio) &&
@@ -39,8 +39,8 @@ class _VendasWidgetState extends State<VendasWidget> {
 
   @override
   void initState() {
-    getVendas();
     super.initState();
+    getVendas();
   }
 
   @override
@@ -48,256 +48,250 @@ class _VendasWidgetState extends State<VendasWidget> {
     Size size = MediaQuery.of(context).size;
     return Observer(
       builder: (_) => AnimatedContainer(
-        duration: Duration(seconds: 10),
-        child: Container(
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text('Hoje', style: AppTheme.textStyles.dropdownText),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
-                                style: AppTheme.textStyles.dropdownText
-                                    .copyWith(color: Colors.blue))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                controllerVendas.vendas
-                                    .firstWhere((venda) =>
-                                        venda.local == controller.dropdownValue)
-                                    .vlrTotal
-                                    .reais(),
-                                style:
-                                    AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.green,
-                                ))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
+        duration: const Duration(seconds: 10),
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text('Hoje', style: AppTheme.textStyles.dropdownText),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              '${controllerVendas.vendas.firstWhere((venda) => venda.local == controller.dropdownValue).qtdTotal.Litros()} LT',
+                              style: AppTheme.textStyles.dropdownText
+                                  .copyWith(color: Colors.blue))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              controllerVendas.vendas
+                                  .firstWhere((venda) =>
+                                      venda.local == controller.dropdownValue)
+                                  .vlrTotal
+                                  .reais(),
+                              style: AppTheme.textStyles.dropdownText.copyWith(
+                                color: Colors.green,
+                              ))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      Text('Semana', style: AppTheme.textStyles.dropdownText),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
+                              style: AppTheme.textStyles.dropdownText
+                                  .copyWith(color: Colors.blue))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              controllerVendas.somaVendas(
+                                  local: controller.dropdownValue),
+                              style: AppTheme.textStyles.dropdownText.copyWith(
+                                color: Colors.green,
+                              ))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      Text('Projeção', style: AppTheme.textStyles.dropdownText),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
+                              style: AppTheme.textStyles.dropdownText
+                                  .copyWith(color: Colors.blue))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      controllerVendas.status == VendasStatus.success
+                          ? Text(
+                              controllerVendas.projecaoVenda(
+                                  local: controller.dropdownValue),
+                              style: AppTheme.textStyles.dropdownText.copyWith(
+                                color: Colors.green,
+                              ))
+                          : const LoadingWidget(
+                              size: Size(100, 20),
+                              radius: 10,
+                            ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            SizedBox(
+              height: size.height * 0.37,
+              child: controllerVendas.status == VendasStatus.success
+                  ? SfCartesianChart(
+                      tooltipBehavior: TooltipBehavior(
+                        enable: true,
+                        color: Colors.white,
+                        textStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        shadowColor: AppTheme.colors.secondaryColor,
+                      ),
+                      onTooltipRender: (TooltipArgs args) {
+                        final DateTime data =
+                            listaNova[args.pointIndex as int].dia!;
+                        final double valor =
+                            listaNova[args.pointIndex as int].valor;
+                        args.header = 'Dia - ${data.DiaMes()}';
+                        args.text = valor.reais();
+                      },
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis: NumericAxis(
+                          numberFormat:
+                              NumberFormat.simpleCurrency(locale: 'pt-br')),
+                      series: <CartesianSeries<VendasSemanais, String>>[
+                        AreaSeries<VendasSemanais, String>(
+                          color: AppTheme.colors.secondaryColor,
+                          dataSource: montaGrafico(),
+                          xValueMapper: (VendasSemanais vendas, _) =>
+                              vendas.dia.Dia(),
+                          yValueMapper: (VendasSemanais vendas, _) =>
+                              vendas.valor,
+                          markerSettings: const MarkerSettings(
+                              isVisible: true, shape: DataMarkerType.circle),
+                        )
                       ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Text('Semana', style: AppTheme.textStyles.dropdownText),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                '${controllerVendas.somaLitros(local: controller.dropdownValue)} LT',
-                                style: AppTheme.textStyles.dropdownText
-                                    .copyWith(color: Colors.blue))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                controllerVendas.somaVendas(
-                                    local: controller.dropdownValue),
-                                style:
-                                    AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.green,
-                                ))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Text('Projeção',
-                            style: AppTheme.textStyles.dropdownText),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                '${controllerVendas.projecaoLitros(local: controller.dropdownValue)} LT',
-                                style: AppTheme.textStyles.dropdownText
-                                    .copyWith(color: Colors.blue))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        controllerVendas.status == VendasStatus.success
-                            ? Text(
-                                controllerVendas.projecaoVenda(
-                                    local: controller.dropdownValue),
-                                style:
-                                    AppTheme.textStyles.dropdownText.copyWith(
-                                  color: Colors.green,
-                                ))
-                            : LoadingWidget(
-                                size: Size(100, 20),
-                                radius: 10,
-                              ),
-                      ],
+                      title: ChartTitle(
+                          text: 'Vendas dos Últimos 7 dias',
+                          textStyle: AppTheme.textStyles.dropdownText),
                     )
+                  : const LoadingWidget(
+                      size: Size(400, 0),
+                      radius: 10,
+                    ),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Text(
+                      'Data',
+                      style: AppTheme.textStyles.dropdownText
+                          .copyWith(fontSize: 16),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Litros',
+                      style: AppTheme.textStyles.dropdownText
+                          .copyWith(fontSize: 16),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Valor R\$',
+                      style: AppTheme.textStyles.dropdownText
+                          .copyWith(fontSize: 16),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              Container(
-                height: size.height * 0.37,
-                child: controllerVendas.status == VendasStatus.success
-                    ? SfCartesianChart(
-                        tooltipBehavior: TooltipBehavior(
-                          enable: true,
-                          color: Colors.white,
-                          textStyle: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                          shadowColor: AppTheme.colors.secondaryColor,
-                        ),
-                        onTooltipRender: (TooltipArgs args) {
-                          final DateTime data =
-                              listaNova[args.pointIndex as int].dia!;
-                          final double valor =
-                              listaNova[args.pointIndex as int].valor;
-                          args.header = 'Dia - ${data.DiaMes()}';
-                          args.text = valor.reais();
-                        },
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(
-                            numberFormat:
-                                NumberFormat.simpleCurrency(locale: 'pt-br')),
-                        series: <CartesianSeries<VendasSemanais, String>>[
-                          AreaSeries<VendasSemanais, String>(
-                            color: AppTheme.colors.secondaryColor,
-                            dataSource: montaGrafico(),
-                            xValueMapper: (VendasSemanais vendas, _) =>
-                                vendas.dia.Dia(),
-                            yValueMapper: (VendasSemanais vendas, _) =>
-                                vendas.valor,
-                            markerSettings: MarkerSettings(
-                                isVisible: true, shape: DataMarkerType.circle),
-                          )
-                        ],
-                        title: ChartTitle(
-                            text: 'Vendas dos Últimos 7 dias',
-                            textStyle: AppTheme.textStyles.dropdownText),
-                      )
-                    : LoadingWidget(
-                        size: Size(400, 0),
-                        radius: 10,
-                      ),
-              ),
-              Container(
-                height: size.height * 0.05,
-                child: ListTile(
-                  title: Row(
-                    children: [
-                      Text(
-                        'Data',
-                        style: AppTheme.textStyles.dropdownText
-                            .copyWith(fontSize: 16),
-                      ),
-                      Spacer(),
-                      Text(
-                        'Litros',
-                        style: AppTheme.textStyles.dropdownText
-                            .copyWith(fontSize: 16),
-                      ),
-                      Spacer(),
-                      Text(
-                        'Valor R\$',
-                        style: AppTheme.textStyles.dropdownText
-                            .copyWith(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Observer(
-                builder: (_) => controllerVendas.status == VendasStatus.success
-                    ? Column(
-                        children: (controllerVendas.vendas
-                            .where((local) =>
-                                local.local == controller.dropdownValue)
-                            .map(
-                              (venda) => ListTile(
-                                title: Row(
-                                  children: [
-                                    Text(
-                                      venda.data!.DiaMes(),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
+            ),
+            Observer(
+              builder: (_) => controllerVendas.status == VendasStatus.success
+                  ? Column(
+                      children: (controllerVendas.vendas
+                          .where((local) =>
+                              local.local == controller.dropdownValue)
+                          .map(
+                            (venda) => ListTile(
+                              title: Row(
+                                children: [
+                                  Text(
+                                    venda.data!.DiaMes(),
+                                    style: const TextStyle(
+                                      fontSize: 16,
                                     ),
-                                    Spacer(),
-                                    Text(
-                                      venda.qtdTotal.Litros(),
-                                      textAlign: TextAlign.end,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    venda.qtdTotal.Litros(),
+                                    textAlign: TextAlign.end,
+                                    style: AppTheme.textStyles.dropdownText
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                  const Spacer(),
+                                  Text(venda.vlrTotal.reais(),
                                       style: AppTheme.textStyles.dropdownText
-                                          .copyWith(fontSize: 16),
-                                    ),
-                                    Spacer(),
-                                    Text(venda.vlrTotal.reais(),
-                                        style: AppTheme.textStyles.dropdownText
-                                            .copyWith(fontSize: 16)),
-                                  ],
-                                ),
+                                          .copyWith(fontSize: 16)),
+                                ],
                               ),
-                            )).toList(),
-                      )
-                    : Column(
-                        children: List.generate(
-                          10,
-                          (index) => ListTile(
-                            title: Row(
-                              children: [
-                                LoadingWidget(
+                            ),
+                          )).toList(),
+                    )
+                  : Column(
+                      children: List.generate(
+                        10,
+                        (index) => ListTile(
+                          title: Row(
+                            children: const [
+                              LoadingWidget(
+                                size: Size(81, 29),
+                                radius: 10,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: LoadingWidget(
                                   size: Size(81, 29),
                                   radius: 10,
                                 ),
-                                SizedBox(
-                                  width: 20,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: LoadingWidget(
+                                  size: Size(81, 29),
+                                  radius: 10,
                                 ),
-                                Expanded(
-                                  child: LoadingWidget(
-                                    size: Size(81, 29),
-                                    radius: 10,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: LoadingWidget(
-                                    size: Size(81, 29),
-                                    radius: 10,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-              ),
-            ],
-          ),
+                    ),
+            ),
+          ],
         ),
       ),
     );

@@ -24,89 +24,52 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding:
-              EdgeInsets.only(bottom: 15, top: 20, right: 20, left: 20),
-          content: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/sair.svg',
-                  height: 130,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  'Deseja realmente sair da aplicação?',
-                  style: AppTheme.textStyles.titleCharts.copyWith(fontSize: 16),
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
+              const EdgeInsets.only(bottom: 15, top: 20, right: 20, left: 20),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                'assets/images/sair.svg',
+                height: 130,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Deseja realmente sair da aplicação?',
+                style: AppTheme.textStyles.titleCharts.copyWith(fontSize: 16),
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.black),
+                      onPressed: () async {
                         Navigator.pop(context);
                       },
-                      child: PhysicalModel(
-                        color: Colors.white,
-                        elevation: 8,
-                        shadowColor: Colors.black,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              'Não',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            ),
-                          ),
-                          height: 45,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
+                      child: const Text('Não'),
                     ),
-                    GestureDetector(
-                      onTap: () async {
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
                         await GetIt.I.get<AppSettigns>().removeLogado();
-                        await Future.delayed(Duration(milliseconds: 150));
+                        await Future.delayed(const Duration(milliseconds: 150));
                         Navigator.pop(context);
                         Navigator.pushReplacementNamed(context, '/login');
                       },
-                      child: PhysicalModel(
-                        color: Colors.white,
-                        elevation: 8,
-                        shadowColor: AppTheme.colors.secondaryColor,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          child: Center(
-                              child: Text(
-                            'Sim',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          )),
-                          height: 45,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: AppTheme.colors.secondaryColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
+                      child: const Text('Sim'),
                     ),
-                  ],
-                )
-              ],
-            ),
+                  )
+                ],
+              )
+            ],
           ),
         );
       },
@@ -122,10 +85,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   Widget get child => Stack(
         children: [
           Container(
-            height: size.height * 0.13,
+            height: 80,
             decoration: BoxDecoration(
               color: AppTheme.colors.secondaryColor,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(25),
                 bottomRight: Radius.circular(25),
               ),
@@ -134,13 +97,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
           Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: size.height * 0.04),
-                child: Container(
-                  height: size.height * 0.05,
+                padding: const EdgeInsets.only(top: 20),
+                child: SizedBox(
+                  height: 30,
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: size.width * 0.05,
+                      const SizedBox(
+                        width: 20,
                       ),
                       Text(
                         currentIndex == 0
@@ -151,9 +114,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                         style: AppTheme.textStyles.title,
                         textAlign: TextAlign.center,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.exit_to_app,
                           color: Colors.white,
                         ),
@@ -165,17 +128,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
                   ),
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.005,
+              const SizedBox(
+                height: 3,
               ),
-              DropDownWidget(),
+              const DropDownWidget(),
             ],
           ),
         ],
       );
 
   @override
-  Size get preferredSize => size.height >= 850.99
-      ? Size.fromHeight(size.height * 0.14)
-      : Size.fromHeight(size.height * 0.16);
+  Size get preferredSize => const Size.fromHeight(130);
 }

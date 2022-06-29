@@ -6,19 +6,21 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: AppTheme.colors.secondaryColor),
+      theme: ThemeData(primarySwatch: AppTheme.colors.primary),
       title: 'Posto Plus',
       builder: BotToastInit(), //1. call BotToastInit
       navigatorObservers: [BotToastNavigatorObserver()],
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => SplashPage(),
-        '/login': (context) => LoginPageWidiget(),
-        '/dashboard': (context) => DashBoardPageWidget()
+        '/login': (context) => const LoginPageWidiget(),
+        '/dashboard': (context) => const DashBoardPageWidget()
       },
     );
   }

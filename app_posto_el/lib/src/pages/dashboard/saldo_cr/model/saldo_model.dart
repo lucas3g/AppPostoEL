@@ -37,10 +37,10 @@ class SaldoModel {
 
   factory SaldoModel.fromMap(Map<String, dynamic> map) {
     return SaldoModel(
-      codCliente: map['codCliente'] ?? 0,
-      nomeCliente: map['nomeCliente'] ?? '',
-      local: map['local'] ?? 0,
-      saldoAtual: double.tryParse(map['saldoAtual'].toString()) ?? 0.0,
+      codCliente: map['COD_CLIENTE'] ?? 0,
+      nomeCliente: map['NOME_CLIENTE'] ?? '',
+      local: map['LOCAL'] ?? 0,
+      saldoAtual: double.tryParse(map['SALDO_ATUAL'].toString()) ?? 0.0,
     );
   }
 

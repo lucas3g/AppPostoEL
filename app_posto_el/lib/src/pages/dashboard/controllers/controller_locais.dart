@@ -32,11 +32,8 @@ abstract class _ControllerLocaisBase with Store {
 
       try {
         final result = await InternetAddress.lookup(MeuDio.baseUrl);
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          print('Tem Internet');
-        }
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
       } on SocketException catch (_) {
-        print('Sem Internet Locais');
         status = LocaisStatus.falhaServidor;
         return;
       }

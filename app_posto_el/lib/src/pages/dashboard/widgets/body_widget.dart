@@ -4,8 +4,8 @@ import 'package:app_posto_el/src/pages/dashboard/vendas/vendas_widget.dart';
 import 'package:flutter/material.dart';
 
 var pages = [
-  VendasWidget(),
-  CombustiveisPageWidget(),
+  const VendasWidget(),
+  const CombustiveisPageWidget(),
   SaldoCRPage(),
 ];
 
