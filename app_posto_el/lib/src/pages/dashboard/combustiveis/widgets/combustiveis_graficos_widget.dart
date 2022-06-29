@@ -15,13 +15,13 @@ class CombustiveisGraficoWidget extends StatelessWidget {
   }) : super(key: key);
 
   final List<Color> colors = [
-    Color(0xFFba0000),
-    Color(0xFFff5900),
-    Color(0xFF54ba00),
-    Color(0xFF00b1ba),
-    Color(0xFF0019ba),
-    Color(0xFFb400ba),
-    Color(0xFFb7ba00),
+    const Color(0xFFba0000),
+    const Color(0xFFff5900),
+    const Color(0xFF54ba00),
+    const Color(0xFF00b1ba),
+    const Color(0xFF0019ba),
+    const Color(0xFFb400ba),
+    const Color(0xFFb7ba00),
   ];
 
   @override
@@ -35,7 +35,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
             style: AppTheme.textStyles.titleCharts),
         Text('Resta: ${(tanque.capacidade - tanque.volume).Litros()} LT',
             style: AppTheme.textStyles.titleCharts),
-        Container(
+        SizedBox(
           width: 170,
           height: 170,
           child: SfCircularChart(
@@ -44,8 +44,8 @@ class CombustiveisGraficoWidget extends StatelessWidget {
               tooltipPosition: TooltipPosition.pointer,
               enable: true,
               color: Colors.white,
-              textStyle:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              textStyle: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
               shadowColor: colors[indexTanque],
             ),
             onTooltipRender: (TooltipArgs args) {
@@ -62,7 +62,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                     elevation: 10,
                     shadowColor: Colors.black,
-                    color: Color.fromRGBO(230, 230, 230, 1),
+                    color: const Color.fromRGBO(230, 230, 230, 1),
                     child: Container(),
                   ),
                 ),
@@ -99,7 +99,7 @@ class CombustiveisGraficoWidget extends StatelessWidget {
           y: tanque.volume.toDouble() > tanque.capacidade.toDouble()
               ? 0
               : tanque.capacidade.toDouble() - tanque.volume.toDouble(),
-          pointColor: Color.fromRGBO(230, 230, 230, 1))
+          pointColor: const Color.fromRGBO(230, 230, 230, 1))
     ];
 
     return <DoughnutSeries<TanqueData, String>>[
