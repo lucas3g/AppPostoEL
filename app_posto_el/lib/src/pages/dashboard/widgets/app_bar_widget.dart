@@ -97,39 +97,33 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: SizedBox(
-                  height: 30,
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
+                padding: EdgeInsets.only(top: size.height < 781 ? 10 : 25),
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      currentIndex == 0
+                          ? 'Vendas'
+                          : currentIndex == 1
+                              ? 'Tanques de Combustível'
+                              : 'Saldo - Contas a Receber',
+                      style: AppTheme.textStyles.title,
+                      textAlign: TextAlign.center,
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.exit_to_app,
+                        color: Colors.white,
                       ),
-                      Text(
-                        currentIndex == 0
-                            ? 'Vendas'
-                            : currentIndex == 1
-                                ? 'Tanques de Combustível'
-                                : 'Saldo - Contas a Receber',
-                        style: AppTheme.textStyles.title,
-                        textAlign: TextAlign.center,
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.exit_to_app,
-                          color: Colors.white,
-                        ),
-                        onPressed: () async {
-                          confirmarSair();
-                        },
-                      )
-                    ],
-                  ),
+                      onPressed: () async {
+                        confirmarSair();
+                      },
+                    )
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 5,
               ),
               const DropDownWidget(),
             ],
@@ -138,5 +132,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       );
 
   @override
-  Size get preferredSize => Size.fromHeight(size.height * .10);
+  Size get preferredSize =>
+      Size.fromHeight(size.height < 781 ? size.height * .16 : size.height * .1);
 }

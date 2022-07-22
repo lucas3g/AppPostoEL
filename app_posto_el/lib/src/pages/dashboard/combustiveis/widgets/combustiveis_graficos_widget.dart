@@ -57,26 +57,22 @@ class CombustiveisGraficoWidget extends StatelessWidget {
               CircularChartAnnotation(
                 height: '100%',
                 width: '100%',
-                widget: Container(
-                  child: PhysicalModel(
-                    shape: BoxShape.circle,
-                    elevation: 10,
-                    shadowColor: Colors.black,
-                    color: const Color.fromRGBO(230, 230, 230, 1),
-                    child: Container(),
-                  ),
+                widget: PhysicalModel(
+                  shape: BoxShape.circle,
+                  elevation: 10,
+                  shadowColor: Colors.black,
+                  color: const Color.fromRGBO(230, 230, 230, 1),
+                  child: Container(),
                 ),
               ),
               CircularChartAnnotation(
-                widget: Container(
-                  child: Text(
-                    '${tanque.volume.Litros()} LT\n(${((tanque.volume / tanque.capacidade) * 100).Porcentagem()}% )',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: colors[indexTanque],
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
+                widget: Text(
+                  '${tanque.volume.Litros()} LT\n(${((tanque.volume / tanque.capacidade) * 100).Porcentagem()}% )',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: colors[indexTanque],
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold),
                 ),
               )
             ],

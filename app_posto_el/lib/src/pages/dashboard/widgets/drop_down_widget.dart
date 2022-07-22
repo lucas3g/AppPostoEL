@@ -22,8 +22,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
 
   void carregarLocais() async {
     await controller.getLocais();
-    if (controller.locais.isNotEmpty)
+    if (controller.locais.isNotEmpty) {
       controller.dropdownValue = controller.locais[0].id;
+    }
   }
 
   @override
@@ -38,7 +39,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                 'Erro ao tentar se comunicar com o Servidor... Por favor tente novamente mais tarde.',
             type: TypeToast.noNet,
             context: context);
-        await Future.delayed(Duration(seconds: 4));
+        await Future.delayed(const Duration(seconds: 4));
         await GlobalSettings().appSettings.removeLogado();
         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
       }
@@ -51,14 +52,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       height: 54,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-              offset: Offset(0, 10),
+              offset: const Offset(0, 10),
               blurRadius: 10,
               color: AppTheme.colors.secondaryColor.withOpacity(0.23)),
         ],
@@ -71,7 +72,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                   borderRadius: BorderRadius.circular(20),
                   value: controller.dropdownValue,
                   isExpanded: true,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_circle_down_sharp,
                   ),
                   iconSize: 30,
@@ -89,7 +90,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                     );
                   }).toList(),
                 )
-              : LoadingWidget(
+              : const LoadingWidget(
                   size: Size(double.infinity, 30),
                   radius: 10,
                 ),

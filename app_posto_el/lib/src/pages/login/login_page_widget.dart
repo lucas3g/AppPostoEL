@@ -20,7 +20,7 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
         backgroundColor: AppTheme.colors.backgroundPrimary,
         title: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -28,7 +28,7 @@ class _LoginPageWidigetState extends State<LoginPageWidiget> {
                 Text(
                   ' Plus',
                   style: AppTheme.textStyles.titleLogin.copyWith(
-                    color: Color(0xFF525252),
+                    color: const Color(0xFF525252),
                   ),
                 ),
               ],
